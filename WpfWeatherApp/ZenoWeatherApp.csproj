@@ -9,10 +9,14 @@
 
   <ItemGroup>
     <None Remove="Assets\AccuWeather.png" />
+    <None Remove="Assets\favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\AccuWeather.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

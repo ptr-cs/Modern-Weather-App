@@ -8,14 +8,24 @@
         xmlns:local="clr-namespace:WpfWeatherApp" 
         xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared"
         xmlns:viewModel="clr-namespace:WpfWeatherApp.ViewModel" 
-        xmlns:converters="clr-namespace:ZenoWeatherApp.Converters"
+        xmlns:converters="clr-namespace:ZenoWeatherApp.Converters" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Padding="0"
-                 x:Name="weatherApp"
+        x:Name="weatherApp"
         Title="Zeno Weather App" Height="450" Width="800">
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <converters:AppPageToSelectedIndexConverter x:Key="AppPageToSelectedIndexConverter" />
+
+            <DropShadowEffect
+            x:Key="MaterialDesignShadowDepth5"
+            BlurRadius="8"
+            Direction="270"
+            Opacity=".42"
+            RenderingBias="Performance"
+            ShadowDepth="3"
+            Color="#AA000000" />
 
             <Style TargetType="{x:Type mah:MetroTabItem}" BasedOn="{StaticResource {x:Type mah:MetroTabItem}}">
                 <Setter Property="Height" Value="100"/>
@@ -61,6 +71,14 @@
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1" Color="Snow"/>
+                    <GradientStop Color="SkyBlue" Offset="0" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Border Grid.Column="0"
                 Margin="0"
                 BorderBrush="{DynamicResource MahApps.Brushes.Gray7}"
@@ -70,13 +88,15 @@
                                DisplayMode="CompactOverlay"
                                HamburgerWidth="48"
                                PaneHeaderMargin="0"
-                               PaneBackground="{DynamicResource MahApps.Brushes.Accent}"
                                IsPaneOpen="{Binding IsHamburgerMenuPaneOpen}"
                                ItemInvoked="HamburgerMenuControl_OnItemInvoked"
                                ItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                OptionsItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                SelectedIndex="{Binding NavigationViewModel.CurrentPage, Mode=OneWay, Converter={StaticResource AppPageToSelectedIndexConverter}}"
                                VerticalScrollBarOnLeftSide="False">
+                <!--<mah:HamburgerMenu.PaneBackground>
+                    <SolidColorBrush Opacity="1" Color="{StaticResource MahApps.Colors.AccentBase}"/>
+                </mah:HamburgerMenu.PaneBackground>-->
                 <!--  Header  -->
                 <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
                     <DataTemplate>
@@ -91,31 +111,105 @@
                 <mah:HamburgerMenu.ItemsSource>
                     <mah:HamburgerMenuItemCollection>
                         <mah:HamburgerMenuIconItem 
-                            Label="Weather" 
+                            Label="Forecast - 5 Day" 
                             Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
                             CommandParameter="{x:Static viewModel:AppPage.Weather}">
                             <mah:HamburgerMenuIconItem.Icon>
-                                <iconPacks:PackIconFontAwesome Width="22"
-                                                            Height="22"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Kind="CloudSunRainSolid" />
+                                <iconPacks:PackIconFontAwesome 
+                                    Width="22"
+                                    Height="22"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Kind="CloudSunRainSolid" />
                             </mah:HamburgerMenuIconItem.Icon>
                             <mah:HamburgerMenuIconItem.Tag>
                                 <Grid>
-                                    <Button VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="8" Padding="16,8">
-                                        <WrapPanel Orientation="Horizontal">
-                                            <TextBlock FontWeight="SemiBold" TextWrapping="Wrap" Text="Weather API&#10;provided by: " 
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <WrapPanel>
+                                        <Button VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="8,8,0,0" Padding="16,8">
+                                            <WrapPanel Orientation="Horizontal">
+                                                <TextBlock FontWeight="SemiBold" TextWrapping="Wrap" Text="Weather API&#10;provided by: " 
                                                        Margin="0,0,4,0"
                                                        FontSize="12"/>
-                                            <Viewbox MaxWidth="128">
+                                                <Viewbox MaxWidth="128">
 
-                                                <Image Source="/Assets/AccuWeather.png" 
+                                                    <Image Source="/Assets/AccuWeather.png" 
                                            RenderOptions.BitmapScalingMode="HighQuality"
                                            HorizontalAlignment="Left"/>
-                                            </Viewbox>
-                                        </WrapPanel>
-                                    </Button>
+                                                </Viewbox>
+                                            </WrapPanel>
+                                        </Button>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0">
+
+                                            <TextBox Margin="8" Width="224"
+                                                     MinHeight="48"
+                                                     VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0">
+                                                <TextBox.Style>
+                                                    <Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
+                                                        <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                                                        <Style.Triggers>
+                                                            <Trigger Property="mah:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                <Setter Property="mah:TextBoxHelper.Watermark" Value="Enter a Location ..." />
+                                                            </Trigger>
+                                                            <Trigger Property="mah:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+                                            <Button Margin="0,8,0,8">
+                                                <iconPacks:PackIconBootstrapIcons Kind="Star" Height="28" Width="28" VerticalAlignment="Center" />
+                                            </Button>
+                                            <Button Margin="8">
+                                                <iconPacks:PackIconBootstrapIcons Kind="PinMap" Height="28" Width="28" VerticalAlignment="Center" />
+                                            </Button>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                    <WrapPanel Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top" Margin="8,0,8,8">
+                                        
+                                        <mah:Tile Title="Monday - Sunny"
+                                          Margin="3"
+                                          mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+                                          Style="{StaticResource LargeTileStyle}">
+                                            <iconPacks:PackIconWeatherIcons Width="56"
+                                              Height="56"
+                                              Kind="DaySunny" />
+                                            
+                                        </mah:Tile>
+                                        <mah:Tile Title="Tuesday - Mostly Sunny"
+                                          Margin="3"
+                                          mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                          Style="{StaticResource LargeTileStyle}">
+                                            <iconPacks:PackIconWeatherIcons Width="56"
+                                              Height="56"
+                                              Kind="DaySunnyOvercast" />
+                                        </mah:Tile>
+                                        <mah:Tile Title="Wednesday - Cloudy"
+                                                Style="{StaticResource LargeTileStyle}">
+                                            <iconPacks:PackIconWeatherIcons Width="56"
+                                              Height="56"
+                                              Kind="Cloudy" />
+                                        </mah:Tile>
+                                        <mah:Tile Title="Thursday - Rain"
+                                            Style="{StaticResource LargeTileStyle}">
+                                            <iconPacks:PackIconWeatherIcons Width="56"
+                                              Height="56"
+                                              Kind="Rain" />
+                                        </mah:Tile>
+                                        <mah:Tile Title="Friday - Thunderstorms"
+                                          Style="{StaticResource LargeTileStyle}">
+                                            <iconPacks:PackIconWeatherIcons Width="56"
+                                              Height="56"
+                                              Kind="Thunderstorm" />
+                                        </mah:Tile>
+                                    </WrapPanel>
                                 </Grid>
                             </mah:HamburgerMenuIconItem.Tag>
                         </mah:HamburgerMenuIconItem>
@@ -131,28 +225,37 @@
                                                             Kind="Cogs" />
                             </mah:HamburgerMenuIconItem.Icon>
                             <mah:HamburgerMenuIconItem.Tag>
-                                <StackPanel>
-                                    <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
-                                        <TextBlock Text="API Provider: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
-                                        <ComboBox Width="200"
-                              mah:TextBoxHelper.ButtonCommand="{Binding ControlButtonCommand, Mode=OneWay}"
-                              mah:TextBoxHelper.Watermark="Please select an item..."
-                              SelectedIndex="0">
-                                            <ComboBoxItem Content="AccuWeather" />
-                                        </ComboBox>
-                                    </StackPanel>
-                                    <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
-                                        <TextBlock Text="API Key: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
-                                        <PasswordBox
+                                <GroupBox Header="API" mah:HeaderedControlHelper.HeaderFontSize="16"  mah:HeaderedControlHelper.HeaderFontWeight="SemiBold"
+                                          Background="#eeffffff" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8" mah:ControlsHelper.CornerRadius="4">
+                                    <GroupBox.Content>
+                                        <StackPanel>
+                                            <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
+                                                <TextBlock Text="API Provider: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
+                                                <ComboBox Width="200"
+                                                  FontSize="14"
+                                                    mah:TextBoxHelper.ButtonCommand="{Binding ControlButtonCommand, Mode=OneWay}"
+                                                    mah:TextBoxHelper.Watermark="Please select an item..."
+                                                    SelectedIndex="0">
+                                                    <ComboBoxItem Content="AccuWeather" />
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
+                                                <TextBlock Text="API Key: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="14"/>
+                                                <PasswordBox
                                             Grid.Row="1"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Top"
+                                            FontSize="14"
                                              mah:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(mah:TextBoxHelper.HasText), Mode=OneWay}"
-                                             mah:TextBoxHelper.UseFloatingWatermark="True"
+                                             mah:TextBoxHelper.UseFloatingWatermark="False"
                                              mah:TextBoxHelper.Watermark="API Key                                                                                      " 
+                                              
                                             Style="{DynamicResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
-                                    </StackPanel>
-                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </GroupBox.Content>
+                                    
+                                </GroupBox>
                             </mah:HamburgerMenuIconItem.Tag>
                         </mah:HamburgerMenuIconItem>
                         <mah:HamburgerMenuIconItem 
@@ -200,7 +303,7 @@
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0"
                                     Margin="-1 0 -1 0"
-                                    Background="{DynamicResource MahApps.Brushes.Accent2}">
+                                    Background="{DynamicResource MahApps.Brushes.AccentBase}">
                                 <TextBlock x:Name="Header"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -212,28 +315,6 @@
                                                              Content="{Binding Mode=OneWay}"
                                                              RestartTransitionOnContentChange="True"
                                                              Transition="Default">
-                                <!--<mah:TransitioningContentControl.Style>
-                                    <Style TargetType="{x:Type mah:TransitioningContentControl}" BasedOn="{StaticResource {x:Type mah:TransitioningContentControl}}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding NavigationViewModel.CurrentPage, Mode=OneWay}" 
-                                                         Value="{x:Static viewModel:AppPage.Weather}">
-                                                <Setter Property="Content">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="Whoooo"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding NavigationViewModel.CurrentPage, Mode=OneWay}" 
-                                                         Value="{x:Static viewModel:AppPage.Settings}">
-                                                <Setter Property="Content">
-                                                    <Setter.Value>
-                                                        <TextBlock Text="OK"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </mah:TransitioningContentControl.Style>-->
                                 <mah:TransitioningContentControl.Resources>
                                     <!--<DataTemplate DataType="{x:Type mah:HamburgerMenuGlyphItem}">
                                         <Image Source="{Binding Glyph, Mode=OneWay, Converter={mah1:NullToUnsetValueConverter}}" />
