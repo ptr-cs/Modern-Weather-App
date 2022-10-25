@@ -10,7 +10,7 @@ public class NavigationTests
     [SetUp]
     public void Setup()
     {
-        navigationViewModel = new NavigationViewModel();
+        navigationViewModel = new NavigationViewModel(new System.Windows.Controls.Frame());
     }
 
     [Test]

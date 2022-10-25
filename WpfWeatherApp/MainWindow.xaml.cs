@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using WpfWeatherApp.ViewModel;
 
 namespace WpfWeatherApp;
@@ -22,7 +23,7 @@ namespace WpfWeatherApp;
 /// </summary>
 public partial class MainWindow : MetroWindow
 {
-    MainViewModel MainViewModel
+    public static MainViewModel MainViewModel
     {
         get; set;
     }
@@ -31,7 +32,7 @@ public partial class MainWindow : MetroWindow
     {
         InitializeComponent();
 
-        MainViewModel = new MainViewModel(new NavigationViewModel()); 
+        MainViewModel = new MainViewModel(new NavigationViewModel(mainNavigationFrame)); 
         DataContext = MainViewModel;
     }
 
@@ -49,5 +50,10 @@ public partial class MainWindow : MetroWindow
         //    // close the menu if a item was selected
         //    this.HamburgerMenuControl.IsPaneOpen = false;
         //}
+    }
+
+    private void MainNavigationFrame_Navigated(object sender, NavigationEventArgs e)
+    {
+        ((FrameworkElement)e.Content).DataContext = MainViewModel;
     }
 }
