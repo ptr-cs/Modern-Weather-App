@@ -15,6 +15,8 @@ using System.Windows.Data;
 using System.Collections;
 using System.Globalization;
 using System.Windows.Controls;
+using ZenoWeatherApp.Model;
+using ZenoWeatherApp.Services;
 
 namespace WpfWeatherApp.ViewModel;
 
@@ -26,31 +28,89 @@ public enum AppPage
     GitHub = 3
 }
 
-public abstract class NavigationViewModelBase : BaseViewModel
+public class WeatherViewModel : BaseViewModel
 {
-    public abstract AppPage CurrentPage
+    private Location? location;
+    public Location? Location
+    {
+        get => location;
+        set => SetProperty(ref location, value);
+    }
+
+    private Forecast? forecast;
+    public Forecast? Forecast
+    {
+        get => forecast;
+        set => SetProperty(ref forecast, value);
+    }
+
+    private ObservableCollection<DailyForecast> dailyForecastCollection = new();
+    public ObservableCollection<DailyForecast> DailyForecastCollection
+    {
+        get => dailyForecastCollection;
+        set => SetProperty(ref dailyForecastCollection, value);
+    }
+    public CollectionViewSource DailyForecastCollectionViewSource { get; set; } = new CollectionViewSource();
+    public ICollectionView DailyForecastCollectionView
     {
         get; set;
     }
 
-    public abstract ICommand NavigateToPage
+    public ICommand GetForecast
     {
         get; set;
     }
 
-    public abstract ICommand NavigateToSite
+    public async Task<Location?> QueryLocationAsync(string query, string apiKey)
     {
-        get; set;
+        var weatherService = App.GetService<IWeatherService>();
+        return await weatherService.GetLocationAsync(query, apiKey);
     }
 
-    public abstract void OnNavigateToPage(object? appPage);
-    public abstract void OnNavigateToSite(object? targetURL);
+    public async Task<Forecast?> QueryForecastAsync(string locationKey, string apiKey)
+    {
+        var weatherService = App.GetService<IWeatherService>();
+        return await weatherService.GetForecastAsync(locationKey, apiKey);
+    }
+
+    public WeatherViewModel()
+    {
+        GetForecast = new DelegateCommand(OnGetForecastAsync, null);
+
+        DailyForecastCollectionViewSource.Source = DailyForecastCollection;
+        DailyForecastCollectionView = new CollectionView(DailyForecastCollectionViewSource.View);
+    }
+
+    private async void OnGetForecastAsync(object? obj)
+    {
+        var apiKey = MainWindow.MainViewModel.ApiKey;
+        var location = await QueryLocationAsync(MainWindow.MainViewModel.LocationSearchText, apiKey);
+        if (location != null)
+        {
+            Location = location;
+            var forecast = await QueryForecastAsync(location.Key, apiKey);
+            if (forecast != null)
+            {
+                Forecast = forecast;
+                DailyForecastCollection.Clear();
+                foreach (var dailyForecast in Forecast.DailyForecasts)
+                    DailyForecastCollection.Add(dailyForecast);
+            }
+            else
+                Forecast = null;
+        }
+        else
+            Location = null;
+
+        if (Location == null || Forecast == null)
+            DailyForecastCollection.Clear();
+    }
 }
 
-public class NavigationViewModel : NavigationViewModelBase
+public class NavigationViewModel : BaseViewModel
 {
     private AppPage currentPage = AppPage.Weather;
-    public override AppPage CurrentPage
+    public AppPage CurrentPage
     {
         get => currentPage;
         set => SetProperty(ref currentPage, value);
@@ -63,16 +123,16 @@ public class NavigationViewModel : NavigationViewModelBase
         set => SetProperty(ref mainNavigationFrame, value);
     }
 
-    public override ICommand NavigateToPage
+    public ICommand NavigateToPage
     {
         get;set;
     }
-    public override ICommand NavigateToSite
+    public ICommand NavigateToSite
     {
         get; set;
     }
 
-    public override void OnNavigateToPage(object? appPage)
+    public void OnNavigateToPage(object? appPage)
     {
         if (appPage == null || appPage is not AppPage)
             return;
@@ -89,7 +149,7 @@ public class NavigationViewModel : NavigationViewModelBase
         }
     }
 
-    public override void OnNavigateToSite(object? targetURL)
+    public void OnNavigateToSite(object? targetURL)
     {
         if (targetURL == null || targetURL is not string)
             return;
@@ -138,42 +198,34 @@ public class MainViewModel : BaseViewModel
         get; set;
     }
 
-    public ObservableCollection<ThemeResource> ThemeResources
+    private string locationSearchText = "";
+    public string LocationSearchText
     {
-        get;
+        get => locationSearchText;
+        set => SetProperty(ref locationSearchText, value);
     }
 
-    public NavigationViewModelBase NavigationViewModel
+    private string apiKey = "";
+    public string ApiKey
+    {
+        get => apiKey;
+        set => SetProperty(ref apiKey, value);
+    }
+
+    public NavigationViewModel NavigationViewModel
     {
         get;set;
     }
 
-    public void UpdateThemeResources()
+    public WeatherViewModel WeatherViewModel
     {
-        this.ThemeResources.Clear();
-
-        if (Application.Current.MainWindow != null)
-        {
-            var theme = ThemeManager.Current.DetectTheme(Application.Current.MainWindow);
-            if (theme is not null)
-            {
-                var libraryTheme = theme.LibraryThemes.FirstOrDefault(x => x.Origin == "MahApps.Metro");
-                var resourceDictionary = libraryTheme?.Resources.MergedDictionaries.FirstOrDefault();
-
-                if (resourceDictionary != null)
-                {
-                    foreach (var dictionaryEntry in resourceDictionary.OfType<DictionaryEntry>())
-                    {
-                        this.ThemeResources.Add(new ThemeResource(theme, libraryTheme!, resourceDictionary, dictionaryEntry));
-                    }
-                }
-            }
-        }
+        get; set;
     }
 
-    public MainViewModel(NavigationViewModelBase navigationViewModel)
+    public MainViewModel(NavigationViewModel navigationViewModel, WeatherViewModel weatherViewModel)
     {
         NavigationViewModel = navigationViewModel;
+        WeatherViewModel = weatherViewModel;
 
         // create accent color menu items for the demo
         this.AccentColorCollection = new ObservableCollection<AccentColorMenuData>(ThemeManager.Current.Themes
@@ -195,72 +247,6 @@ public class MainViewModel : BaseViewModel
 
         AppThemeCollectionViewSource.Source = AppThemeCollection;
         AppThemeCollectionView = new CollectionView(AppThemeCollectionViewSource.View);
-
-        //this.ThemeResources = new ObservableCollection<ThemeResource>();
-        //var view = CollectionViewSource.GetDefaultView(this.ThemeResources);
-        //view.SortDescriptions.Add(new SortDescription(nameof(ThemeResource.Key), ListSortDirection.Ascending));
-        //this.UpdateThemeResources();
-    }
-}
-
-public class ThemeResource
-{
-    public ThemeResource(Theme theme, LibraryTheme libraryTheme, ResourceDictionary resourceDictionary, DictionaryEntry dictionaryEntry)
-        : this(theme, libraryTheme, resourceDictionary, dictionaryEntry.Key.ToString(), dictionaryEntry.Value)
-    {
-    }
-
-    public ThemeResource(Theme theme, LibraryTheme libraryTheme, ResourceDictionary resourceDictionary, string? key, object? value)
-    {
-        this.Theme = theme;
-        this.LibraryTheme = libraryTheme;
-
-        this.Source = (resourceDictionary.Source?.ToString() ?? "Runtime").ToLower();
-        this.Source = CultureInfo.InstalledUICulture.TextInfo.ToTitleCase(this.Source)
-                                 .Replace("Pack", "pack")
-                                 .Replace("Application", "application")
-                                 .Replace("Xaml", "xaml");
-
-        this.Key = key;
-
-        this.Value = value switch
-        {
-            Color color => new SolidColorBrush(color),
-            Brush brush => brush,
-            _ => null
-        };
-
-        this.StringValue = value?.ToString();
-    }
-
-    public Theme Theme
-    {
-        get;
-    }
-
-    public LibraryTheme LibraryTheme
-    {
-        get;
-    }
-
-    public string Source
-    {
-        get;
-    }
-
-    public string? Key
-    {
-        get;
-    }
-
-    public Brush? Value
-    {
-        get;
-    }
-
-    public string? StringValue
-    {
-        get;
     }
 }
 

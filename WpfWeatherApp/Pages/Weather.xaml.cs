@@ -16,6 +16,8 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using WpfWeatherApp;
 using WpfWeatherApp.ViewModel;
+using ZenoWeatherApp.Model;
+using ZenoWeatherApp.Services;
 
 namespace ZenoWeatherApp.Pages;
 /// <summary>
@@ -58,5 +60,14 @@ public partial class Weather : Page
     private void Button_Click(object sender, RoutedEventArgs e)
     {
         ShowMessageDialog(sender, e);
+    }
+
+    private async void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            if (MainWindow.MainViewModel.WeatherViewModel.GetForecast.CanExecute(null))
+                MainWindow.MainViewModel.WeatherViewModel.GetForecast.Execute(null);
+        }
     }
 }

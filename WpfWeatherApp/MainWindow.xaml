@@ -114,7 +114,6 @@
                                HamburgerWidth="48"
                                PaneHeaderMargin="0"
                                IsPaneOpen="{Binding IsHamburgerMenuPaneOpen}"
-                               ItemInvoked="HamburgerMenuControl_OnItemInvoked"
                                ItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                OptionsItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                SelectedIndex="{Binding NavigationViewModel.CurrentPage, Mode=OneWay, Converter={StaticResource AppPageToSelectedIndexConverter}}"
@@ -145,7 +144,7 @@
                     <mah:HamburgerMenuItemCollection>
                         <mah:HamburgerMenuIconItem IsVisible="False" />
                         <mah:HamburgerMenuIconItem 
-                            Label="Forecast - 5 Day" 
+                            Label="Forecast" 
                             Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
                             CommandParameter="{x:Static viewModel:AppPage.Weather}">
                             <mah:HamburgerMenuIconItem.Icon>

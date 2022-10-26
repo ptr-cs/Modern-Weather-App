@@ -5,7 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ZenoWeatherApp.Pages" 
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
-      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:model="clr-namespace:ZenoWeatherApp.Model"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+      xmlns:validators="clr-namespace:ZenoWeatherApp.Validators" xmlns:converters="clr-namespace:ZenoWeatherApp.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Weather">
@@ -14,10 +16,132 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/ZenoWeatherApp;component/Resources/Dictionary1.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <validators:TextQueryValidator x:Key="TextQueryValidator"/>
+
+            <converters:AccuWeatherIconToWeatherIconConverter x:Key="AccuWeatherIconToWeatherIconConverter"/>
+
+            <Style TargetType="{x:Type Border}"
+                x:Key="HelpIcon">
+                <Setter Property="Width"
+                Value="24" />
+                <Setter Property="Height"
+                Value="Auto" />
+                <Setter Property="CornerRadius"
+                Value="0,4,0,4" />
+                <Setter Property="Background"
+                Value="#999" />
+                <Setter Property="VerticalAlignment"
+                Value="Stretch" />
+                <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+                <Setter Property="Cursor"
+                Value="Help" />
+                <Setter Property="Margin"
+                Value="8,0,0,0" />
+                <Style.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="TextAlignment"
+                        Value="Center" />
+                        <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                        <Setter Property="FontSize"
+                        Value="13" />
+                        <Setter Property="FontFamily"
+                        Value="Arial" />
+                        <Setter Property="FontWeight"
+                        Value="Bold" />
+                        <Setter Property="Foreground"
+                        Value="{DynamicResource MahApps.Brushes.ThemeBackground}" />
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+
+            <ControlTemplate x:Key="textBoxErrorTemplateAdornRight">
+                <DockPanel>
+                    <AdornedElementPlaceholder Margin="0,0,0,0" />
+                    <Border Width="24"
+                    BorderThickness="0"
+                    CornerRadius="0"
+                    Background="Red"
+                    Margin="0,0,0,0"
+                    ToolTip="{Binding [0].ErrorContent}"
+                    Style="{StaticResource HelpIcon}">
+                        <TextBlock Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                           FontSize="20"
+                           Text="!" />
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+
+            <DataTemplate x:Key="DailyForecastTemplate2" DataType="{x:Type model:DailyForecast}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <iconPacks:PackIconWeatherIcons 
+                            HorizontalAlignment="Center"
+                            Kind="{Binding Day.Icon, Mode=OneWay, Converter={StaticResource AccuWeatherIconToWeatherIconConverter}}" 
+                            Style="{StaticResource weatherIcons}"/>
+                        <StackPanel VerticalAlignment="Bottom">
+
+                            <TextBlock 
+                                Text="{Binding Day.IconPhrase, Mode=OneWay}" 
+                                    TextWrapping="WrapWithOverflow"
+                                Style="{StaticResource MahApps.Styles.TextBlock}" 
+                                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="8,0"/>
+                            <TextBlock 
+                                Style="{StaticResource MahApps.Styles.TextBlock}" 
+                                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="8,0">
+                                    <Run Text="{Binding Temperature.Minimum.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                    <Run Text="/"/>
+                                    <Run Text="{Binding Temperature.Maximum.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                </TextBlock>
+                            <Grid>
+
+                                <TextBlock 
+                                        Text="{Binding Date.Date, Mode=OneWay, StringFormat='{}{0:ddd}'}" 
+                                        Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
+                                        Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                                        Margin="8,0,8,8" 
+                                        VerticalAlignment="Bottom"/>
+                                <TextBlock 
+                                        Text="{Binding Date.Date, Mode=OneWay, StringFormat='{}{0:MM/dd}'}" 
+                                        Style="{StaticResource MahApps.Styles.TextBlock}" 
+                                        Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                                        Margin="8,0,8,8" 
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <mah:RangeSlider 
+                            Grid.Column="1"
+                            mah:SliderHelper.EnableMouseWheel="None"
+                            AutoToolTipPlacement="TopLeft"
+                            LowerValue="{Binding Temperature.Minimum.Value, Mode=OneWay}"
+                            UpperValue="{Binding Temperature.Maximum.Value, Mode=OneWay}" 
+                            Width="14"
+                            Maximum="62"
+                            Minimum="17"
+                            Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
+                            HorizontalAlignment="Right"
+                            Orientation="Vertical"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
     <Page.Background>
-        <LinearGradientBrush ColorInterpolationMode="SRgbLinearInterpolation">
+        <LinearGradientBrush ColorInterpolationMode="SRgbLinearInterpolation" StartPoint="1,0" EndPoint="0,1">
             <GradientStop Color="{DynamicResource MahApps.Colors.Accent4}" />
             <GradientStop Offset="1"/>
         </LinearGradientBrush>
@@ -58,13 +182,27 @@
                 </WrapPanel>
             </Button>
             <StackPanel Orientation="Horizontal" Margin="0,0">
-
-                <TextBox Margin="8" Width="224"
-                                                     MinHeight="48"
-                                                     VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0">
+                <TextBox Width="224"
+                    MinHeight="48"
+                    PreviewKeyDown="TextBox_PreviewKeyDown"
+                    VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplateAdornRight}">
+                    <TextBox.Text>
+                        <Binding Path="LocationSearchText"
+                                 Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged"
+                                 ValidatesOnNotifyDataErrors="True"
+                                 ValidatesOnDataErrors="True"
+                                 NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <validators:TextQueryValidator ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                     <TextBox.Style>
                         <Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
                             <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                            <Setter Property="Margin" Value="8"/>
                             <Style.Triggers>
                                 <Trigger Property="mah:TextBoxHelper.HasText" Value="False">
                                     <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
@@ -72,6 +210,12 @@
                                 </Trigger>
                                 <Trigger Property="mah:TextBoxHelper.HasText" Value="True">
                                     <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                                </Trigger>
+                                <Trigger Property="Validation.HasError"
+                                                     Value="True">
+                                    <Setter Property="Margin"
+                                                        Value="8,8,32,8" />
+                                    <Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Validation5}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -92,11 +236,37 @@
                 </Button>
             </StackPanel>
         </WrapPanel>
+        <Border Width="125" HorizontalAlignment="Left" Margin="8,64,0,-125" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}">
+                    <TextBlock Margin="4" FontSize="16" TextWrapping="Wrap" 
+                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                               Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                               Text="Next 5 Days"/>
+                </Border>
+                <TextBlock Grid.Row="1" Margin="6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
+                           FontStyle="Normal"
+                           VerticalAlignment="Bottom"
+                           FontSize="13"
+                           Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                           Text="{Binding WeatherViewModel.Forecast.Headline.Text, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
+            </Grid>
+            <!--<Border.Background>
+                <ImageBrush Opacity="1" ImageSource="/Assets/missoula.png" />
+            </Border.Background>-->
+        </Border>
         <ListBox HorizontalAlignment="Stretch" 
                  VerticalAlignment="Top" 
                  Background="Transparent" Grid.Row="1" 
-                 Margin="6,0,8,8"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 Margin="137,-3,8,8"
+                 ItemsSource="{Binding WeatherViewModel.DailyForecastCollectionView, Mode=OneWay}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemTemplate="{StaticResource DailyForecastTemplate2}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"></WrapPanel>
@@ -115,242 +285,6 @@
                     <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
                 </Style>
             </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <mah:Tile Style="{StaticResource SmallTileStyle}" Title="Monday" Count=" 56" CountFontSize="12">
-                        <StackPanel>
-                            <iconPacks:PackIconWeatherIcons 
-                                              Kind="DaySunny" />
-                            <TextBlock Text="Sunny" />
-                        </StackPanel>
-                    </mah:Tile>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBoxItem>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <iconPacks:PackIconWeatherIcons 
-                                                        HorizontalAlignment="Center"
-                                                        Kind="DaySunny" 
-                                                        Style="{StaticResource weatherIcons}"/>
-                        <StackPanel VerticalAlignment="Bottom">
-
-                            <TextBlock Text="Sunny" 
-                                                               Style="{StaticResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="0° / 100°" 
-                                                               Style="{StaticResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="Monday" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
-                                                               Margin="8,0,8,8" 
-                                                               VerticalAlignment="Bottom"/>
-                        </StackPanel>
-                    </Grid>
-                    <mah:RangeSlider 
-                                                    Grid.Column="1"
-                                                    mah:SliderHelper.EnableMouseWheel="None"
-                                                    AutoToolTipPlacement="TopLeft"
-                                                    LowerValue="0"
-                                                    UpperValue="80" 
-                                                    Width="14"
-                                                    Maximum="120"
-                                                    Minimum="-40"
-                                                    Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Vertical"/>
-                </Grid>
-            </ListBoxItem>
-            <ListBoxItem>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <iconPacks:PackIconWeatherIcons 
-                                                        HorizontalAlignment="Center"
-                                                        Kind="Rain" 
-                                                        Style="{StaticResource weatherIcons}"/>
-                        <StackPanel VerticalAlignment="Bottom">
-
-                            <TextBlock Text="Rain" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="20° / 75°" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="Tuesday" Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
-                                                               Margin="8,0,8,8" 
-                                                               VerticalAlignment="Bottom"/>
-                        </StackPanel>
-                    </Grid>
-                    <mah:RangeSlider 
-                                                    Grid.Column="1"
-                                                    mah:SliderHelper.EnableMouseWheel="None"
-                                                    AutoToolTipPlacement="TopLeft"
-                                                    LowerValue="20"
-                                                    UpperValue="75" 
-                                                    Width="14"
-                                                    Maximum="120"
-                                                    Minimum="-40"
-                                                    Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Vertical"/>
-                </Grid>
-            </ListBoxItem>
-            <ListBoxItem>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <iconPacks:PackIconWeatherIcons 
-                                                        HorizontalAlignment="Center"
-                                                        Kind="Cloudy" 
-                                                        Style="{StaticResource weatherIcons}"/>
-                        <StackPanel VerticalAlignment="Bottom">
-
-                            <TextBlock Text="Cloudy" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="40° / 70°" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="Wednesday" Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
-                                                               Margin="8,0,8,8" 
-                                                               VerticalAlignment="Bottom"/>
-                        </StackPanel>
-                    </Grid>
-                    <mah:RangeSlider 
-                                                    Grid.Column="1"
-                                                    mah:SliderHelper.EnableMouseWheel="None"
-                                                    AutoToolTipPlacement="TopLeft"
-                                                    LowerValue="40"
-                                                    UpperValue="70" 
-                                                    Width="14"
-                                                    Maximum="120"
-                                                    Minimum="-40"
-                                                    Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Vertical"/>
-                </Grid>
-            </ListBoxItem>
-            <ListBoxItem>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <iconPacks:PackIconWeatherIcons 
-                                                        HorizontalAlignment="Center"
-                                                        Kind="StrongWind" 
-                                                        Style="{StaticResource weatherIcons}"/>
-                        <StackPanel VerticalAlignment="Bottom">
-
-                            <TextBlock Text="Windy" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="0° / 40°" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="Thursday" Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
-                                                               Margin="8,0,8,8" 
-                                                               VerticalAlignment="Bottom"/>
-                        </StackPanel>
-                    </Grid>
-                    <mah:RangeSlider 
-                                                    Grid.Column="1"
-                                                    mah:SliderHelper.EnableMouseWheel="None"
-                                                    AutoToolTipPlacement="TopLeft"
-                                                    LowerValue="0"
-                                                    UpperValue="40" 
-                                                    Width="14"
-                                                    Maximum="120"
-                                                    Minimum="-40"
-                                                    Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Vertical"/>
-                </Grid>
-            </ListBoxItem>
-            <ListBoxItem>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <iconPacks:PackIconWeatherIcons 
-                                                        HorizontalAlignment="Center"
-                                                        Kind="DayThunderstorm" 
-                                                        Style="{StaticResource weatherIcons}"/>
-                        <StackPanel VerticalAlignment="Bottom">
-
-                            <TextBlock Text="Thunderstorms" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="40° / 70°" 
-                                                               Style="{DynamicResource MahApps.Styles.TextBlock}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                                                               HorizontalAlignment="Left" 
-                                                               VerticalAlignment="Center" 
-                                                               Margin="8,0"/>
-                            <TextBlock Text="Friday" Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
-                                                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
-                                                               Margin="8,0,8,8" 
-                                                               VerticalAlignment="Bottom"/>
-                        </StackPanel>
-                    </Grid>
-                    <mah:RangeSlider 
-                                                    Grid.Column="1"
-                                                    mah:SliderHelper.EnableMouseWheel="None"
-                                                    AutoToolTipPlacement="TopLeft"
-                                                    LowerValue="20"
-                                                    UpperValue="90" 
-                                                    Width="14"
-                                                    Maximum="120"
-                                                    Minimum="-40"
-                                                    Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Vertical"/>
-                </Grid>
-            </ListBoxItem>
         </ListBox>
     </Grid>
 </Page>

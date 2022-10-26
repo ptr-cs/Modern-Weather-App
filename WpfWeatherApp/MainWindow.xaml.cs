@@ -32,24 +32,8 @@ public partial class MainWindow : MetroWindow
     {
         InitializeComponent();
 
-        MainViewModel = new MainViewModel(new NavigationViewModel(mainNavigationFrame)); 
+        MainViewModel = new MainViewModel(new NavigationViewModel(mainNavigationFrame), new WeatherViewModel()); 
         DataContext = MainViewModel;
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
-    {
-        this.HamburgerMenuControl.Content = e.InvokedItem;
-
-        //if (!e.IsItemOptions && this.HamburgerMenuControl.IsPaneOpen)
-        //{
-        //    // close the menu if a item was selected
-        //    this.HamburgerMenuControl.IsPaneOpen = false;
-        //}
     }
 
     private void MainNavigationFrame_Navigated(object sender, NavigationEventArgs e)

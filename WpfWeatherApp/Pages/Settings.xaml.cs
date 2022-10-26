@@ -21,9 +21,15 @@ namespace ZenoWeatherApp.Pages;
 /// </summary>
 public partial class Settings : Page
 {
+    public bool passwordBoxFocus = false;
+    public int focusCounter = 0;
+
     public Settings()
     {
         InitializeComponent();
+
+        apiKeyPasswordBox.Password = MainWindow.MainViewModel.ApiKey;
+        focusCounter = 0;
     }
 
     private void AccentColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,5 +60,23 @@ public partial class Settings : Page
             //MainWindow.MainViewModel.AppThemeCollectionView.MoveCurrentTo(
             //        MainWindow.MainViewModel.AppThemeCollection.Where(x => x.Name == item.Name));
         }
+    }
+
+    private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    {
+        if (passwordBoxFocus)
+            MainWindow.MainViewModel.ApiKey = apiKeyPasswordBox.Password;
+    }
+
+    private void apiKeyPasswordBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (focusCounter > 0)
+            passwordBoxFocus = true;
+        focusCounter++;
+    }
+
+    private void apiKeyPasswordBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        passwordBoxFocus = false;
     }
 }

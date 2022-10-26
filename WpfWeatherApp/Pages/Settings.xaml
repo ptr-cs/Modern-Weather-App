@@ -26,22 +26,25 @@
                 <ComboBoxItem Content="AccuWeather" />
             </ComboBox>
         </StackPanel>
-        <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
+        <StackPanel Margin="8" HorizontalAlignment="Left">
             <TextBlock Text="API Key: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
             <PasswordBox
-                                            VerticalContentAlignment="Center" 
-                                            FontSize="15" 
-                                            FontWeight="SemiBold" 
-                                            Padding="8,0"
-                                            MinHeight="48"
-                                            Grid.Row="1"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Top"
-                                             mah:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(mah:TextBoxHelper.HasText), Mode=OneWay}"
-                                             mah:TextBoxHelper.UseFloatingWatermark="False"
-                                             mah:TextBoxHelper.Watermark="API Key                                                                                      " 
-                                              
-                                            Style="{DynamicResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
+                VerticalContentAlignment="Center" 
+                FontSize="15" 
+                FontWeight="SemiBold" 
+                Padding="8,0"
+                MinHeight="48"
+                x:Name="apiKeyPasswordBox"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                    mah:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(mah:TextBoxHelper.HasText), Mode=OneWay}"
+                    mah:TextBoxHelper.UseFloatingWatermark="False"
+                    mah:TextBoxHelper.Watermark="API Key" 
+                GotFocus="apiKeyPasswordBox_GotFocus"
+                LostFocus="apiKeyPasswordBox_LostFocus"
+                PasswordChanged="PasswordBox_PasswordChanged"
+                Style="{DynamicResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
         </StackPanel>
         <WrapPanel Margin="8" HorizontalAlignment="Left">
             <StackPanel Margin="0,0,8,0">

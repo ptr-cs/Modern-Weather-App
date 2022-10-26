@@ -5,8 +5,8 @@
 
     <Style TargetType="iconPacks:PackIconWeatherIcons" x:Key="weatherIcons">
             <Setter Property="Margin" Value="0,8,0,0"/>
-            <Setter Property="Width" Value="48"/>
-            <Setter Property="Height" Value="48"/>
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
             <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
         </Style>
 
