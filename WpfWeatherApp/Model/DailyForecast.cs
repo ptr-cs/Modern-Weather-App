@@ -32,18 +32,6 @@ public struct Temperatures
     }
 }
 
-//public struct Precipitation
-//{
-//    public string Type
-//    {
-//        get;set;
-//    }
-//    public string Intensity
-//    {
-//        get;set;
-//    }
-//}
-
 public struct DailyForecastPortion
 {
     public int Icon
@@ -65,6 +53,7 @@ public struct DailyForecastPortion
     {
         get; set;
     }
+
     public string PrecipitationIntensity
     {
         get; set;

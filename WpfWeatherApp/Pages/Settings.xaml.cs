@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfWeatherApp;
-using WpfWeatherApp.ViewModel;
+using ZenoWeatherApp.ViewModel;
 
 namespace ZenoWeatherApp.Pages;
 /// <summary>

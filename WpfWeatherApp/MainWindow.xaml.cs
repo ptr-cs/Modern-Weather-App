@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using WpfWeatherApp.ViewModel;
+using ZenoWeatherApp.ViewModel;
 
 namespace WpfWeatherApp;
 /// <summary>

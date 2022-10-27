@@ -1,0 +1,30 @@
+﻿<Page x:Class="ZenoWeatherApp.Pages.About"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ZenoWeatherApp.Pages" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="About">
+
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel VerticalAlignment="Center" Opacity=".8">
+            <TextBlock Text="About" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                   FontSize="64" FontFamily="Calibri"/>
+            <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <ScrollViewer Opacity=".7" Margin="8,32,8,16" Padding="8,0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock MaxWidth="800"
+                       Text="       Weather app implemented using Windows Presentation Foundation (WPF) and the MahApps Metro UI library. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub." HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
+                       TextWrapping="Wrap"
+                       FontWeight="Normal"
+                   FontSize="20"/>
+        </ScrollViewer>
+    </Grid>
+</Page>

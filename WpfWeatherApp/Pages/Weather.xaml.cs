@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using WpfWeatherApp;
-using WpfWeatherApp.ViewModel;
 using ZenoWeatherApp.Model;
 using ZenoWeatherApp.Services;
 
@@ -28,38 +27,6 @@ public partial class Weather : Page
     public Weather()
     {
         InitializeComponent();
-    }
-
-    private async void ShowMessageDialog(object sender, RoutedEventArgs e)
-    {
-        var settings = new MetroDialogSettings()
-        {
-            AffirmativeButtonText = " Visit Site ",
-            NegativeButtonText = "Close",
-            DialogButtonFontSize = 20D
-        };
-
-        MetroWindow mw = (MetroWindow)Application.Current.MainWindow;
-
-        MessageDialogResult result = await mw.ShowMessageAsync("Visit AccuWeather.com?",
-                                                                 "https://www.accuweather.com/",
-                                                                 MessageDialogStyle.AffirmativeAndNegative,
-                                                                 settings);
-
-        if (result == MessageDialogResult.Affirmative)
-        {
-            Button b = (Button)sender;
-
-            if (MainWindow.MainViewModel.NavigationViewModel.NavigateToSite.CanExecute(b.CommandParameter))
-            {
-                MainWindow.MainViewModel.NavigationViewModel.NavigateToSite.Execute(b.CommandParameter);
-            }
-        }
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        ShowMessageDialog(sender, e);
     }
 
     private async void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)

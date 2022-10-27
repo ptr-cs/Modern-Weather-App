@@ -1,14 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using MahApps.Metro.IconPacks;
-using WpfWeatherApp.ViewModel;
+using ZenoWeatherApp.ViewModel;
 
 namespace ZenoWeatherApp.Converters;
+
+[ValueConversion(typeof(string), typeof(bool))]
+public class StringIsEmptyConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        string valueToConvert = (string)value;
+        return string.IsNullOrEmpty(valueToConvert);
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
 
 [ValueConversion(typeof(AppPage), typeof(int))]
 public class AppPageToSelectedIndexConverter : IValueConverter

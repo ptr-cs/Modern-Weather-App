@@ -1,4 +1,4 @@
-using WpfWeatherApp.ViewModel;
+using ZenoWeatherApp.ViewModel;
 
 namespace ZenoWeatherAppTests;
 

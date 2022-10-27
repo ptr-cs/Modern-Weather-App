@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 
-namespace WpfWeatherApp.ViewModel;
+namespace ZenoWeatherApp.ViewModel;
+
 public abstract class BaseViewModel : DependencyObject, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;

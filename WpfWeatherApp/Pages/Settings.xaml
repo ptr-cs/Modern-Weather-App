@@ -75,26 +75,6 @@
                     ItemsSource="{Binding AccentColorCollection, Mode=OneWay}" 
                     IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             </StackPanel>
-            <!--<Menu Grid.Row="0"
-                                          Margin="5"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Stretch">
-                                            <MenuItem
-                                                ItemContainerStyle="{StaticResource AppThemeMenuItemStyle}"
-                                                ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.AppThemes, Mode=OneWay}">
-                                                <MenuItem.Header>
-                                                    <StackPanel>
-                                                        <TextBlock Text="Theme"/>
-                                                        <ContentControl>
-                                                            <MenuItem IsHitTestVisible="False" Header="asdf" Icon="{StaticResource AppThemeMenuIcon}" />
-                                                        </ContentControl>
-                                                    </StackPanel>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <MenuItem Header="Accent"
-                                                ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}"
-                                                ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.AccentColors, Mode=OneWay}" />
-                                        </Menu>-->
         </WrapPanel>
     </StackPanel>
 </Page>

@@ -6,8 +6,10 @@
       xmlns:local="clr-namespace:ZenoWeatherApp.Pages" 
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
       xmlns:model="clr-namespace:ZenoWeatherApp.Model"
+      xmlns:viewModel="clr-namespace:ZenoWeatherApp.ViewModel"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
-      xmlns:validators="clr-namespace:ZenoWeatherApp.Validators" xmlns:converters="clr-namespace:ZenoWeatherApp.Converters"
+      xmlns:validators="clr-namespace:ZenoWeatherApp.Validators" 
+      xmlns:converters="clr-namespace:ZenoWeatherApp.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Weather">
@@ -20,6 +22,7 @@
             <validators:TextQueryValidator x:Key="TextQueryValidator"/>
 
             <converters:AccuWeatherIconToWeatherIconConverter x:Key="AccuWeatherIconToWeatherIconConverter"/>
+            <converters:StringIsEmptyConverter x:Key="StringIsEmptyConverter"/>
 
             <Style TargetType="{x:Type Border}"
                 x:Key="HelpIcon">
@@ -75,7 +78,7 @@
                 </DockPanel>
             </ControlTemplate>
 
-            <DataTemplate x:Key="DailyForecastTemplate2" DataType="{x:Type model:DailyForecast}">
+            <DataTemplate DataType="{x:Type model:DailyForecast}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -131,11 +134,33 @@
                             LowerValue="{Binding Temperature.Minimum.Value, Mode=OneWay}"
                             UpperValue="{Binding Temperature.Maximum.Value, Mode=OneWay}" 
                             Width="14"
-                            Maximum="62"
-                            Minimum="17"
+                            Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.WeatherViewModel.NormalizedMinimumTemp, Mode=OneWay}"
+                            Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.WeatherViewModel.NormalizedMaximumTemp, Mode=OneWay}"
                             Style="{StaticResource MahApps.Styles.RangeSlider.Flat}"
                             HorizontalAlignment="Right"
                             Orientation="Vertical"/>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type model:ForecastSummary}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}">
+                        <TextBlock Margin="4" FontSize="16" TextWrapping="Wrap" 
+                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                               Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                               Text="Next 5 Days"/>
+                    </Border>
+                    <TextBlock Grid.Row="1" Margin="6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
+                           FontStyle="Normal"
+                           VerticalAlignment="Bottom"
+                           FontSize="13"
+                           Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
+                           Text="{Binding Text, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -154,10 +179,10 @@
         <WrapPanel>
             <Button 
                 VerticalAlignment="Top" 
-                Click="Button_Click"
                 HorizontalAlignment="Left" 
                 BorderThickness="1" Margin="8,8,0,0" Padding="4,4" 
                 ToolTip="Visit https://www.accuweather.com/"
+                Command="{Binding NavigationViewModel.NavigateToSite, Mode=OneWay}"
                 CommandParameter="https://www.accuweather.com/"
                 Style="{DynamicResource MahApps.Styles.Button}" >
                 <WrapPanel Orientation="Horizontal">
@@ -181,9 +206,8 @@
                     </Border>
                 </WrapPanel>
             </Button>
-            <StackPanel Orientation="Horizontal" Margin="0,0">
-                <TextBox Width="224"
-                    MinHeight="48"
+            <WrapPanel Orientation="Horizontal" Margin="0,0">
+                <TextBox MinHeight="48"
                     PreviewKeyDown="TextBox_PreviewKeyDown"
                     VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0"
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplateAdornRight}">
@@ -202,7 +226,8 @@
                     <TextBox.Style>
                         <Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
                             <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
-                            <Setter Property="Margin" Value="8"/>
+                            <Setter Property="Margin" Value="8,8,0,0"/>
+                            <Setter Property="MinWidth" Value="160"/>
                             <Style.Triggers>
                                 <Trigger Property="mah:TextBoxHelper.HasText" Value="False">
                                     <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
@@ -214,59 +239,46 @@
                                 <Trigger Property="Validation.HasError"
                                                      Value="True">
                                     <Setter Property="Margin"
-                                                        Value="8,8,32,8" />
+                                                        Value="8,8,24,0" />
                                     <Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Validation5}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-                <mah:SplitButton Margin="0,8,0,8"
-                                             HorizontalContentAlignment="Left"
-                                             DisplayMemberPath="Name">
-                    <mah:SplitButton.Icon>
-                        <iconPacks:PackIconMaterial Margin="2" Kind="StarOutline" Width="24" Height="24"/>
-                    </mah:SplitButton.Icon>
-                </mah:SplitButton>
-                <!--<Button Margin="0,8,0,8">
-                                                <iconPacks:PackIconBootstrapIcons Kind="Star" Height="28" Width="28" VerticalAlignment="Center" />
-                                            </Button>-->
-                <Button Margin="8">
-                    <iconPacks:PackIconBootstrapIcons Kind="PinMap" Height="28" Width="28" VerticalAlignment="Center" />
-                </Button>
-            </StackPanel>
+                <WrapPanel Orientation="Horizontal" Margin="0,8,0,0">
+                    <mah:SplitButton Margin="8,0,8,0"
+                                     
+                    MinHeight="48"
+                            HorizontalContentAlignment="Left"
+                            DisplayMemberPath="Name">
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconMaterial Margin="2" Kind="StarOutline" Width="24" Height="24"/>
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+                    <Button >
+                        <iconPacks:PackIconBootstrapIcons Kind="PinMap" Height="28" Width="28" VerticalAlignment="Center" />
+                    </Button>
+                </WrapPanel>
+            </WrapPanel>
         </WrapPanel>
-        <Border Width="125" HorizontalAlignment="Left" Margin="8,64,0,-125" Background="{DynamicResource MahApps.Brushes.AccentBase}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}">
-                    <TextBlock Margin="4" FontSize="16" TextWrapping="Wrap" 
-                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                               Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
-                               Text="Next 5 Days"/>
-                </Border>
-                <TextBlock Grid.Row="1" Margin="6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
-                           FontStyle="Normal"
-                           VerticalAlignment="Bottom"
-                           FontSize="13"
-                           Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
-                           Text="{Binding WeatherViewModel.Forecast.Headline.Text, Mode=OneWay}"
-                           TextWrapping="Wrap"/>
-            </Grid>
-            <!--<Border.Background>
-                <ImageBrush Opacity="1" ImageSource="/Assets/missoula.png" />
-            </Border.Background>-->
-        </Border>
+
         <ListBox HorizontalAlignment="Stretch" 
                  VerticalAlignment="Top" 
-                 Background="Transparent" Grid.Row="1" 
-                 Margin="137,-3,8,8"
+                 Background="Transparent" 
+                 Grid.Row="1" 
+                 Margin="8"
                  ItemsSource="{Binding WeatherViewModel.DailyForecastCollectionView, Mode=OneWay}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ItemTemplate="{StaticResource DailyForecastTemplate2}">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.Style>
+                <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource MahApps.Styles.ListBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding WeatherViewModel.HasOtherResult, Mode=OneWay}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"></WrapPanel>
@@ -286,5 +298,102 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        <DockPanel Grid.Row="1" 
+                   
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="8,0,8,8" 
+                Opacity=".6">
+            <DockPanel.Style>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding WeatherViewModel.HasOtherResult, Mode=OneWay}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <iconPacks:PackIconMaterial Height="24" Width="24" Margin="0,0,8,0" VerticalAlignment="Center">
+                <iconPacks:PackIconMaterial.Style>
+                    <Style TargetType="iconPacks:PackIconMaterial">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WeatherViewModel.ServiceResult.Type, Mode=OneWay}" Value="{x:Static viewModel:ServiceResultType.Information}">
+                                <Setter Property="Kind" Value="Information"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding WeatherViewModel.ServiceResult.Type, Mode=OneWay}" Value="{x:Static viewModel:ServiceResultType.Error}">
+                                <Setter Property="Kind" Value="Alert"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </iconPacks:PackIconMaterial.Style>
+            </iconPacks:PackIconMaterial>
+            <TextBlock 
+                FontSize="24"
+                Margin="0,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding WeatherViewModel.ServiceResult.Text, Mode=OneWay, FallbackValue=''}"
+                Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="8,0,8,8" 
+                Opacity=".6">
+            <DockPanel.Style>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ApiKey, Mode=OneWay}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                <TextBlock Text="Welcome!" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                   FontSize="64" FontFamily="Calibri"/>
+                <iconPacks:PackIconMaterial Kind="HumanGreeting" Height="64" Width="64" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" FontSize="20" Style="{DynamicResource MahApps.Styles.TextBlock}" Text="To get started, enter an API Key on the Settings page." />
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="8,0,8,8" 
+                Opacity=".6">
+            <DockPanel.Style>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <!--<DataTrigger Binding="{Binding ApiKey, Mode=OneWay}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>-->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ApiKey, Mode=OneWay, Converter={StaticResource StringIsEmptyConverter}}" Value="False"/>
+                                <Condition Binding="{Binding WeatherViewModel.ServiceResult, Mode=OneWay}" Value="{x:Null}"/>
+                                <Condition Binding="{Binding WeatherViewModel.Location, Mode=OneWay}" Value="{x:Null}"/>
+                                <Condition Binding="{Binding WeatherViewModel.SearchInProgress, Mode=OneWay}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                <TextBlock Text="New Search" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                   FontSize="64" FontFamily="Calibri" Margin="0,0,8,0"/>
+                <iconPacks:PackIconMaterial Kind="CloudSearch" Height="64" Width="64" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" FontSize="20" Style="{DynamicResource MahApps.Styles.TextBlock}" Text="To get started, enter a search term above." />
+        </DockPanel>
+
+        <mah:ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Height="128" Width="128"
+                          IsActive="{Binding WeatherViewModel.SearchInProgress, Mode=OneWay}"/>
     </Grid>
 </Page>

@@ -7,7 +7,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfWeatherApp" 
         xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared"
-        xmlns:viewModel="clr-namespace:WpfWeatherApp.ViewModel" 
+        xmlns:viewModel="clr-namespace:ZenoWeatherApp.ViewModel" 
         xmlns:converters="clr-namespace:ZenoWeatherApp.Converters" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
@@ -90,20 +90,11 @@
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
     <Grid>
-        <!--<Grid.Background>
-            <LinearGradientBrush>
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1" Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
-                    <GradientStop Color="{DynamicResource MahApps.Colors.Gray}" Offset="0" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
-        </Grid.Background>-->
-
         <Frame Margin="48,0,0,0"
-                        NavigationUIVisibility="Hidden"
-                        x:Name="mainNavigationFrame" 
-                        Navigated="MainNavigationFrame_Navigated"
-                        Source="pack://application:,,,/ZenoWeatherApp;component/Pages/Weather.xaml" />
+            NavigationUIVisibility="Hidden"
+            x:Name="mainNavigationFrame" 
+            Navigated="MainNavigationFrame_Navigated"
+            Source="pack://application:,,,/ZenoWeatherApp;component/Pages/Weather.xaml" />
         <Border Grid.Column="0"
                 Margin="0"
                 BorderBrush="{DynamicResource MahApps.Brushes.Gray7}"
@@ -118,17 +109,6 @@
                                OptionsItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                SelectedIndex="{Binding NavigationViewModel.CurrentPage, Mode=OneWay, Converter={StaticResource AppPageToSelectedIndexConverter}}"
                                VerticalScrollBarOnLeftSide="False">
-                <mah:HamburgerMenu.Resources>
-                    <Style TargetType="mah:Tile" BasedOn="{StaticResource SmallTileStyle}">
-                        <Style.Resources>
-                            <Style TargetType="iconPacks:PackIconWeatherIcons">
-                                <Setter Property="Margin" Value="0,8,0,0"/>
-                                <Setter Property="Width" Value="56"/>
-                                <Setter Property="Height" Value="56"/>
-                            </Style>
-                        </Style.Resources>
-                    </Style>
-                </mah:HamburgerMenu.Resources>
                 <!--  Header  -->
                 <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
                     <DataTemplate>
@@ -189,14 +169,16 @@
 
                         <mah:HamburgerMenuIconItem
                             Label="GitHub"
-                            Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
-                            CommandParameter="{x:Static viewModel:AppPage.GitHub}">
+                            ToolTip="Visit https://github.com/DivideByZeno/Zeno-Weather-App"
+                            Command="{Binding NavigationViewModel.NavigateToSite, Mode=OneWay}"
+                            CommandParameter="https://github.com/DivideByZeno/Zeno-Weather-App">
                             <mah:HamburgerMenuIconItem.Icon>
-                                <iconPacks:PackIconModern Width="32"
-                                                            Height="32"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Kind="SocialGithubOctocat" />
+                                <iconPacks:PackIconModern 
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Kind="SocialGithubOctocat" />
                             </mah:HamburgerMenuIconItem.Icon>
                         </mah:HamburgerMenuIconItem>
 
@@ -207,39 +189,6 @@
                 <mah:HamburgerMenu.ContentTemplate>
                     <DataTemplate/>
                 </mah:HamburgerMenu.ContentTemplate>
-                <!--<mah:HamburgerMenu.ContentTemplate>
-                    <DataTemplate>
-                        <Grid x:Name="ContentGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="48" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Grid.Row="0"
-                                    Margin="-1 0 -1 0"
-                                    Background="{DynamicResource MahApps.Brushes.AccentBase}">
-                                <TextBlock x:Name="Header"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="24"
-                                           Foreground="White"
-                                           Text="{Binding Label}" />
-                            </Border>
-                            <mah:TransitioningContentControl Grid.Row="1"
-                                                             Content="{Binding Mode=OneWay}"
-                                                             RestartTransitionOnContentChange="True"
-                                                             Transition="Default">
-                                <mah:TransitioningContentControl.Resources>
-                                    <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
-                                        <ContentControl Content="{Binding Tag, Mode=OneWay}"
-                                                        Focusable="True"
-                                                        IsTabStop="False" />
-                                    </DataTemplate>
-                                    
-                                </mah:TransitioningContentControl.Resources>
-                            </mah:TransitioningContentControl>
-                        </Grid>
-                    </DataTemplate>
-                </mah:HamburgerMenu.ContentTemplate>-->
             </mah:HamburgerMenu>
 
         </Border>
