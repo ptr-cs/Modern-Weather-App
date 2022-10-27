@@ -19,6 +19,19 @@ public struct Country
     }
 }
 
+public struct AdministrativeArea
+{
+    public string ID
+    {
+        get; set;
+    }
+
+    public string LocalizedName
+    {
+        get; set;
+    }
+}
+
 public class Location
 {
     public string Key 
@@ -42,6 +55,11 @@ public class Location
     }
 
     public Country Country
+    {
+        get; set;
+    }
+
+    public AdministrativeArea AdministrativeArea
     {
         get; set;
     }

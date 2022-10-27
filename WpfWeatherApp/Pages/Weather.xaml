@@ -79,6 +79,15 @@
             </ControlTemplate>
 
             <DataTemplate DataType="{x:Type model:DailyForecast}">
+                <DataTemplate.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.5" To="1" From="0" Storyboard.TargetProperty="Opacity" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </DataTemplate.Triggers>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -108,7 +117,7 @@
                                     <Run Text="{Binding Temperature.Minimum.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
                                     <Run Text="/"/>
                                     <Run Text="{Binding Temperature.Maximum.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
-                                </TextBlock>
+                            </TextBlock>
                             <Grid>
 
                                 <TextBlock 
@@ -143,16 +152,26 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type model:ForecastSummary}">
+                <DataTemplate.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.5" To="1" From="0" Storyboard.TargetProperty="Opacity" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </DataTemplate.Triggers>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}">
-                        <TextBlock Margin="4" FontSize="16" TextWrapping="Wrap" 
+                        <TextBlock Margin="4" FontSize="24" TextWrapping="Wrap" 
+                                   HorizontalAlignment="Center"
                                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                                Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
-                               Text="Next 5 Days"/>
+                               Text="Forecast"/>
                     </Border>
                     <TextBlock Grid.Row="1" Margin="6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
                            FontStyle="Normal"
@@ -171,13 +190,17 @@
             <GradientStop Offset="1"/>
         </LinearGradientBrush>
     </Page.Background>
+    <Page.Style>
+        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" />
+    </Page.Style>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <WrapPanel>
-            <Button 
+        <Border Background="{DynamicResource MahApps.Brushes.Accent3}">
+            <WrapPanel Margin="0,0,8,8">
+                <Button 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left" 
                 BorderThickness="1" Margin="8,8,0,0" Padding="4,4" 
@@ -185,119 +208,226 @@
                 Command="{Binding NavigationViewModel.NavigateToSite, Mode=OneWay}"
                 CommandParameter="https://www.accuweather.com/"
                 Style="{DynamicResource MahApps.Styles.Button}" >
-                <WrapPanel Orientation="Horizontal">
-                    <TextBlock 
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock 
                         FontWeight="SemiBold" 
                         TextWrapping="Wrap" 
                         Text="Weather API&#10;provided by: " 
                         Margin="8,0"
                         FontSize="14"/>
 
-                    <Border VerticalAlignment="Stretch"  Padding="4,0" CornerRadius="4">
-                        <Border.Background>
-                            <SolidColorBrush Opacity=".75" Color="#ddffffff" />
-                        </Border.Background>
-                        <Viewbox MaxWidth="128">
+                        <Border VerticalAlignment="Stretch"  Padding="4,0" CornerRadius="4">
+                            <Border.Background>
+                                <SolidColorBrush Opacity=".75" Color="#ddffffff" />
+                            </Border.Background>
+                            <Viewbox MaxWidth="128">
 
-                            <Image Source="/Assets/AccuWeather.png" 
+                                <Image Source="/Assets/AccuWeather.png" 
                                            RenderOptions.BitmapScalingMode="HighQuality"
                                            HorizontalAlignment="Left"/>
-                        </Viewbox>
-                    </Border>
-                </WrapPanel>
-            </Button>
-            <WrapPanel Orientation="Horizontal" Margin="0,0">
-                <TextBox MinHeight="48"
+                            </Viewbox>
+                        </Border>
+                    </WrapPanel>
+                </Button>
+                <WrapPanel Orientation="Horizontal" Margin="0,0">
+                    <TextBox MinHeight="48"
                     PreviewKeyDown="TextBox_PreviewKeyDown"
                     VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0"
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplateAdornRight}">
-                    <TextBox.Text>
-                        <Binding Path="LocationSearchText"
+                        <TextBox.Text>
+                            <Binding Path="LocationSearchText"
                                  Mode="TwoWay"
                                  UpdateSourceTrigger="PropertyChanged"
                                  ValidatesOnNotifyDataErrors="True"
                                  ValidatesOnDataErrors="True"
                                  NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <validators:TextQueryValidator ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                    <TextBox.Style>
-                        <Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
-                            <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
-                            <Setter Property="Margin" Value="8,8,0,0"/>
-                            <Setter Property="MinWidth" Value="160"/>
-                            <Style.Triggers>
-                                <Trigger Property="mah:TextBoxHelper.HasText" Value="False">
-                                    <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
-                                    <Setter Property="mah:TextBoxHelper.Watermark" Value="Enter a Location ..." />
-                                </Trigger>
-                                <Trigger Property="mah:TextBoxHelper.HasText" Value="True">
-                                    <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
-                                </Trigger>
-                                <Trigger Property="Validation.HasError"
+                                <Binding.ValidationRules>
+                                    <validators:TextQueryValidator ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MahApps.Styles.TextBox}" TargetType="{x:Type TextBox}">
+                                <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                                <Setter Property="Margin" Value="8,8,0,0"/>
+                                <Setter Property="MinWidth" Value="160"/>
+                                <Style.Triggers>
+                                    <Trigger Property="mah:TextBoxHelper.HasText" Value="False">
+                                        <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="False" />
+                                        <Setter Property="mah:TextBoxHelper.Watermark" Value="Enter a Location ..." />
+                                    </Trigger>
+                                    <Trigger Property="mah:TextBoxHelper.HasText" Value="True">
+                                        <Setter Property="mah:TextBoxHelper.ClearTextButton" Value="True" />
+                                    </Trigger>
+                                    <Trigger Property="Validation.HasError"
                                                      Value="True">
-                                    <Setter Property="Margin"
+                                        <Setter Property="Margin"
                                                         Value="8,8,24,0" />
-                                    <Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Validation5}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-                <WrapPanel Orientation="Horizontal" Margin="0,8,0,0">
-                    <mah:SplitButton Margin="8,0,8,0"
+                                        <Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Validation5}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <WrapPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <mah:SplitButton Margin="8,0,8,0"
                                      
                     MinHeight="48"
                             HorizontalContentAlignment="Left"
                             DisplayMemberPath="Name">
-                        <mah:SplitButton.Icon>
-                            <iconPacks:PackIconMaterial Margin="2" Kind="StarOutline" Width="24" Height="24"/>
-                        </mah:SplitButton.Icon>
-                    </mah:SplitButton>
-                    <Button >
-                        <iconPacks:PackIconBootstrapIcons Kind="PinMap" Height="28" Width="28" VerticalAlignment="Center" />
-                    </Button>
+                            <mah:SplitButton.Icon>
+                                <iconPacks:PackIconMaterial Margin="2" Kind="StarOutline" Width="24" Height="24"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button >
+                            <iconPacks:PackIconBootstrapIcons Kind="PinMap" Height="28" Width="28" VerticalAlignment="Center" />
+                        </Button>
+                    </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
-        </WrapPanel>
+        </Border>
+        
 
-        <ListBox HorizontalAlignment="Stretch" 
+        <ScrollViewer Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <WrapPanel Orientation="Horizontal" Grid.Row="1">
+                <WrapPanel.Style>
+                    <Style TargetType="{x:Type WrapPanel}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WeatherViewModel.HasOtherResult, Mode=OneWay}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </WrapPanel.Style>
+                <Border Background="{DynamicResource MahApps.Brushes.AccentBase}" 
+                Margin="8,8,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WeatherViewModel.CurrentConditions, Mode=OneWay}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <WrapPanel Orientation="Horizontal">
+
+                            <TextBlock
+                       Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                       FontSize="24"
+                       Padding="8,4"
+                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}">
+                            <Run Text="{Binding WeatherViewModel.Location.LocalizedName, Mode=OneWay}"/>
+                            <Run Text=","/>
+                            <Run Text="{Binding WeatherViewModel.Location.AdministrativeArea.ID, Mode=OneWay}" />
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.LocalObservationDateTime, Mode=OneWay}"
+                       Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                       FontSize="16"
+                               VerticalAlignment="Center"
+                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+                        </WrapPanel>
+                        <Grid Grid.Row="1" Background="{DynamicResource MahApps.Brushes.ThemeForeground}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="mah:Tile">
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent}" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Value, Mode=OneWay, StringFormat='{}{0}°'}"
+                              Title="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Unit, StringFormat='{}Temperature ({0})'}" Grid.RowSpan="2" Grid.Row="2">
+                                <iconPacks:PackIconWeatherIcons Kind="Thermometer" Width="64" Height="64"/>
+                            </mah:Tile>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent2}"  Grid.Column="1" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Value, Mode=OneWay}"
+                              Title="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Unit, StringFormat='{}Wind Speed ({0})'}" Height="Auto" VerticalContentAlignment="Top" Grid.Row="2">
+                                <iconPacks:PackIconWeatherIcons Kind="Windy" Width="32" Height="32" Margin="0,4,8,0"/>
+                            </mah:Tile>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent3}" Grid.Column="1" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay, StringFormat='{}{0}°'}"
+                              Title="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.English, Mode=OneWay, StringFormat='{}Wind Dir. ({0})'}" Height="Auto" VerticalContentAlignment="Top" Grid.Row="3">
+                                <iconPacks:PackIconWeatherIcons Kind="WindDeg" Width="24" Height="24" Margin="0,8,8,0" RenderTransformOrigin=".5,.5">
+                                    <iconPacks:PackIconWeatherIcons.RenderTransform>
+                                        <RotateTransform Angle="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay}" />
+                                    </iconPacks:PackIconWeatherIcons.RenderTransform>
+                                </iconPacks:PackIconWeatherIcons>
+                            </mah:Tile>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Progress}" 
+                              Grid.RowSpan="2"
+                              Grid.Row="0" Grid.ColumnSpan="2"
+                              Title="Current Conditions"
+                                  Width="AUto"
+                              Count="{Binding WeatherViewModel.CurrentConditions.WeatherText, Mode=OneWay}"
+                              CountFontSize="24">
+                                <iconPacks:PackIconWeatherIcons Kind="{Binding WeatherViewModel.CurrentConditions.WeatherIcon, Mode=OneWay, Converter={StaticResource AccuWeatherIconToWeatherIconConverter}}" Width="64" Height="64" Margin="0,8,8,0"/>
+                            </mah:Tile>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent}"  Grid.Column="3" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.UVIndex, Mode=OneWay}"
+                              Title="UV Index" Height="Auto" VerticalContentAlignment="Center" Grid.RowSpan="2">
+                                <iconPacks:PackIconWeatherIcons Kind="DaySunny" Width="24" Height="24" Margin="0,8,8,0"/>
+                            </mah:Tile>
+                            <mah:Tile Background="{DynamicResource MahApps.Brushes.AccentBase}"  Grid.Column="3" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.RelativeHumidity, Mode=OneWay}"
+                              Title="Relative&#10;Humidity" Height="Auto" VerticalContentAlignment="Center" Grid.RowSpan="2" Grid.Row="2">
+                                <iconPacks:PackIconWeatherIcons Kind="Humidity" Width="24" Height="24" Margin="0,8,8,0"/>
+                            </mah:Tile>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <ListBox HorizontalAlignment="Stretch" 
                  VerticalAlignment="Top" 
                  Background="Transparent" 
                  Grid.Row="1" 
-                 Margin="8"
+                 Margin="5,6,8,8"
                  ItemsSource="{Binding WeatherViewModel.DailyForecastCollectionView, Mode=OneWay}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.Style>
-                <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource MahApps.Styles.ListBox}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding WeatherViewModel.HasOtherResult, Mode=OneWay}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ListBox.Style>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"></WrapPanel>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
-                    <Setter Property="Width" Value="125"/>
-                    <Setter Property="Height" Value="125"/>
-                    <Setter Property="Margin" Value="3"/>
-                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Background" Value="{DynamicResource Theme.ShowcaseBrush}"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+                    <ListBox.Style>
+                        <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource MahApps.Styles.ListBox}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WeatherViewModel.Forecast, Mode=OneWay}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
+                            <Setter Property="Width" Value="125"/>
+                            <Setter Property="Height" Value="125"/>
+                            <Setter Property="Margin" Value="3"/>
+                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Background" Value="{DynamicResource Theme.ShowcaseBrush}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </WrapPanel>
+        </ScrollViewer>
+
         <DockPanel Grid.Row="1" 
                    
                 VerticalAlignment="Center"

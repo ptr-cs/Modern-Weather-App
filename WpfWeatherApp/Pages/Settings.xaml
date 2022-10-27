@@ -16,6 +16,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    <Page.Style>
+        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" />
+    </Page.Style>
     <StackPanel Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
             <TextBlock Text="API Provider: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>

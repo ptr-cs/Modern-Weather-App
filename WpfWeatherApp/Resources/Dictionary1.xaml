@@ -3,6 +3,28 @@
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
 
+
+    <Style x:Key="pageStyle" TargetType="{x:Type Page}">
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ThicknessAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Margin" From="-16,0,0,0" To="0,0,0,0">
+                            <ThicknessAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </ThicknessAnimation.EasingFunction>
+                        </ThicknessAnimation>
+                        <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Opacity" From=".5" To="1">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="iconPacks:PackIconWeatherIcons" x:Key="weatherIcons">
             <Setter Property="Margin" Value="0,8,0,0"/>
             <Setter Property="Width" Value="36"/>
@@ -11,7 +33,7 @@
         </Style>
 
         <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
-            <Setter Property="Height" Value="125" />
+        <Setter Property="Height" Value="128" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
             <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
             <Setter Property="TitleFontSize" Value="14" />
@@ -19,14 +41,14 @@
         </Style>
 
         <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
-            <Setter Property="Height" Value="125" />
+            <Setter Property="Height" Value="128" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
             <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
             <Setter Property="TitleFontSize" Value="14" />
             <Setter Property="VerticalContentAlignment" Value="Top"/>
-            <Setter Property="Width" Value="125" />
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Width" Value="128" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="mah:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             <!-- mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"-->
         </Style>
