@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ZenoWeatherAppCommon/Services/MockWeatherService.cs
+/ZenoWeatherAppCommon/Services/FakeData.cs

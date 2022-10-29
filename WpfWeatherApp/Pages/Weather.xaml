@@ -5,14 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ZenoWeatherApp.Pages" 
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
-      xmlns:model="clr-namespace:ZenoWeatherApp.Model"
+      xmlns:model="clr-namespace:ZenoWeatherApp.Model;assembly=ZenoWeatherAppCommon"
       xmlns:viewModel="clr-namespace:ZenoWeatherApp.ViewModel"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
       xmlns:validators="clr-namespace:ZenoWeatherApp.Validators" 
       xmlns:converters="clr-namespace:ZenoWeatherApp.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Weather">
+      Title="Weather"
+      xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,6 +24,7 @@
 
             <converters:AccuWeatherIconToWeatherIconConverter x:Key="AccuWeatherIconToWeatherIconConverter"/>
             <converters:StringIsEmptyConverter x:Key="StringIsEmptyConverter"/>
+            <converters:NullnessConverter x:Key="NullnessConverter"/>
 
             <Style TargetType="{x:Type Border}"
                 x:Key="HelpIcon">
@@ -102,16 +104,18 @@
 
                             <TextBlock 
                                 Text="{Binding Day.IconPhrase, Mode=OneWay}" 
-                                    TextWrapping="WrapWithOverflow"
+                                TextWrapping="WrapWithOverflow"
                                 Style="{StaticResource MahApps.Styles.TextBlock}" 
                                 Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                                 HorizontalAlignment="Left" 
+                                FontSize="13"
                                 VerticalAlignment="Center" 
                                 Margin="8,0"/>
                             <TextBlock 
                                 Style="{StaticResource MahApps.Styles.TextBlock}" 
                                 Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                                 HorizontalAlignment="Left" 
+                                FontSize="13"
                                 VerticalAlignment="Center" 
                                 Margin="8,0">
                                     <Run Text="{Binding Temperature.Minimum.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
@@ -131,6 +135,7 @@
                                         Style="{StaticResource MahApps.Styles.TextBlock}" 
                                         Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
                                         Margin="8,0,8,8" 
+                                    FontSize="13"
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Right"/>
                             </Grid>
@@ -156,24 +161,24 @@
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Duration="0:0:0.5" To="1" From="0" Storyboard.TargetProperty="Opacity" />
+                                <DoubleAnimation Duration="0:0:.5" To="1" From="0" Storyboard.TargetProperty="Opacity" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </DataTemplate.Triggers>
-                <Grid>
+                <Grid Background="{StaticResource softerFadeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundBaseLow}">
-                        <TextBlock Margin="4" FontSize="24" TextWrapping="Wrap" 
+                    <Border VerticalAlignment="Top" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+                        <TextBlock Margin="4,0,4,2" FontSize="20" TextWrapping="Wrap" 
                                    HorizontalAlignment="Center"
                                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                                Style="{DynamicResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
                                Text="Forecast"/>
                     </Border>
-                    <TextBlock Grid.Row="1" Margin="6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
+                    <TextBlock Grid.Row="1" Margin="6,4,6,8" Style="{DynamicResource MahApps.Styles.TextBlock}"
                            FontStyle="Normal"
                            VerticalAlignment="Bottom"
                            FontSize="13"
@@ -182,6 +187,7 @@
                            TextWrapping="Wrap"/>
                 </Grid>
             </DataTemplate>
+            
         </ResourceDictionary>
     </Page.Resources>
     <Page.Background>
@@ -286,9 +292,17 @@
                 </WrapPanel>
             </WrapPanel>
         </Border>
-        
 
-        <ScrollViewer Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Border Height="10" Grid.Row="1" VerticalAlignment="Top" Panel.ZIndex="1" IsHitTestVisible="False" options:Freeze="True">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#00000000" Offset="1"/>
+                    <GradientStop Color="#33000000" Offset="0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="0">
             <WrapPanel Orientation="Horizontal" Grid.Row="1">
                 <WrapPanel.Style>
                     <Style TargetType="{x:Type WrapPanel}">
@@ -304,10 +318,17 @@
                 Margin="8,8,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Border.Style>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding WeatherViewModel.CurrentConditions, Mode=OneWay}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                <DataTrigger Binding="{Binding WeatherViewModel.CurrentConditions, Mode=OneWay, Converter={StaticResource NullnessConverter}}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:.5" To="1" From="0" Storyboard.TargetProperty="Opacity" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -317,75 +338,329 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <WrapPanel Orientation="Horizontal">
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Border}" BasedOn="{StaticResource SmallBorderTileStyle}" >
+                                <Setter Property="Padding" Value="4"/>
+                            </Style>
+                            <Style TargetType="{x:Type WrapPanel}">
+                                <Setter Property="Orientation" Value="Horizontal"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                            <Style TargetType="{x:Type TextBlock}" x:Key="counterText">
+                                <Setter Property="FontSize" Value="28" />
+                                <Setter Property="Margin" Value="4,4,4,0"/>
+                                <Setter Property="FontWeight" Value="Normal"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="LineHeight" Value="28"/>
+                                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                            </Style>
+                            <Style TargetType="iconPacks:PackIconWeatherIcons">
+                                <Setter Property="Height" Value="24"/>
+                                <Setter Property="Width" Value="24"/>
+                                <Setter Property="Margin" Value="0,4,0,0"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                            <Style TargetType="{x:Type TextBlock}" x:Key="titleTextBlock">
+                                <Setter Property="FontSize" Value="16" />
+                                <Setter Property="FontWeight" Value="Normal"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="LineHeight" Value="18"/>
+                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="Margin" Value="4"/>
+                                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                                <Setter Property="Opacity" Value=".9"/>
+                            </Style>
+                        </Grid.Resources>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
 
                             <TextBlock
-                       Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
-                       FontSize="24"
-                       Padding="8,4"
-                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}">
-                            <Run Text="{Binding WeatherViewModel.Location.LocalizedName, Mode=OneWay}"/>
-                            <Run Text=","/>
-                            <Run Text="{Binding WeatherViewModel.Location.AdministrativeArea.ID, Mode=OneWay}" />
+                               Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                               FontSize="24"
+                               Padding="8,4,8,4"
+                                TextWrapping="Wrap"
+                               Foreground="{DynamicResource MahApps.Brushes.IdealForeground}">
+                                <Run Text="{Binding WeatherViewModel.Location.LocalizedName, Mode=OneWay}"/><Run Text=","/>
+                                <Run Text="{Binding WeatherViewModel.Location.AdministrativeArea.ID, Mode=OneWay}" />
                             </TextBlock>
 
-                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.LocalObservationDateTime, Mode=OneWay}"
-                       Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
-                       FontSize="16"
-                               VerticalAlignment="Center"
-                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+                            <TextBlock 
+                                Margin="0,0,8,0"
+                                Padding="8,0,8,4"
+                                Text="{Binding WeatherViewModel.CurrentConditions.LocalObservationDateTime, Mode=OneWay}"
+                                Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                                FontSize="16"
+                                FontWeight="Normal"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
                         </WrapPanel>
-                        <Grid Grid.Row="1" Background="{DynamicResource MahApps.Brushes.ThemeForeground}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.Resources>
-                                <Style TargetType="mah:Tile">
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </Grid.Resources>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent}" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Value, Mode=OneWay, StringFormat='{}{0}°'}"
-                              Title="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Unit, StringFormat='{}Temperature ({0})'}" Grid.RowSpan="2" Grid.Row="2">
-                                <iconPacks:PackIconWeatherIcons Kind="Thermometer" Width="64" Height="64"/>
-                            </mah:Tile>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent2}"  Grid.Column="1" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Value, Mode=OneWay}"
-                              Title="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Unit, StringFormat='{}Wind Speed ({0})'}" Height="Auto" VerticalContentAlignment="Top" Grid.Row="2">
-                                <iconPacks:PackIconWeatherIcons Kind="Windy" Width="32" Height="32" Margin="0,4,8,0"/>
-                            </mah:Tile>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent3}" Grid.Column="1" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay, StringFormat='{}{0}°'}"
-                              Title="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.English, Mode=OneWay, StringFormat='{}Wind Dir. ({0})'}" Height="Auto" VerticalContentAlignment="Top" Grid.Row="3">
-                                <iconPacks:PackIconWeatherIcons Kind="WindDeg" Width="24" Height="24" Margin="0,8,8,0" RenderTransformOrigin=".5,.5">
-                                    <iconPacks:PackIconWeatherIcons.RenderTransform>
-                                        <RotateTransform Angle="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay}" />
-                                    </iconPacks:PackIconWeatherIcons.RenderTransform>
-                                </iconPacks:PackIconWeatherIcons>
-                            </mah:Tile>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Progress}" 
-                              Grid.RowSpan="2"
-                              Grid.Row="0" Grid.ColumnSpan="2"
-                              Title="Current Conditions"
-                                  Width="AUto"
-                              Count="{Binding WeatherViewModel.CurrentConditions.WeatherText, Mode=OneWay}"
-                              CountFontSize="24">
-                                <iconPacks:PackIconWeatherIcons Kind="{Binding WeatherViewModel.CurrentConditions.WeatherIcon, Mode=OneWay, Converter={StaticResource AccuWeatherIconToWeatherIconConverter}}" Width="64" Height="64" Margin="0,8,8,0"/>
-                            </mah:Tile>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.Accent}"  Grid.Column="3" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.UVIndex, Mode=OneWay}"
-                              Title="UV Index" Height="Auto" VerticalContentAlignment="Center" Grid.RowSpan="2">
-                                <iconPacks:PackIconWeatherIcons Kind="DaySunny" Width="24" Height="24" Margin="0,8,8,0"/>
-                            </mah:Tile>
-                            <mah:Tile Background="{DynamicResource MahApps.Brushes.AccentBase}"  Grid.Column="3" Width="Auto" Count="{Binding WeatherViewModel.CurrentConditions.RelativeHumidity, Mode=OneWay}"
-                              Title="Relative&#10;Humidity" Height="Auto" VerticalContentAlignment="Center" Grid.RowSpan="2" Grid.Row="2">
-                                <iconPacks:PackIconWeatherIcons Kind="Humidity" Width="24" Height="24" Margin="0,8,8,0"/>
-                            </mah:Tile>
-                        </Grid>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource counterText}"/>
+                                </Grid.Resources>
+                                <Border 
+                                Grid.RowSpan="2"
+                                Grid.Row="0" 
+                                Grid.ColumnSpan="2"
+                                Width="Auto"
+                                MinHeight="128"
+                                Height="Auto"
+                                Background="{DynamicResource softFadeBrush}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="{Binding WeatherViewModel.CurrentConditions.WeatherIcon, Mode=OneWay, Converter={StaticResource AccuWeatherIconToWeatherIconConverter}}" Width="64" Height="64"/>
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.WeatherText, Mode=OneWay}" FontSize="24"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="Current Conditions" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#11000000" Width="Auto" Height="Auto"  Grid.RowSpan="2" Grid.Row="2">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Thermometer" Width="32" Height="64"/>
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Temperature.Imperial.Unit, StringFormat='{}Temp. ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#33000000" Grid.Column="3" Grid.RowSpan="2" Width="Auto"  Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Windy" Width="32" Height="32" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Value, Mode=OneWay}" />
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Wind.Speed.Imperial.Unit, StringFormat='{}Wind Speed ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#22000000" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2"  Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="WindDeg" RenderTransformOrigin=".5,.5">
+                                                <iconPacks:PackIconWeatherIcons.RenderTransform>
+                                                    <RotateTransform Angle="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay}" />
+                                                </iconPacks:PackIconWeatherIcons.RenderTransform>
+                                            </iconPacks:PackIconWeatherIcons>
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.Degrees, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Wind.Direction.English, Mode=OneWay, StringFormat='{}Wind Dir. ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#44000000" Grid.Column="1" Grid.Row="2" Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="DaySunny" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.UVIndex, Mode=OneWay}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="UV Index" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#33000000" Grid.Column="1" Grid.Row="3"  Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Humidity" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.RelativeHumidity, Mode=OneWay}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="Rel. Humidity" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource counterText}"/>
+                                </Grid.Resources>
+                                <Border 
+                                    Grid.RowSpan="2"
+                                    Grid.Row="3" 
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Width="Auto"
+                                    MinHeight="128"
+                                    Height="Auto"
+                                    Padding="0"
+                                    Background="{DynamicResource MahApps.Brushes.AccentBase}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid IsHitTestVisible="False">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.Resources>
+                                                <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MahApps.Styles.Slider.Flat}">
+                                                    <Setter Property="Orientation" Value="Vertical"/>
+                                                    <Setter Property="Minimum" Value="0"/>
+                                                    <Setter Property="Maximum" Value="3"/>
+                                                    <Setter Property="BorderBrush">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush Color="{DynamicResource MahApps.Colors.IdealForeground}" Opacity=".6"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="FontSize" Value="14"/>
+                                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                                    <Setter Property="Grid.Row" Value="1"/>
+                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    <Setter Property="Opacity" Value=".9"/>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.PastHour.Imperial.Value, Mode=OneWay}" 
+                                                    Background="#11000000" Foreground="#11000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past3Hours.Imperial.Value, Mode=OneWay}" Grid.Column="1" Background="#22000000" Foreground="#22000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past6Hours.Imperial.Value, Mode=OneWay}" Grid.Column="2" Background="#33000000" Foreground="#33000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past9Hours.Imperial.Value, Mode=OneWay}" Grid.Column="3" Background="#44000000" Foreground="#44000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past12Hours.Imperial.Value, Mode=OneWay}" Grid.Column="4" Background="#55000000" Foreground="#55000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past18Hours.Imperial.Value, Mode=OneWay}" Grid.Column="5" Background="#66000000" Foreground="#66000000"/>
+                                            <Slider Value="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.Past24Hours.Imperial.Value, Mode=OneWay}" Grid.Column="6" Background="#77000000" Foreground="#77000000"/>
+
+                                            <Border Grid.ColumnSpan="7" Grid.Row="1" Height="AUto" Background="#22000000"/>
+                                            <TextBlock Text="1" />
+                                            <TextBlock Text="3" Grid.Column="1"/>
+                                            <TextBlock Text="6" Grid.Column="2"/>
+                                            <TextBlock Text="9" Grid.Column="3"/>
+                                            <TextBlock Text="12" Grid.Column="4"/>
+                                            <TextBlock Text="18" Grid.Column="5"/>
+                                            <TextBlock Text="24" Grid.Column="6"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.PrecipitationSummary.PastHour.Imperial.Unit, Mode=OneWay, StringFormat='{}Precip. Summary ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#11000000" Width="Auto" Height="Auto" Grid.Column="1" Grid.RowSpan="2" Grid.Row="0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="HorizonAlt" Width="32" Height="64"/>
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Visibility.Imperial.Value, Mode=OneWay, StringFormat='{}{0}'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Visibility.Imperial.Unit, StringFormat='{}Visibility ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#33000000" Grid.Column="3" Grid.RowSpan="2" Width="Auto"  Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Barometer" Width="24" Height="24" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Pressure.Imperial.Value, Mode=OneWay}" />
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.Pressure.Imperial.Unit, StringFormat='{}Pressure ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#22000000" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2"  Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="StrongWind" RenderTransformOrigin=".5,.5" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.WindChillTemperature.Imperial.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.WindChillTemperature.Imperial.Unit, Mode=OneWay, StringFormat='{}Wind Chill ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#44000000" Grid.Column="0" Grid.RowSpan="1" Grid.Row="1" Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Cloudy" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.CloudCover, Mode=OneWay, StringFormat='{}{0}%'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="Cloud Cover" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#55000000" Grid.Column="0" Grid.Row="0"  Width="Auto" Height="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <WrapPanel>
+                                            <iconPacks:PackIconWeatherIcons Kind="Raindrop" />
+                                            <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.DewPoint.Imperial.Value, Mode=OneWay, StringFormat='{}{0}°'}"/>
+                                        </WrapPanel>
+                                        <TextBlock Text="{Binding WeatherViewModel.CurrentConditions.DewPoint.Imperial.Unit, Mode=OneWay, StringFormat='{}Dew Point ({0})'}" Style="{StaticResource titleTextBlock}"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </WrapPanel>
                     </Grid>
                 </Border>
 
@@ -412,7 +687,7 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MahApps.Styles.ListBoxItem2}">
                             <Setter Property="Width" Value="125"/>
                             <Setter Property="Height" Value="125"/>
                             <Setter Property="Margin" Value="3"/>

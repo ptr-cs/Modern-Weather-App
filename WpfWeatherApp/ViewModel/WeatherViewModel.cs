@@ -71,6 +71,15 @@ public class WeatherViewModel : BaseViewModel
     }
 
     /// <summary>
+    /// PreviousQuery is for saving API calls by reusing Location information
+    /// if subsequent searches are made with same query
+    /// </summary>
+    public string PreviousQuery
+    {
+        get; set;
+    } = "";
+
+    /// <summary>
     /// Normalized minimum temperature for displaying bar-chart temperature values
     /// in the DailyForecast XAML DataTemplate
     /// </summary>
@@ -138,6 +147,14 @@ public class WeatherViewModel : BaseViewModel
         DailyForecastCollectionView = new CollectionView(DailyForecastCollectionViewSource.View);
     }
 
+    private void ResetWeatherResults()
+    {
+        Location = null;
+        Forecast = null;
+        DailyForecastCollection.Clear();
+        CurrentConditions = null;
+    }
+
     private async void OnGetForecastAsync(object? obj)
     {
         var apiKey = MainWindow.MainViewModel.ApiKey;
@@ -146,30 +163,43 @@ public class WeatherViewModel : BaseViewModel
 
         if (string.IsNullOrEmpty(queryText) || string.IsNullOrEmpty(apiKey))
         {
-            Location = null;
-            DailyForecastCollection.Clear();
+            ResetWeatherResults();
             return;
         }
 
         SearchInProgress = true;
-        var locationResult = await QueryLocationAsync(queryText, apiKey);
-        if (locationResult.Location != null)
-        {
-            Location = locationResult.Location;
+        Location? location;
+        LocationResult? locationResult = null;
 
-            var currentConditions = await QueryCurrentConditionsAsync(locationResult.Location.Key, apiKey);
+        if (PreviousQuery == queryText && Location != null)
+            location = Location;
+        else
+        {
+            ResetWeatherResults();
+            locationResult = await QueryLocationAsync(queryText, apiKey);
+            location = locationResult.Location;
+        }
+
+        PreviousQuery = queryText;
+        
+        if (location != null)
+        {
+            Location = location;
+
+            CurrentConditions = null;
+            Forecast = null;
+            DailyForecastCollection.Clear();
+
+            var currentConditions = await QueryCurrentConditionsAsync(location.Key, apiKey);
             if (currentConditions != null)
             {
                 CurrentConditions = currentConditions;
             }
-            else
-                CurrentConditions = null;
 
-            var forecast = await QueryForecastAsync(locationResult.Location.Key, apiKey);
+            var forecast = await QueryForecastAsync(location.Key, apiKey);
             if (forecast != null)
             {
                 Forecast = forecast;
-                DailyForecastCollection.Clear();
                 DailyForecastCollection.Add(Forecast.Headline);
                 foreach (var dailyForecast in Forecast.DailyForecasts)
                     DailyForecastCollection.Add(dailyForecast);
@@ -177,48 +207,52 @@ public class WeatherViewModel : BaseViewModel
                 NormalizedMinimumTemp = DailyForecastCollection.OfType<DailyForecast>().Min(x => x.Temperature.Minimum.Value) - 10.0;
                 NormalizedMaximumTemp = DailyForecastCollection.OfType<DailyForecast>().Max(x => x.Temperature.Maximum.Value) + 10.0;
             }
-            else
-                Forecast = null;
         }
         else
         {
-            Location = null;
-            if (locationResult.IsSuccessStatusCode)
+            ResetWeatherResults();
+
+            if (locationResult != null)
             {
-                if (locationResult.ParsingResult == true)
+                if (locationResult.IsSuccessStatusCode)
                 {
-                    ServiceResult = new ServiceResult()
+                    if (locationResult.ParsingResult == true)
                     {
-                        Text = $"No matching locations found for '{queryText}'.",
-                        Type = ServiceResultType.Information
-                    };
+                        ServiceResult = new ServiceResult()
+                        {
+                            Text = $"No matching locations found for '{queryText}'.",
+                            Type = ServiceResultType.Information
+                        };
+                    }
+                    else
+                    {
+                        ServiceResult = new ServiceResult()
+                        {
+                            Text = $"There was an error handling the result for '{queryText}'; please try again later.",
+                            Type = ServiceResultType.Error
+                        };
+                    }
                 }
                 else
                 {
                     ServiceResult = new ServiceResult()
                     {
-                        Text = $"There was an error handling the result for '{queryText}'; please try again later.",
+                        Text = $"There was an error handling the search for '{queryText}';\n Status: {locationResult.StatusCode}, Reason: {locationResult.ReasonPhrase}",
                         Type = ServiceResultType.Error
                     };
                 }
             }
             else
             {
-
                 ServiceResult = new ServiceResult()
                 {
-                    Text = $"There was an error handling the search for '{queryText}';\n Status: {locationResult.StatusCode}, Reason: {locationResult.ReasonPhrase}",
+                    Text = $"A application error has occurred while querying the server.",
                     Type = ServiceResultType.Error
                 };
             }
         }
 
         SearchInProgress = false;
-
-        if (Location == null || Forecast == null)
-        {
-            DailyForecastCollection.Clear();
-        }
 
         HasOtherResult = ServiceResult != null;
     }

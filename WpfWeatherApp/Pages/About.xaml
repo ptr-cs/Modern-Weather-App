@@ -17,15 +17,15 @@
     <Page.Style>
         <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" />
     </Page.Style>
-    <Grid VerticalAlignment="Center">
+    <Grid VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="AUto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center" Opacity=".8">
+        <StackPanel VerticalAlignment="Center">
             <TextBlock Text="About" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
                    FontSize="64" FontFamily="Calibri"/>
-            <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".8"/>
         </StackPanel>
 
         <ScrollViewer Opacity=".7" Margin="8,32,8,16" Padding="8,0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">

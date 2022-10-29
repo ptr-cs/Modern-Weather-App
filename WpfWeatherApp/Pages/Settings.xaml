@@ -37,6 +37,7 @@
                 FontWeight="SemiBold" 
                 Padding="8,0"
                 MinHeight="48"
+                MaxLength="64"
                 x:Name="apiKeyPasswordBox"
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
