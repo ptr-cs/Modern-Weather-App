@@ -79,7 +79,8 @@
     </Style>-->
 
     <Style x:Key="SmallBorderTileStyle" TargetType="{x:Type Border}">
-        <Setter Property="Height" Value="128" />
+        <Setter Property="MinHeight" Value="64" />
+        <Setter Property="Height" Value="Auto"/>
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="TextElement.FontSize" Value="14" />
