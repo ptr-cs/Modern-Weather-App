@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         Padding="0"
         x:Name="weatherApp"
-        Title="Zeno Weather App" Height="550" Width="850">
+        Title="Zeno Weather App" Height="560" Width="890">
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <converters:AppPageToSelectedIndexConverter x:Key="AppPageToSelectedIndexConverter" />

@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:ZenoWeatherApp.Pages"
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:viewModel="clr-namespace:ZenoWeatherApp.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Settings">
@@ -52,12 +53,31 @@
         </StackPanel>
         <WrapPanel Margin="8" HorizontalAlignment="Left">
             <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Units: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
+                <UniformGrid Columns="1" Rows="2">
+                    <UniformGrid.Resources>
+                        <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MahApps.Styles.RadioButton.Win10}">
+                            <Setter Property="TextElement.FontSize" Value="16" />
+                            <Setter Property="Command" Value="{Binding WeatherViewModel.SetUnits, Mode=OneWay}" />
+                        </Style>
+                    </UniformGrid.Resources>
+                    <RadioButton Content="Imperial" 
+                                 CommandParameter="{x:Static viewModel:UnitType.Imperial}" 
+                                 IsChecked="{Binding WeatherViewModel.Units, Mode=OneWay, Converter={StaticResource UnitTypeEqualityComparison}, ConverterParameter={x:Static viewModel:UnitType.Imperial}}"/>
+                    <RadioButton Content="Metric" 
+                                 CommandParameter="{x:Static viewModel:UnitType.Metric}" 
+                                 IsChecked="{Binding WeatherViewModel.Units, Mode=OneWay, Converter={StaticResource UnitTypeEqualityComparison}, ConverterParameter={x:Static viewModel:UnitType.Metric}}"/>
+                </UniformGrid>
+            </StackPanel>
+        </WrapPanel>
+        <WrapPanel Margin="8" HorizontalAlignment="Left">
+            <StackPanel Margin="0,0,8,0">
                 <TextBlock Text="Theme: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
                 <ComboBox 
                     x:Name="AppThemeComboBox"
                     VerticalContentAlignment="Center" 
                     FontSize="15" 
-                    Width="128"
+                    MaxWidth="128"
                     FontWeight="SemiBold" 
                     Padding="8,0"
                     MinHeight="48"
@@ -69,7 +89,7 @@
                 <TextBlock Text="Accent: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
                 <ComboBox 
                     x:Name="AccentColorComboBox"
-                    Width="128"
+                    MaxWidth="128"
                     VerticalContentAlignment="Center" 
                     FontSize="15" 
                     FontWeight="SemiBold" 

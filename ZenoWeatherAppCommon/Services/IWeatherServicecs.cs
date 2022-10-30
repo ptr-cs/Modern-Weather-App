@@ -11,6 +11,6 @@ namespace ZenoWeatherApp.Services;
 public interface IWeatherService
 {
     public Task<LocationResult> GetLocationAsync(string query, string apiKey);
-    public Task<Forecast?> GetForecastAsync(string locationKey, string apiKey);
+    public Task<Forecast?> GetForecastAsync(string locationKey, string apiKey, bool metric = false);
     public Task<CurrentConditions?> GetCurrentConditionsAsync(string locationKey, string apiKey);
 }

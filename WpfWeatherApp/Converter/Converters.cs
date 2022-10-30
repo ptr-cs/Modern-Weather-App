@@ -147,3 +147,23 @@ public class AccuWeatherIconToWeatherIconConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+[ValueConversion(typeof(UnitType), typeof(bool))]
+public class UnitTypeEqualityComparison : IValueConverter
+{
+    /// <summary>
+    /// Returns true if an object is null; false if otherwise.
+    /// </summary>
+    /// <returns></returns>
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        UnitType type = (UnitType)value;
+        UnitType param = (UnitType)parameter;
+        return type == param;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

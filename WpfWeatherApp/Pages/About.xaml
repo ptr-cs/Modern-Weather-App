@@ -15,25 +15,44 @@
         </ResourceDictionary>
     </Page.Resources>
     <Page.Style>
-        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" />
-    </Page.Style>
-    <Grid VerticalAlignment="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="AUto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="About" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
-                   FontSize="64" FontFamily="Calibri"/>
-            <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".8"/>
-        </StackPanel>
+        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" >
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush Opacity=".3" ColorInterpolationMode="ScRgbLinearInterpolation" EndPoint="1,0" StartPoint="1,1">
+                        <GradientStop Offset=".0" Color="#00000000"/>
 
-        <ScrollViewer Opacity=".7" Margin="8,32,8,16" Padding="8,0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <TextBlock MaxWidth="800"
+                        <GradientStop Offset=".75" Color="{StaticResource MahApps.Colors.Accent}" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="About" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                   FontSize="64" FontFamily="Calibri"/>
+                <Border Background="{DynamicResource MahApps.Brushes.AccentBase}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32" CornerRadius="96">
+                    <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96"  Opacity=".8" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+                </Border>
+            </StackPanel>
+
+            <ScrollViewer Opacity=".7" Margin="8,32,8,16" Padding="8,0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <TextBlock MaxWidth="800"
                        Text="       Weather app implemented using Windows Presentation Foundation (WPF) and the MahApps Metro UI library. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub." HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
                        TextWrapping="Wrap"
                        FontWeight="Normal"
                    FontSize="20"/>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
+        <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Margin="8" Text="v.1.0.0" FontSize="16" Opacity=".8"/>
     </Grid>
 </Page>

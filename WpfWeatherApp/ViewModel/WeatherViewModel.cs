@@ -20,6 +20,12 @@ public enum ServiceResultType
     Error = 2
 }
 
+public enum UnitType
+{
+    Imperial = 0,
+    Metric = 1
+}
+
 public class ServiceResult
 {
     public string Text
@@ -63,6 +69,13 @@ public class WeatherViewModel : BaseViewModel
         set => SetProperty(ref serviceResult, value);
     }
 
+    private UnitType units;
+    public UnitType Units
+    {
+        get => units;
+        set => SetProperty(ref units, value);
+    }
+
     private bool hasOtherResult;
     public bool HasOtherResult
     {
@@ -97,6 +110,30 @@ public class WeatherViewModel : BaseViewModel
         set => SetProperty(ref normalizedMaximumTemp, value);
     }
 
+    /// <summary>
+    /// Normalized max precipitation value is for showing relative bar chart range
+    /// in the current conditions summary
+    /// </summary>
+
+    //private ObservableCollection<int> precipSummaryList = new ObservableCollection<int>();
+    //public ObservableCollection<int> PrecipSummaryList
+    //{
+    //    get => precipSummaryList;
+    //    set => SetProperty(ref precipSummaryList, value);
+    //}
+    ////public CollectionViewSource PrecipSummaryListCollectionViewSource { get; set; } = new CollectionViewSource();
+    ////public ICollectionView PrecipSummaryListCollectionView
+    ////{
+    ////    get; set;
+    ////}
+
+    //private int normalizedMaximumPrecip = 1;
+    //public int NormalizedMaximumPrecip
+    //{
+    //    get => normalizedMaximumPrecip;
+    //    set => SetProperty(ref normalizedMaximumPrecip, value);
+    //}
+
     private bool searchInProgress = false;
     public bool SearchInProgress
     {
@@ -121,6 +158,11 @@ public class WeatherViewModel : BaseViewModel
         get; set;
     }
 
+    public ICommand SetUnits
+    {
+        get; set;
+    }
+
     public async Task<LocationResult> QueryLocationAsync(string query, string apiKey)
     {
         var weatherService = App.GetService<IWeatherService>();
@@ -136,15 +178,32 @@ public class WeatherViewModel : BaseViewModel
     public async Task<Forecast?> QueryForecastAsync(string locationKey, string apiKey)
     {
         var weatherService = App.GetService<IWeatherService>();
-        return await weatherService.GetForecastAsync(locationKey, apiKey);
+        return await weatherService.GetForecastAsync(locationKey, apiKey, (Units == UnitType.Metric) ? true : false);
     }
 
     public WeatherViewModel()
     {
         GetForecast = new DelegateCommand(OnGetForecastAsync, null);
+        SetUnits = new DelegateCommand(OnSetUnits, null);
 
         DailyForecastCollectionViewSource.Source = DailyForecastCollection;
         DailyForecastCollectionView = new CollectionView(DailyForecastCollectionViewSource.View);
+
+        //PrecipSummaryListCollectionViewSource.Source = PrecipSummaryList;
+        //PrecipSummaryListCollectionView = new CollectionView(PrecipSummaryListCollectionViewSource.View);
+    }
+
+    private void OnSetUnits(object? units)
+    {
+        if (units == null || units is not UnitType)
+            return;
+
+        var newUnits = (UnitType)units;
+
+        if (newUnits == Units)
+            return;
+
+        Units = newUnits;
     }
 
     private void ResetWeatherResults()
@@ -154,6 +213,47 @@ public class WeatherViewModel : BaseViewModel
         DailyForecastCollection.Clear();
         CurrentConditions = null;
     }
+
+   // private void RefreshPrecipitationValues()
+   // {
+   //     var temp = new List<double>();
+   //     var max = 0;
+   //     switch (Units)
+   //     {
+   //         case UnitType.Imperial:
+   //             temp = new List<double>() {
+   //                             CurrentConditions.PrecipitationSummary.PastHour.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past3Hours.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past6Hours.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past9Hours.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past12Hours.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past18Hours.Imperial.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past24Hours.Imperial.Value,
+   //                         };
+
+   //             max = (int)Math.Ceiling(temp.Max(x => x));
+   //             break;
+   //         case UnitType.Metric:
+   //             temp = new List<double>() {
+   //                             CurrentConditions.PrecipitationSummary.PastHour.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past3Hours.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past6Hours.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past9Hours.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past12Hours.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past18Hours.Metric.Value,
+   //                             CurrentConditions.PrecipitationSummary.Past24Hours.Metric.Value,
+   //                         };
+
+   //             max = (int)Math.Ceiling(temp.Max(x => x));
+   //             if (CurrentConditions.PrecipitationSummary.PastHour.Metric.Unit == "mm")
+   //                 max /= 10;
+   //             break;
+   //     }
+   //     NormalizedMaximumPrecip = (max == 0) ? 1 : max;
+   //     PrecipSummaryList.Clear();
+   //     for (int i = 0; i < NormalizedMaximumPrecip; ++i)
+   //         PrecipSummaryList.Add(i);
+   //}
 
     private async void OnGetForecastAsync(object? obj)
     {

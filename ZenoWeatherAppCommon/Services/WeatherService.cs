@@ -44,11 +44,11 @@ public class WeatherService : IWeatherService
         return new CurrentConditions();
     }
 
-    public async Task <Forecast?> GetForecastAsync(string locationKey, string apiKey) 
+    public async Task <Forecast?> GetForecastAsync(string locationKey, string apiKey, bool metric = false) 
     {
         HttpClient client = new HttpClient();
         HttpResponseMessage response =
-            await client.GetAsync($"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{locationKey}?apikey={apiKey}");     
+            await client.GetAsync($"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{locationKey}?apikey={apiKey}&metric={metric}");     
         if (response.IsSuccessStatusCode)
         {
             Debug.WriteLine(response);
