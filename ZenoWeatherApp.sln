@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherApp", "WpfWeathe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherAppTests", "ZenoWeatherAppTests\ZenoWeatherAppTests.csproj", "{8B09B8FC-889E-4948-A3C0-34192ED0AD65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenoWeatherAppCommon", "ZenoWeatherAppCommon\ZenoWeatherAppCommon.csproj", "{7B964676-15F6-40FB-9B69-C77928A8667D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherAppCommon", "ZenoWeatherAppCommon\ZenoWeatherAppCommon.csproj", "{7B964676-15F6-40FB-9B69-C77928A8667D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenoWeatherAppData", "ZenoWeatherAppData\ZenoWeatherAppData.csproj", "{DF3F4D05-30EA-4033-8927-C76D02E38418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenoWeatherAppDataNet6", "ZenoWeatherAppDataNet6\ZenoWeatherAppDataNet6.csproj", "{7212F63B-54F0-4F6D-8073-E986A5D9A4A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DF3F4D05-30EA-4033-8927-C76D02E38418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF3F4D05-30EA-4033-8927-C76D02E38418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF3F4D05-30EA-4033-8927-C76D02E38418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7212F63B-54F0-4F6D-8073-E986A5D9A4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7212F63B-54F0-4F6D-8073-E986A5D9A4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7212F63B-54F0-4F6D-8073-E986A5D9A4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7212F63B-54F0-4F6D-8073-E986A5D9A4A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
