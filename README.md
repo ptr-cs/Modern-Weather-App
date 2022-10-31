@@ -1,4 +1,7 @@
 # Zeno Weather App
+
+![weather-app-mockup](https://user-images.githubusercontent.com/112029487/198957729-cae2744c-0b12-47c9-aef1-2df051bc3bca.png)
+
 API-enabled WPF weather app using MahApps Metro and the Accuweather API. Support for light/dark modes and custom accent colors. Testing ongoing with nUnit. Prototyped with Adobe XD.
 
 ![WPF-weather-appThumbv3](https://user-images.githubusercontent.com/112029487/198901489-b205c205-a96e-4500-9846-81d852e94cca.png)
