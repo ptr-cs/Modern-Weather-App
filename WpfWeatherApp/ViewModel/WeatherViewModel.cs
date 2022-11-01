@@ -257,8 +257,9 @@ public class WeatherViewModel : BaseViewModel
 
     private async void OnGetForecastAsync(object? obj)
     {
-        var apiKey = MainWindow.MainViewModel.ApiKey;
-        var queryText = MainWindow.MainViewModel.LocationSearchText;
+        var mainViewModel = App.GetService<MainViewModel>();
+        var apiKey = mainViewModel.ApiKey;
+        var queryText = mainViewModel.LocationSearchText;
         ServiceResult = null;
 
         if (string.IsNullOrEmpty(queryText) || string.IsNullOrEmpty(apiKey))

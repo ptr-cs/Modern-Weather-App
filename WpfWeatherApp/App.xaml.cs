@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ZenoWeatherApp.Model;
 using ZenoWeatherApp.Services;
+using ZenoWeatherApp.ViewModel;
 
 namespace WpfWeatherApp;
 /// <summary>
@@ -38,7 +39,7 @@ public partial class App : Application
         return service;
     }
 
-    public App()
+    public App(bool mockServices = false)
     {
         InitializeComponent();
 
@@ -51,11 +52,13 @@ public partial class App : Application
             // services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
             // Core Services
-            services.AddSingleton<IWeatherService, WeatherService>();
-
-            // Views and ViewModels
-            //services.AddTransient<SettingsViewModel>();
-            //services.AddTransient<MainViewModel>();
+            if (!mockServices)
+                services.AddSingleton<IWeatherService, WeatherService>();
+            //else
+            //    services.AddSingleton<IWeatherService, MockWeatherService>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<NavigationViewModel>();
+            services.AddSingleton<WeatherViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

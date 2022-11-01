@@ -23,7 +23,7 @@ namespace WpfWeatherApp;
 /// </summary>
 public partial class MainWindow : MetroWindow
 {
-    public static MainViewModel MainViewModel
+    public NavigationViewModel ViewModel
     {
         get; set;
     }
@@ -32,12 +32,13 @@ public partial class MainWindow : MetroWindow
     {
         InitializeComponent();
 
-        MainViewModel = new MainViewModel(new NavigationViewModel(mainNavigationFrame), new WeatherViewModel()); 
-        DataContext = MainViewModel;
+        ViewModel = App.GetService<NavigationViewModel>();
+        ViewModel.MainNavigationFrame = mainNavigationFrame;
+        DataContext = ViewModel;
     }
 
     private void MainNavigationFrame_Navigated(object sender, NavigationEventArgs e)
     {
-        ((FrameworkElement)e.Content).DataContext = MainViewModel;
+        // ((FrameworkElement)e.Content).DataContext = ViewModel;
     }
 }

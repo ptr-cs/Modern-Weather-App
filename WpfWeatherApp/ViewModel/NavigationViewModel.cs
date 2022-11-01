@@ -26,8 +26,8 @@ public class NavigationViewModel : BaseViewModel
         set => SetProperty(ref currentPage, value);
     }
 
-    private Frame mainNavigationFrame;
-    public Frame MainNavigationFrame
+    private Frame? mainNavigationFrame;
+    public Frame? MainNavigationFrame
     {
         get => mainNavigationFrame;
         set => SetProperty(ref mainNavigationFrame, value);
@@ -51,15 +51,15 @@ public class NavigationViewModel : BaseViewModel
 
         if (CurrentPage == AppPage.Weather)
         {
-            MainNavigationFrame.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/Weather.xaml", UriKind.RelativeOrAbsolute));
+            MainNavigationFrame?.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/Weather.xaml", UriKind.RelativeOrAbsolute));
         }
         else if (CurrentPage == AppPage.Settings)
         {
-            MainNavigationFrame.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/Settings.xaml", UriKind.RelativeOrAbsolute));
+            MainNavigationFrame?.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/Settings.xaml", UriKind.RelativeOrAbsolute));
         }
         else if (CurrentPage == AppPage.About)
         {
-            MainNavigationFrame.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/About.xaml", UriKind.RelativeOrAbsolute));
+            MainNavigationFrame?.Navigate(new Uri("pack://application:,,,/ZenoWeatherApp;component/Pages/About.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 
@@ -93,10 +93,9 @@ public class NavigationViewModel : BaseViewModel
         }
     }
 
-    public NavigationViewModel(Frame f)
+    public NavigationViewModel()
     {
         NavigateToPage = new DelegateCommand(OnNavigateToPage, null);
         NavigateToSite = new DelegateCommand(OnNavigateToSiteAsync, null);
-        MainNavigationFrame = f;
     }
 }

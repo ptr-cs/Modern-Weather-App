@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using WpfWeatherApp;
+using ZenoWeatherApp.Services;
 using ZenoWeatherApp.ViewModel;
 
 namespace ZenoWeatherAppTests;
@@ -5,24 +8,56 @@ namespace ZenoWeatherAppTests;
 [TestFixture]
 public class NavigationTests
 {
-    NavigationViewModel navigationViewModel;
-    
+    App app = new(true);
+
     [SetUp]
     public void Setup()
     {
-        navigationViewModel = new NavigationViewModel(new System.Windows.Controls.Frame());
     }
 
     [Test]
-    public void NavigateToPage()
+    public void NavigateToPage([Values] AppPage appPage)
     {
-        navigationViewModel.NavigateToPage.Execute(AppPage.Settings);
-        Assert.That(navigationViewModel.CurrentPage, Is.EqualTo(AppPage.Settings));
+        var navigationViewModel = App.GetService<NavigationViewModel>();
+        navigationViewModel.NavigateToPage.Execute(appPage);
+        Assert.That(navigationViewModel.CurrentPage, Is.EqualTo(appPage));
+    }
 
-        navigationViewModel.NavigateToPage.Execute(AppPage.Weather);
-        Assert.That(navigationViewModel.CurrentPage, Is.Not.EqualTo(AppPage.Settings));
+    [Test]
+    public void SearchPreventedWithoutAPI()
+    {
+        var mainViewModel = App.GetService<MainViewModel>();
+        var weatherViewModel = App.GetService<WeatherViewModel>();
+        mainViewModel.ApiKey = "";
+        weatherViewModel.GetForecast.Execute(null);
+        Assert.That(weatherViewModel.Location, Is.Null);
+    }
 
-        navigationViewModel.NavigateToPage.Execute(null);
-        Assert.That(navigationViewModel.CurrentPage, Is.EqualTo(AppPage.Weather));
+    [Test]
+    public void SearchPreventedWithoutQuery()
+    {
+        var mainViewModel = App.GetService<MainViewModel>();
+        var weatherViewModel = App.GetService<WeatherViewModel>();
+        mainViewModel.ApiKey = "apiKey";
+        mainViewModel.LocationSearchText = "";
+        weatherViewModel.GetForecast.Execute(null);
+        Assert.That(weatherViewModel.Location, Is.Null);
+    }
+
+    [Test]
+    public void UnitsChangeSucceeds([Values] UnitType unitType)
+    {
+        var weatherViewModel = App.GetService<WeatherViewModel>();
+        weatherViewModel.SetUnits.Execute(unitType);
+        Assert.That(weatherViewModel.Units, Is.EqualTo(unitType));
+    }
+
+    [Test]
+    public void ThemeChangeSucceeds()
+    {
+        var mainViewModel = App.GetService<MainViewModel>();
+        AccentColorMenuData? acmd = mainViewModel.AccentColorCollection.Where(x => x.Name == "Yellow").FirstOrDefault();
+        acmd.ChangeAccentCommand.Execute(acmd.Name);
+        Assert.That(mainViewModel.AccentColorCollectionView.CurrentItem, Is.EqualTo(acmd));
     }
 }

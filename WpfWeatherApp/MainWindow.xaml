@@ -107,7 +107,7 @@
                                IsPaneOpen="{Binding IsHamburgerMenuPaneOpen}"
                                ItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
                                OptionsItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
-                               SelectedIndex="{Binding NavigationViewModel.CurrentPage, Mode=OneWay, Converter={StaticResource AppPageToSelectedIndexConverter}}"
+                               SelectedIndex="{Binding CurrentPage, Mode=OneWay, Converter={StaticResource AppPageToSelectedIndexConverter}}"
                                VerticalScrollBarOnLeftSide="False">
                 <!--  Header  -->
                 <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
@@ -125,7 +125,7 @@
                         <mah:HamburgerMenuIconItem IsVisible="False" />
                         <mah:HamburgerMenuIconItem 
                             Label="Forecast" 
-                            Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
+                            Command="{Binding NavigateToPage, Mode=OneWay}"
                             CommandParameter="{x:Static viewModel:AppPage.Weather}">
                             <mah:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconFontAwesome 
@@ -138,7 +138,7 @@
                         </mah:HamburgerMenuIconItem>
                         <mah:HamburgerMenuIconItem 
                             Label="Settings"
-                            Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
+                            Command="{Binding NavigateToPage, Mode=OneWay}"
                             CommandParameter="{x:Static viewModel:AppPage.Settings}">
                             <mah:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconMaterial Width="22"
@@ -150,7 +150,7 @@
                         </mah:HamburgerMenuIconItem>
                         <mah:HamburgerMenuIconItem 
                             Label="About"
-                            Command="{Binding NavigationViewModel.NavigateToPage, Mode=OneWay}"
+                            Command="{Binding NavigateToPage, Mode=OneWay}"
                             CommandParameter="{x:Static viewModel:AppPage.About}">
                             <mah:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconMaterial Width="22"
@@ -170,7 +170,7 @@
                         <mah:HamburgerMenuIconItem
                             Label="GitHub"
                             ToolTip="Visit https://github.com/DivideByZeno/Zeno-Weather-App"
-                            Command="{Binding NavigationViewModel.NavigateToSite, Mode=OneWay}"
+                            Command="{Binding NavigateToSite, Mode=OneWay}"
                             CommandParameter="https://github.com/DivideByZeno/Zeno-Weather-App">
                             <mah:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconModern 

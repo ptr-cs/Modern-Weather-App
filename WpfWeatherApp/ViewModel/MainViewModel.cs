@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using ZenoWeatherApp.ViewModel;
 using WpfWeatherApp;
+using System.Diagnostics;
 
 namespace ZenoWeatherApp.ViewModel;
 
@@ -61,10 +62,10 @@ public class MainViewModel : BaseViewModel
         get; set;
     }
 
-    public MainViewModel(NavigationViewModel navigationViewModel, WeatherViewModel weatherViewModel)
+    public MainViewModel()
     {
-        NavigationViewModel = navigationViewModel;
-        WeatherViewModel = weatherViewModel;
+        NavigationViewModel = App.GetService<NavigationViewModel>();
+        WeatherViewModel = App.GetService<WeatherViewModel>();
 
         // create accent color menu items for the demo
         this.AccentColorCollection = new ObservableCollection<AccentColorMenuData>(ThemeManager.Current.Themes
@@ -86,6 +87,16 @@ public class MainViewModel : BaseViewModel
 
         AppThemeCollectionViewSource.Source = AppThemeCollection;
         AppThemeCollectionView = new CollectionView(AppThemeCollectionViewSource.View);
+
+        ThemeManager.Current.ThemeChanged += Current_ThemeChanged;
+    }
+
+    private void Current_ThemeChanged(object? sender, ThemeChangedEventArgs e)
+    {
+        foreach (var x in AccentColorCollection)
+            Debug.WriteLine($"{x.Name} vs. {e.NewTheme.ColorScheme} ? {x.Name == e.NewTheme.ColorScheme}");
+        AccentColorCollectionView.MoveCurrentTo(AccentColorCollection.Where(x => x.Name == e.NewTheme.ColorScheme).First());
+        AppThemeCollectionView.MoveCurrentTo(AppThemeCollection.Where(x => x.Name == e.NewTheme.BaseColorScheme).First());
     }
 }
 
@@ -121,8 +132,6 @@ public class AccentColorMenuData
         if (name is not null && name is string)
         {
             ThemeManager.Current.ChangeThemeColorScheme(Application.Current, (string)name);
-            MainWindow.MainViewModel.AccentColorCollectionView.MoveCurrentTo(
-                MainWindow.MainViewModel.AccentColorCollection.Where(x => x.Name == (string)name));
         }
     }
 }
@@ -134,8 +143,6 @@ public class AppThemeMenuData : AccentColorMenuData
         if (name is not null && name is string)
         {
             ThemeManager.Current.ChangeThemeBaseColor(Application.Current, (string)name);
-            MainWindow.MainViewModel.AppThemeCollectionView.MoveCurrentTo(
-                MainWindow.MainViewModel.AppThemeCollection.Where(x => x.Name == (string)name));
         }
     }
 }

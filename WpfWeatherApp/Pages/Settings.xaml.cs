@@ -23,12 +23,18 @@ public partial class Settings : Page
 {
     public bool passwordBoxFocus = false;
     public int focusCounter = 0;
+    public MainViewModel ViewModel
+    {
+        get; set;
+    }
 
     public Settings()
     {
         InitializeComponent();
+        ViewModel = App.GetService<MainViewModel>();
+        DataContext = ViewModel;
 
-        apiKeyPasswordBox.Password = MainWindow.MainViewModel.ApiKey;
+        apiKeyPasswordBox.Password = ViewModel.ApiKey;
         focusCounter = 0;
     }
 
@@ -42,8 +48,8 @@ public partial class Settings : Page
         if (item != null)
         {
             item.ChangeAccentCommand.Execute(item.Name);
-            //MainWindow.MainViewModel.AccentColorCollectionView.MoveCurrentTo(
-            //    MainWindow.MainViewModel.AccentColorCollection.Where(x => x.Name == item.Name));
+            //ViewModel.AccentColorCollectionView.MoveCurrentTo(
+            //    ViewModel.AccentColorCollection.Where(x => x.Name == item.Name));
         }
     }
 
@@ -57,15 +63,15 @@ public partial class Settings : Page
         if (item != null)
         {
             item.ChangeAccentCommand.Execute(item.Name);
-            //MainWindow.MainViewModel.AppThemeCollectionView.MoveCurrentTo(
-            //        MainWindow.MainViewModel.AppThemeCollection.Where(x => x.Name == item.Name));
+            //ViewModel.AppThemeCollectionView.MoveCurrentTo(
+            //    ViewModel.AppThemeCollection.Where(x => x.Name == item.Name));
         }
     }
 
     private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
         if (passwordBoxFocus)
-            MainWindow.MainViewModel.ApiKey = apiKeyPasswordBox.Password;
+            ViewModel.ApiKey = apiKeyPasswordBox.Password;
     }
 
     private void apiKeyPasswordBox_GotFocus(object sender, RoutedEventArgs e)
