@@ -41,8 +41,6 @@ public partial class App : Application
 
     public App(bool mockServices = false)
     {
-        InitializeComponent();
-
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
         UseContentRoot(AppContext.BaseDirectory).
