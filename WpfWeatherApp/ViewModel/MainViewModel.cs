@@ -9,6 +9,12 @@ using System.Windows.Data;
 using ZenoWeatherApp.ViewModel;
 using WpfWeatherApp;
 using System.Diagnostics;
+using System;
+using ZenoWeatherApp.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace ZenoWeatherApp.ViewModel;
 
@@ -49,7 +55,43 @@ public class MainViewModel : BaseViewModel
     public string ApiKey
     {
         get => apiKey;
-        set => SetProperty(ref apiKey, value);
+        set
+        {
+            SetProperty(ref apiKey, value);
+            if (string.IsNullOrEmpty(value))
+            {
+                WeatherViewModel.ResetWeatherResults();
+            }
+        }
+    }
+
+    private bool demoMode = false;
+    public bool DemoMode
+    {
+        get => demoMode;
+        set => SetProperty(ref demoMode, value);
+    }
+
+    private ObservableCollection<string> dataProviderCollection = new() { "AccuWeather", "Demo Mode" };
+    public ObservableCollection<string> DataProviderCollection
+    {
+        get => dataProviderCollection;
+        set => SetProperty(ref dataProviderCollection, value);
+    }
+    public CollectionViewSource DataProviderCollectionViewSource { get; set; } = new CollectionViewSource();
+    public ICollectionView DataProviderCollectionView
+    {
+        get; set;
+    }
+
+    public ICommand SetDemoMode
+    {
+        get; set;
+    }
+
+    public ICommand TestClear
+    {
+        get; set;
     }
 
     public NavigationViewModel NavigationViewModel
@@ -88,13 +130,44 @@ public class MainViewModel : BaseViewModel
         AppThemeCollectionViewSource.Source = AppThemeCollection;
         AppThemeCollectionView = new CollectionView(AppThemeCollectionViewSource.View);
 
+        DataProviderCollectionViewSource.Source = DataProviderCollection;
+        DataProviderCollectionView = new CollectionView(DataProviderCollectionViewSource.View);
+
+        SetDemoMode = new DelegateCommand(OnSetDemoMode, null);
+        TestClear = new DelegateCommand(OnTestClear, null);
+
         ThemeManager.Current.ThemeChanged += Current_ThemeChanged;
+    }
+
+    private void OnTestClear(object? obj)
+    {
+        ApiKey = "";
+    }
+
+    private void OnSetDemoMode(object? boolean)
+    {
+        if (boolean is not bool)
+            return;
+
+        DemoMode = (bool)boolean;
+
+        switch (DemoMode)
+        {
+            case true:
+                ApiKey = "Demo API Key";
+                DataProviderCollectionView.MoveCurrentTo(DataProviderCollection.Where(x => x != "AccuWeather").First());
+                break;
+            case false:
+                ApiKey = "";
+                DataProviderCollectionView.MoveCurrentTo(DataProviderCollection.Where(x => x == "AccuWeather").First());
+                break;
+        }
     }
 
     private void Current_ThemeChanged(object? sender, ThemeChangedEventArgs e)
     {
-        foreach (var x in AccentColorCollection)
-            Debug.WriteLine($"{x.Name} vs. {e.NewTheme.ColorScheme} ? {x.Name == e.NewTheme.ColorScheme}");
+        //foreach (var x in AccentColorCollection)
+        //    Debug.WriteLine($"{x.Name} vs. {e.NewTheme.ColorScheme} ? {x.Name == e.NewTheme.ColorScheme}");
         AccentColorCollectionView.MoveCurrentTo(AccentColorCollection.Where(x => x.Name == e.NewTheme.ColorScheme).First());
         AppThemeCollectionView.MoveCurrentTo(AppThemeCollection.Where(x => x.Name == e.NewTheme.BaseColorScheme).First());
     }

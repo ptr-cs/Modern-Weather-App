@@ -85,4 +85,10 @@ public partial class Settings : Page
     {
         passwordBoxFocus = false;
     }
+
+    private void DataProviderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        apiKeyPasswordBox.Password = ViewModel.ApiKey;
+        // focusCounter = 0;
+    }
 }

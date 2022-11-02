@@ -1,5 +1,6 @@
 ﻿<Page x:Class="ZenoWeatherApp.Pages.Settings"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:s="clr-namespace:System;assembly=mscorlib"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -15,65 +16,111 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/ZenoWeatherApp;component/Resources/Dictionary1.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" x:Key="settingLabel">
+                <Setter Property="Margin" Value="0,0,0,8" />
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
     <Page.Style>
-        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}" />
+        <Style TargetType="{x:Type Page}" BasedOn="{StaticResource pageStyle}">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeBackground}"/>
+        </Style>
     </Page.Style>
-    <StackPanel Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
-        <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
-            <TextBlock Text="API Provider: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
-            <ComboBox MaxWidth="200" MinHeight="48"
-                    VerticalContentAlignment="Center" FontSize="15" FontWeight="SemiBold" Padding="8,0"
-                mah:TextBoxHelper.Watermark="Please select an item..."
-                SelectedIndex="0">
-                <ComboBoxItem Content="AccuWeather" />
-            </ComboBox>
-        </StackPanel>
-        <StackPanel Margin="8" HorizontalAlignment="Left">
-            <TextBlock Text="API Key: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
-            <PasswordBox
-                VerticalContentAlignment="Center" 
-                FontSize="15" 
-                FontWeight="SemiBold" 
-                Padding="8,0"
-                MinHeight="48"
-                MaxLength="64"
-                x:Name="apiKeyPasswordBox"
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                    mah:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(mah:TextBoxHelper.HasText), Mode=OneWay}"
-                    mah:TextBoxHelper.UseFloatingWatermark="False"
-                    mah:TextBoxHelper.Watermark="API Key" 
-                GotFocus="apiKeyPasswordBox_GotFocus"
-                LostFocus="apiKeyPasswordBox_LostFocus"
-                PasswordChanged="PasswordBox_PasswordChanged"
-                Style="{DynamicResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
-        </StackPanel>
-        <WrapPanel Margin="8" HorizontalAlignment="Left">
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="Units: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
-                <UniformGrid Columns="1" Rows="2">
-                    <UniformGrid.Resources>
-                        <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MahApps.Styles.RadioButton.Win10}">
-                            <Setter Property="TextElement.FontSize" Value="16" />
-                            <Setter Property="Command" Value="{Binding WeatherViewModel.SetUnits, Mode=OneWay}" />
-                        </Style>
-                    </UniformGrid.Resources>
-                    <RadioButton Content="Imperial" 
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Visible">
+        <StackPanel>
+            <StackPanel>
+                <WrapPanel Orientation="Horizontal" Margin="8,8,8,0">
+                    <TextBlock Text="Demo Mode:  " Style="{StaticResource settingLabel}" VerticalAlignment="Bottom"/>
+                    <mah:ToggleSwitch MinWidth="0" Margin="0,0,8,0" IsOn="{Binding DemoMode, Mode=OneWay}"
+                                  OnCommand="{Binding SetDemoMode, Mode=OneWay}"
+                                  OffCommand="{Binding SetDemoMode, Mode=OneWay}">
+                        <mah:ToggleSwitch.Style>
+                            <Style TargetType="{x:Type mah:ToggleSwitch}">
+                                <Setter Property="CommandParameter">
+                                    <Setter.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DemoMode, Mode=OneWay}" Value="True">
+                                        <Setter Property="CommandParameter">
+                                            <Setter.Value>
+                                                <s:Boolean>False</s:Boolean>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </mah:ToggleSwitch.Style>
+                    </mah:ToggleSwitch>
+                    <iconPacks:PackIconFontAwesome Kind="QuestionCircleSolid" VerticalAlignment="Center" Opacity=".5" ToolTip="Demo Mode will return randomized weather results for location searches - no API key needed."/>
+                </WrapPanel>
+                <StackPanel>
+                    <StackPanel Margin="8" MaxWidth="320" HorizontalAlignment="Left">
+                        <TextBlock Text="Data Provider: " Style="{StaticResource settingLabel}"/>
+                        <ComboBox 
+                        IsEnabled="False"
+                        MaxWidth="200" 
+                        MinHeight="48"
+                        VerticalContentAlignment="Center" 
+                        FontSize="15" 
+                        FontWeight="SemiBold" 
+                        Padding="8,0"
+                        x:Name="DataProviderComboBox"
+                        SelectionChanged="DataProviderComboBox_SelectionChanged"
+                        ItemsSource="{Binding DataProviderCollectionView, Mode=OneWay}"/>
+                    </StackPanel>
+                    <StackPanel Margin="8" HorizontalAlignment="Left">
+                        <TextBlock Text="API Key: " Style="{StaticResource settingLabel}"/>
+                        <PasswordBox
+                        VerticalContentAlignment="Center" 
+                        FontSize="15" 
+                        FontWeight="SemiBold" 
+                        Padding="8,0"
+                        MinHeight="48"
+                        MaxLength="64"
+                        mah:TextBoxHelper.ButtonCommand="{Binding TestClear, Mode=OneWay}"
+                        x:Name="apiKeyPasswordBox"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        mah:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(mah:TextBoxHelper.HasText), Mode=OneWay}"
+                        mah:TextBoxHelper.UseFloatingWatermark="False"
+                        mah:TextBoxHelper.Watermark="API Key" 
+                        GotFocus="apiKeyPasswordBox_GotFocus"
+                        LostFocus="apiKeyPasswordBox_LostFocus"
+                        PasswordChanged="PasswordBox_PasswordChanged"
+                        Style="{DynamicResource MahApps.Styles.PasswordBox.Button.Revealed}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <WrapPanel Margin="8" HorizontalAlignment="Left">
+                <StackPanel Margin="0,0,8,0">
+                    <TextBlock Text="Units: " Style="{StaticResource settingLabel}"/>
+                    <UniformGrid Columns="1" Rows="2">
+                        <UniformGrid.Resources>
+                            <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MahApps.Styles.RadioButton.Win10}">
+                                <Setter Property="TextElement.FontSize" Value="16" />
+                                <Setter Property="Command" Value="{Binding WeatherViewModel.SetUnits, Mode=OneWay}" />
+                            </Style>
+                        </UniformGrid.Resources>
+                        <RadioButton Content="Imperial" 
                                  CommandParameter="{x:Static viewModel:UnitType.Imperial}" 
                                  IsChecked="{Binding WeatherViewModel.Units, Mode=OneWay, Converter={StaticResource UnitTypeEqualityComparison}, ConverterParameter={x:Static viewModel:UnitType.Imperial}}"/>
-                    <RadioButton Content="Metric" 
+                        <RadioButton Content="Metric" 
                                  CommandParameter="{x:Static viewModel:UnitType.Metric}" 
                                  IsChecked="{Binding WeatherViewModel.Units, Mode=OneWay, Converter={StaticResource UnitTypeEqualityComparison}, ConverterParameter={x:Static viewModel:UnitType.Metric}}"/>
-                </UniformGrid>
-            </StackPanel>
-        </WrapPanel>
-        <WrapPanel Margin="8" HorizontalAlignment="Left">
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="Theme: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
-                <ComboBox 
+                    </UniformGrid>
+                </StackPanel>
+            </WrapPanel>
+            <WrapPanel Margin="8" HorizontalAlignment="Left">
+                <StackPanel Margin="0,0,8,0">
+                    <TextBlock Text="Theme: " Style="{StaticResource settingLabel}"/>
+                    <ComboBox 
                     x:Name="AppThemeComboBox"
                     VerticalContentAlignment="Center" 
                     FontSize="15" 
@@ -84,10 +131,10 @@
                     SelectionChanged="AppThemeComboBox_SelectionChanged"
                     ItemsSource="{Binding AppThemeCollection, Mode=OneWay}"
                     IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock Text="Accent: " Margin="0,0,0,8" FontWeight="SemiBold" FontSize="15"/>
-                <ComboBox 
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Accent: " Style="{StaticResource settingLabel}"/>
+                    <ComboBox 
                     x:Name="AccentColorComboBox"
                     MaxWidth="128"
                     VerticalContentAlignment="Center" 
@@ -98,7 +145,8 @@
                     SelectionChanged="AccentColorComboBox_SelectionChanged"
                     ItemsSource="{Binding AccentColorCollection, Mode=OneWay}" 
                     IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
-            </StackPanel>
-        </WrapPanel>
-    </StackPanel>
+                </StackPanel>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

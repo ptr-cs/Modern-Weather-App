@@ -28,31 +28,23 @@
         </Style>
     </Page.Style>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="AUto"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
+
+        <ScrollViewer Margin="0,0,0,32" Padding="8,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="About" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
                    FontSize="64" FontFamily="Calibri"/>
                 <Border Background="{DynamicResource MahApps.Brushes.AccentBase}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32" CornerRadius="96">
                     <iconPacks:PackIconWeatherIcons Kind="DayThunderstorm" Height="96" Width="96"  Opacity=".8" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
                 </Border>
-            </StackPanel>
-
-            <ScrollViewer Opacity=".7" Margin="8,32,8,16" Padding="8,0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <TextBlock MaxWidth="800"
+                           Margin="0,32,0,0"
+                           Opacity=".8"
                        Text="       Weather app implemented using Windows Presentation Foundation (WPF) and the MahApps Metro UI library. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub." HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" 
                        TextWrapping="Wrap"
                        FontWeight="Normal"
                    FontSize="20"/>
-            </ScrollViewer>
-        </Grid>
-        <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Margin="8" Text="v.1.0.0" FontSize="16" Opacity=".8"/>
+            </StackPanel>
+        </ScrollViewer>
+        <TextBlock Grid.Row="0" Margin="8" Text="v.1.0.0" FontSize="16" Opacity=".8" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

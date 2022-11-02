@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using ZenoWeatherApp.Model;
 using ZenoWeatherApp.Services;
@@ -39,28 +42,23 @@ public partial class App : Application
         return service;
     }
 
-    public App(bool mockServices = false)
+    public App()
     {
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
-        UseContentRoot(AppContext.BaseDirectory).
-        ConfigureServices((context, services) =>
+        UseContentRoot(AppContext.BaseDirectory).ConfigureServices((context, services) =>
         {
             // Default Activation Handler
             // services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
-            // Core Services
-            if (!mockServices)
-                services.AddSingleton<IWeatherService, WeatherService>();
-            //else
-            //    services.AddSingleton<IWeatherService, MockWeatherService>();
+            services.AddSingleton<WeatherService>();
+            services.AddSingleton<DemoWeatherService>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<NavigationViewModel>();
             services.AddSingleton<WeatherViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
-
         }).
         Build();
     }

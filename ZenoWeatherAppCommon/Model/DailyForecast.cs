@@ -3,43 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZenoWeatherApp.Model;
 
-public struct Temperature
+[Owned]
+public class Temperature
 {
     public double Value
     {
         get;set;
     }
 
-    public string Unit
+    public string? Unit
     {
         get;set;
     }
 }
 
-public struct Temperatures
+[Owned]
+public class Temperatures
 {
-    public Temperature Maximum
+    public int TemperaturesId
     {
         get; set;
     }
 
-    public Temperature Minimum
+    public Temperature? Maximum
+    {
+        get; set;
+    }
+
+    public Temperature? Minimum
     {
         get; set;
     }
 }
 
-public struct DailyForecastPortion
+[Owned]
+public class DailyForecastPortion
 {
     public int Icon
     {
         get;set;
     }
 
-    public string IconPhrase
+    public string? IconPhrase
     {
         get;set;
     }
@@ -49,12 +58,12 @@ public struct DailyForecastPortion
         get;set;
     }
 
-    public string PrecipitationType
+    public string? PrecipitationType
     {
         get; set;
     }
 
-    public string PrecipitationIntensity
+    public string? PrecipitationIntensity
     {
         get; set;
     }
@@ -62,28 +71,28 @@ public struct DailyForecastPortion
 
 public class DailyForecast
 {
+    public int DailyForecastId
+    {
+        get; set;
+    }
+
     public DateTime Date
     {
         get;set;
     }
 
-    public Temperatures Temperature
+    public Temperatures? Temperature
     {
         get; set;
     }
 
-    public DailyForecastPortion Day
+    public DailyForecastPortion? Day
     {
         get;set;
     }
 
-    public DailyForecastPortion Night
+    public DailyForecastPortion? Night
     {
         get; set;
-    }
-
-    public string? MobileLink
-    {
-        get;set;
     }
 }

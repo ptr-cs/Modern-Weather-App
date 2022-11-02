@@ -9,10 +9,6 @@ namespace ZenoWeatherApp.Converters;
 [ValueConversion(typeof(object), typeof(bool))]
 public class NullnessConverter : IValueConverter
 {
-    /// <summary>
-    /// Returns true if an object is null; false if otherwise.
-    /// </summary>
-    /// <returns></returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         return (value == null) ? true : false;
@@ -21,6 +17,22 @@ public class NullnessConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+}
+
+[ValueConversion(typeof(object), typeof(bool))]
+public class InvertedBooleanConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        bool bVal = (bool)value;
+        return !bVal;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        bool bVal = (bool)value;
+        return !bVal;
     }
 }
 

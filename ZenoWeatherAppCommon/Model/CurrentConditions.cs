@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZenoWeatherApp.Model;
 
+[Owned]
 public class DataReading
 {
     public double Value
@@ -24,8 +26,14 @@ public class DataReading
     }
 }
 
+[Owned]
 public class DataReadingPair
 {
+    public int DataReadingPairId
+    {
+        get; set;
+    }
+
     public DataReading? Metric
     {
         get; set;
@@ -37,6 +45,7 @@ public class DataReadingPair
     }
 }
 
+[Owned]
 public class WindDirection
 {
     public int Degrees
@@ -55,11 +64,17 @@ public class WindDirection
     }
 }
 
+[Owned]
 public class Wind
 {
+    public int WindId
+    {
+        get; set;
+    }
+
     public DataReadingPair? Speed
     {
-        get;set;
+        get; set;
     }
 
     public WindDirection? Direction
@@ -68,8 +83,14 @@ public class Wind
     }
 }
 
+[Owned]
 public class PrecipitationSummary
 {
+    public int PrecipitationSummaryId
+    {
+        get; set;
+    }
+
     public DataReadingPair? PastHour
     {
         get; set;
@@ -108,6 +129,11 @@ public class PrecipitationSummary
 
 public class CurrentConditions
 {
+    public int CurrentConditionsId
+    {
+        get;set;
+    }
+
     public string? WeatherText
     {
         get;set;
@@ -195,7 +221,7 @@ public class CurrentConditions
 
     public PrecipitationSummary? PrecipitationSummary
     {
-        get;set;
+        get; set;
     }
 
     public bool HasPrecipitation

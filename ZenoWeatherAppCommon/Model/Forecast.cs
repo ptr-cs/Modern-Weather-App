@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZenoWeatherApp.Model;
 
@@ -18,6 +19,7 @@ public enum WeatherSeverity
     Informational = 7
 }
 
+[Owned]
 public class ForecastSummary
 {
     public DateTime EffectiveDate
@@ -30,30 +32,30 @@ public class ForecastSummary
         get;set;
     }
 
-    public string Text
+    public string? Text
     {
         get;set;
     }
 
-    public string Category
+    public string? Category
     {
         get;set;
-    }
-
-    public string MobileLink
-    {
-        get; set;
     }
 }
 
 public class Forecast
 {
-    public ForecastSummary Headline
+    public int ForecastId
+    {
+        get; set;
+    }
+
+    public ForecastSummary? Headline
     {
         get;set;
     }
 
-    public IEnumerable<DailyForecast> DailyForecasts 
+    public List<DailyForecast>? DailyForecasts 
     { 
         get; set; 
     }
