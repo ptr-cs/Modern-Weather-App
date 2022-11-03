@@ -69,16 +69,34 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1rem;
     z-index: var(--z-fixed);
     transition: .5s;
 }
 
+
+.weatherHeader {
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    vertical-align: central;
+}
+
 .header_toggle {
-    color: var(--first-color);
+    color: var(--white-color);
     font-size: 1.5rem;
     cursor: pointer;
+    padding-top: .6rem;
+    margin-left: 8px;
 }
+
+/*.header_toggle:hover {
+    background: #303030;
+}*/
 
 .header_img {
     width: 35px;
@@ -118,13 +136,15 @@ a {
     grid-template-columns: max-content max-content;
     align-items: center;
     column-gap: 1rem;
-    padding: .5rem 0 .5rem 1rem;
+    padding-left: 12px;
 }
 
+.nav_logo {
+    padding-left: 8px;
+}
 /*.nav_logo {
     margin-bottom: 2rem;
 }*/
-
 .nav_logo-icon {
     font-size: 1.25rem;
     color: var(--white-color);
@@ -132,19 +152,28 @@ a {
 
 .nav_logo-name {
     color: var(--white-color);
-    font-weight: 700;
+    padding-left: 32px;
 }
 
 .nav_link, .nav_logo {
     position: relative;
     color: var(--white-color);
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: .7rem;
+    padding-bottom: .7rem;
     transition: .3s;
+    font-size: 16px;
 }
 
     .nav_link:hover, .nav_logo:hover {
         color: var(--white-color);
+    }
+
+    .nav_link:hover {
+        background: #29597f;
+    }
+
+    .nav_logo:hover {
+        background: #303030;
     }
 
 .nav_icon {
@@ -174,6 +203,100 @@ a {
 
 .height-100 {
     height: 100vh;
+}
+
+.mobileMenuBackground {
+    height: 48px;
+    width: 48px;
+    border-radius: 0px 0px 4px 0px;
+    background: #444444;
+    border-color: transparent !important;
+    display: none;
+}
+
+.settingsPageLabel {
+    font-weight: 600;
+    font-size: 15px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.pageParentDiv
+{
+    margin-left: 48px;
+}
+
+.pageParentDivOffset
+{
+    margin-left: 0px;
+}
+
+.pageParentDivIndex {
+    margin-left: 48px !important;
+}
+
+.currentConditionsGridTile {
+    min-height: 128px;
+    min-width: 96px;
+    display: flex;
+}
+
+.forecastGridTile {
+    min-height: 128px;
+    min-width: 96px;
+    display: flex;
+    background-color: #0078d7 !important;
+}
+
+.currentConditionsGridTile span, .forecastGridTile span {
+    margin: 0;
+    align-self: flex-end;
+    color: white;
+}
+
+.centerDiv {
+    position: absolute;
+    left: 60%;
+    top: 40%;
+    margin: -100px 0 0 -150px;
+}
+
+.bd-example-row .row > .col, .bd-example-row .row > [class^=col-] {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(86,61,124,.15);
+    border: 1px solid rgba(86,61,124,.2);
+}
+
+@media screen and (max-width: 767px) {
+    .pageParentDiv {
+        margin-left: 0px;
+    }
+    .pageParentDivOffset {
+        margin-left: 48px;
+    }
+
+    .pageParentDivIndex {
+        margin-left: 0px !important;
+    }
+
+    .centerDiv {
+        margin: -100px 0 0 -150px !important;
+    }
+
+    .mobileMenuBackground {
+        display: block;
+    }
+}
+
+.settingsDiv {
+    padding: 8px;
+}
+
+.largeToggleSwitch {
+    float: right !important;
+    margin-left: 12px !important;
+    height: 24px !important;
+    width: 48px !important;
 }
 
 @media screen and (max-width: 767px) {

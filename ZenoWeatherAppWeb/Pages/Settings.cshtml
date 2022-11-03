@@ -1,0 +1,78 @@
+﻿@page
+@model ZenoWeatherAppWeb.Pages.SettingsModel
+@{
+}
+
+@*<h1>Settings</h1>
+*@
+<Button title="menu" class="btn btn-primary mobileMenuBackground" type="button"></Button>
+
+<div class="d-block pageParentDiv">
+    <div class="d-inline-block">
+        <div class="form-check form-switch d-inline-block settingsDiv">
+            <label class="form-check-label settingsPageLabel" for="flexSwitchCheckChecked">Demo Mode:</label>
+            <input class="form-check-input largeToggleSwitch" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked="">
+        </div>
+        <span class="rounded-circle btn-secondary" title="Demo Mode will return randomized weather results for location searches - no API key needed." style="padding: 2px 7px; vertical-align: -webkit-baseline-middle; font-weight: 600;">
+             ? 
+        </span>
+    </div>
+    <div class="settingsDiv">
+        <p class="settingsPageLabel">Data Provider:</p>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle disabled" style="height: 46px; border-radius: 0px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                AccuWeather
+            </button>
+            <ul class="dropdown-menu" style="">
+                <li><a class="dropdown-item" href="#">AccuWeather</a></li>
+                <li><a class="dropdown-item" href="#">Demo Mode</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="settingsDiv">
+        <p class="settingsPageLabel">API Key:</p>
+        <input type="password" class="form-control" id="exampleInputPassword1" style="max-width: 256px; height:46px; border-radius: 0px;" placeholder="API Key">
+    </div>
+    <div class="settingsDiv">
+
+        <p class="settingsPageLabel">Units:</p>
+        <fieldset>
+            <div class="form-check">
+                <input type="radio" name="radios" class="form-check-input" id="exampleRadio1">
+                <label class="form-check-label" for="untisRadio1" style="font-size: 15px;">Imperial</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" name="radios" class="form-check-input" id="exampleRadio2">
+                <label class="form-check-label" for="untisRadio2" style="font-size: 15px;">Metric</label>
+            </div>
+        </fieldset>
+    </div>
+    <div class="d-inline-flex">
+        <div class="settingsDiv">
+            <p class="settingsPageLabel">Theme:</p>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" style="height: 46px; border-radius: 0px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Light
+                </button>
+                <ul class="dropdown-menu" style="">
+                    <li><a class="dropdown-item" href="#">Light</a></li>
+                    <li><a class="dropdown-item" href="#">Dark</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="settingsDiv">
+            <p class="settingsPageLabel">Accent:</p>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" style="height: 46px; border-radius: 0px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Blue
+                </button>
+                <ul class="dropdown-menu" style="">
+                    <li><a class="dropdown-item" href="#">Blue</a></li>
+                    <li><a class="dropdown-item" href="#">Red</a></li>
+                    <li><a class="dropdown-item" href="#">Green</a></li>
+                    <li><a class="dropdown-item" href="#">Yellow</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

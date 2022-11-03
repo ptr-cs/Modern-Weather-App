@@ -10,4 +10,10 @@
     <ProjectReference Include="..\ZenoWeatherAppCommon\ZenoWeatherAppCommon.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\Assets\AccuWeather.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

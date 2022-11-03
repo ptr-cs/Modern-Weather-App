@@ -4,7 +4,81 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="height-100 d-flex " style="background-image: linear-gradient(45deg, rgba(2,0,36,0) 0%, rgba(0,47,84,.25) 100%);">
+    <nav class="navbar shadow navbar-expand-md navbar-dark fixed-top pageParentDiv" style="background: #0078d7; z-index:0;">
+        <div class="container-fluid" style="margin-top: -8px;">
+                <a href="https://www.accuweather.com/" target="_blank" title="Visit https://www.accuweather.com/" role="button" class="list-group-item d-flex pageParentDivOffset" aria-current="true" style="padding: .5rem .5rem; margin-top: 8px; height: 46px; border-radius: 4px;">
+                <div class="d-flex justify-content-between" style="margin-left: 0px;">
+                    <p style="margin: 0px; line-height: 16px; text-align: left; width: 96px; color: black; font-weight: 500;">
+                        Weather Data<br />Provided by:
+                    </p>
+                </div>
+                <img src="Assets/AccuWeather.png" alt="twbs" height="20" class="img-responsive center-block flex-shrink-0" style="margin-top: 4px;">
+            </a>
+            <div class="container-fluid" style="margin-top: 8px;">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Enter a Location ..." aria-label="Search" style="min-width: 128px; max-width: 196px; font-weight: bold; height: 46px;">
+                    <button class="btn btn-outline-success btn-close-white" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bd-example-row container-fluid pageParentDivIndex" style="margin-top: 72px; overflow-y: auto;">
+        <div class="container shadow">
+            <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+            <div class="row" style="background: #0078d7">
+                <div class="col-6 col-md-4 currentConditionsGridTile" style="background-image: linear-gradient(-90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,.33) 100%);" >
+                    <span>Current Conditions</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.2)">
+                    <span>Wind Speed (mi/h)</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.3)">
+                    <span>Cloud Cover</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.1)">
+                    <span>Visibility (mi)</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.2)">
+                    <span>Pressure (inHg)</span>
+                </div>
+            </div>
+
+            <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+            <div class="row" style="background: #0078d7">
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.1)">
+                    <span>Temp. (F)</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.3)">
+                    <span>Rel. Humidity</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.2)">
+                    <span>Wind Dir. (ENE)</span>
+                </div>
+                <div class="col-6 col-md-4 currentConditionsGridTile">
+                    <span>Past Precip. Summary (in)</span>
+                </div>
+                <div class="col-3 col-md-2 currentConditionsGridTile" style="background: rgba(0,0,0,.1)">
+                    <span>Wind Chill (F)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bd-example-row mt-3 ">
+            <div class="bd-example">
+                <div class="container shadow">
+                    <div class="row">
+                        <div class="col-md-2 forecastGridTile"><span style="align-self: auto;">Forecast</span></div>
+                        <div class="col-md-2 forecastGridTile"><span>Mon</span></div>
+                        <div class="col-md-2 forecastGridTile"><span>Tue</span></div>
+                        <div class="col-md-2 forecastGridTile"><span>Wed</span></div>
+                        <div class="col-md-2 forecastGridTile"><span>Thu</span></div>
+                        <div class="col-md-2 forecastGridTile"><span>Fri</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
