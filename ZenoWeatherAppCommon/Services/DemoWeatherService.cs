@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using ZenoWeatherApp.Model;
 using ZenoWeatherApp.Services;
 using ZenoWeatherAppCommon.Data;
-using ZenoWeatherAppCommon.Services;
 
 namespace ZenoWeatherApp.Services;
 public class DemoWeatherService : IWeatherService

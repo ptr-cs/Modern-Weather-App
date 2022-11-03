@@ -12,7 +12,6 @@ using WpfWeatherApp;
 using ZenoWeatherApp.Model;
 using ZenoWeatherApp.Services;
 using ZenoWeatherAppCommon.Data;
-using ZenoWeatherAppCommon.Services;
 
 namespace ZenoWeatherApp.ViewModel;
 
