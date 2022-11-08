@@ -27,6 +27,8 @@
             <converters:NullnessConverter x:Key="NullnessConverter"/>
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
+            <SolidColorBrush Color="AliceBlue" x:Key="myBrush" options:Freeze="" />
+
             <Style TargetType="{x:Type Border}"
                 x:Key="HelpIcon">
                 <Setter Property="Width"

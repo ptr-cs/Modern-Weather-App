@@ -237,20 +237,51 @@ a {
 .currentConditionsGridTile {
     min-height: 128px;
     min-width: 96px;
-    display: flex;
 }
 
 .forecastGridTile {
-    min-height: 128px;
+    min-height: 158px;
     min-width: 96px;
     display: flex;
-    background-color: #0078d7 !important;
+}
+
+.forecastTileTitle {
+    color: var(--white-color);
+    text-align: center;
+    font-size: 20px;
+}
+
+.forecastTileText, .forecastCardSummary, .forecastCardTemp {
+    color: var(--white-color);
+    font-size: 15px;
+}
+
+.forecastCardSummary {
+    margin-top: 1rem;
+}
+
+.forecastCardBody {
+    padding: 0px;
+    display:inline-grid;
+}
+
+.forecastCardTitle {
+    text-align: right;
+    font-size: 32px;
+    color: var(--white-color);
+    margin-right: 8px;
+}
+
+.forecastRow {
+    background: #0078d7;
 }
 
 .currentConditionsGridTile span, .forecastGridTile span {
     margin: 0;
     align-self: flex-end;
     color: white;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .centerDiv {
@@ -263,8 +294,30 @@ a {
 .bd-example-row .row > .col, .bd-example-row .row > [class^=col-] {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    background-color: rgba(86,61,124,.15);
     border: 1px solid rgba(86,61,124,.2);
+}
+
+.weatherRow {
+    align-items: center;
+}
+
+.weatherTileIcon {
+    text-align: right;
+    margin-right: 8px;
+    color: var(--white-color);
+    font-size: 36px;
+}
+
+.weatherTileReading {
+    margin-left: 8px;
+    color: var(--white-color);
+    font-size: 28px;
+}
+
+.weatherTileTitle > p {
+    color: var(--white-color);
+    margin-bottom: 0px !important;
+    font-size: 15px;
 }
 
 @media screen and (max-width: 767px) {
@@ -277,6 +330,7 @@ a {
 
     .pageParentDivIndex {
         margin-left: 0px !important;
+        margin-top: 114px !important;
     }
 
     .centerDiv {
@@ -297,6 +351,11 @@ a {
     margin-left: 12px !important;
     height: 24px !important;
     width: 48px !important;
+}
+
+.bd-example-row .row > .col, .bd-example-row .row > [class^=col-]
+{
+    border: none !important;
 }
 
 @media screen and (max-width: 767px) {
