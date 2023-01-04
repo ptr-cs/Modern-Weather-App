@@ -36,33 +36,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
 
-    const hideNavbar = (toggleId, toggleId2, navId, bodyId, headerId, mainContentId) => {
-        const toggle = document.getElementById(toggleId),
-            toggle2 = document.getElementById(toggleId2),
-            nav = document.getElementById(navId),
-            bodypd = document.getElementById(bodyId),
-            headerpd = document.getElementById(headerId)
-        mainContent = document.getElementById(mainContentId)
-
-        // Validate that all variables exist
-        if (toggle && toggle2 && nav && bodypd && headerpd) {
-            mainContent.addEventListener('click', () => {
-                if (nav.classList.contains('show')) {
-                    // show navbar
-                    nav.classList.remove('show')
-                    // change icon
-                    toggle.classList.remove('bx-x')
-                    // add padding to body
-                    bodypd.classList.remove('body-pd')
-                    // add padding to header
-                    headerpd.classList.remove('body-pd')
-                }
-            })
-        }
-    }
-
     showNavbar('header-toggle', 'header-toggle-sidebar', 'nav-bar', 'body-pd', 'header')
-    hideNavbar('header-toggle', 'header-toggle-sidebar', 'nav-bar', 'body-pd', 'header', 'mainContainer')
 
     /*===== LINK ACTIVE =====*/
     const linkColor = document.querySelectorAll('.nav_link')
@@ -76,11 +50,4 @@ document.addEventListener("DOMContentLoaded", function (event) {
     linkColor.forEach(l => l.addEventListener('click', colorLink))
 
     // Your code to run since DOM is loaded and ready
-
-    //$document.ready(function () {
-    //    $('#mainContainer').click(function () {
-    //        //Invoke postback
-    //        if (nav.classList.)
-    //    })
-    //});
 });
