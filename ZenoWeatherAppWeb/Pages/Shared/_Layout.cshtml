@@ -75,6 +75,9 @@
             <div>
                 <a href="#" class="nav_logo" id="header-toggle-sidebar"> <svg class="bi pe-none" width="32" height="32" role="img" aria-label="Menu"><use xlink:href="#menu"></use></svg> <div class="nav_logo-name">Menu</div> </a>
                 <div class="nav_list">
+                    <feature name="Beta">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Beta" class="nav_link">Beta</a>
+                    </feature>
                     <a asp-area="" asp-page="/Index" is-active-page class="nav_link"> <svg class="bi pe-none" width="26" height="26" role="img" aria-label="Weather"><use xlink:href="#weather"></use></svg> <span class="nav_name">Forecast</span> </a>
                     <a asp-area="" asp-page="/Settings" is-active-page class="nav_link"> <svg class="bi pe-none" width="26" height="26" role="img" aria-label="Settings"><use xlink:href="#cogs"></use></svg> <span class="nav_name">Settings</span> </a>
                     <a asp-area="" asp-page="/About" is-active-page class="nav_link"> <svg class="bi pe-none" width="26" height="26" role="img" aria-label="About"><use xlink:href="#question"></use></svg> <span class="nav_name">About</span> </a>
@@ -87,7 +90,7 @@
     
 
     <!--Container Main start-->
-    <main role="main" class="height-100 bg-light">
+    <main role="main" class="height-100 bg-light" id="mainContainer">
         <div class="d-flex flex-column">
             @RenderBody()
         </div>

@@ -4,6 +4,21 @@
     ViewData["Title"] = "Home page";
 }
 
+<style>
+    body {
+        background-color: @Model.Settings.BackgroundColor;
+    }
+
+/*    .bg-light {
+        background-color: @Model.Settings.BackgroundColor !important;
+    }*/
+
+    h1 {
+        color: @Model.Settings.FontColor;
+        font-size: @Model.Settings.FontSize;
+    }
+</style>
+
 <div class="height-100 d-flex " style="background-image: linear-gradient(45deg, rgba(2,0,36,0) 0%, rgba(0,47,84,.25) 100%);">
     <nav class="navbar shadow navbar-expand-md navbar-dark fixed-top pageParentDiv" style="background: #0078d7; z-index:0;">
         <div class="container-fluid" style="margin-top: -8px;">
