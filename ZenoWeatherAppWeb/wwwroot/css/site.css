@@ -1,7 +1,7 @@
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
@@ -21,7 +21,8 @@ main {
     overflow-y: hidden;
 }
 
-html, body {
+html,
+body {
     overflow: auto;
 }
 
@@ -46,7 +47,9 @@ html, body {
     --z-fixed: 100;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
     box-sizing: border-box;
 }
 
@@ -131,7 +134,8 @@ a {
     overflow: hidden;
 }
 
-.nav_logo, .nav_link {
+.nav_logo,
+.nav_link {
     display: grid;
     grid-template-columns: max-content max-content;
     align-items: center;
@@ -142,6 +146,7 @@ a {
 .nav_logo {
     padding-left: 8px;
 }
+
 /*.nav_logo {
     margin-bottom: 2rem;
 }*/
@@ -155,7 +160,8 @@ a {
     padding-left: 32px;
 }
 
-.nav_link, .nav_logo {
+.nav_link,
+.nav_logo {
     position: relative;
     color: var(--white-color);
     padding-top: .7rem;
@@ -164,7 +170,8 @@ a {
     font-size: 16px;
 }
 
-    .nav_link:hover, .nav_logo:hover {
+    .nav_link:hover,
+    .nav_logo:hover {
         color: var(--white-color);
     }
 
@@ -220,13 +227,11 @@ a {
     vertical-align: -webkit-baseline-middle;
 }
 
-.pageParentDiv
-{
+.pageParentDiv {
     margin-left: 48px;
 }
 
-.pageParentDivOffset
-{
+.pageParentDivOffset {
     margin-left: 0px;
 }
 
@@ -251,7 +256,9 @@ a {
     font-size: 20px;
 }
 
-.forecastTileText, .forecastCardSummary, .forecastCardTemp {
+.forecastTileText,
+.forecastCardSummary,
+.forecastCardTemp {
     color: var(--white-color);
     font-size: 15px;
 }
@@ -262,7 +269,7 @@ a {
 
 .forecastCardBody {
     padding: 0px;
-    display:inline-grid;
+    display: inline-grid;
 }
 
 .forecastCardTitle {
@@ -276,7 +283,8 @@ a {
     background: #0078d7;
 }
 
-.currentConditionsGridTile span, .forecastGridTile span {
+.currentConditionsGridTile span,
+.forecastGridTile span {
     margin: 0;
     align-self: flex-end;
     color: white;
@@ -291,10 +299,11 @@ a {
     margin: -100px 0 0 -150px;
 }
 
-.bd-example-row .row > .col, .bd-example-row .row > [class^=col-] {
+.bd-example-row .row > .col,
+.bd-example-row .row > [class^=col-] {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    border: 1px solid rgba(86,61,124,.2);
+    border: 1px solid rgba(86, 61, 124, .2);
 }
 
 .weatherRow {
@@ -324,6 +333,7 @@ a {
     .pageParentDiv {
         margin-left: 0px;
     }
+
     .pageParentDivOffset {
         margin-left: 48px;
     }
@@ -353,8 +363,8 @@ a {
     width: 48px !important;
 }
 
-.bd-example-row .row > .col, .bd-example-row .row > [class^=col-]
-{
+.bd-example-row .row > .col,
+.bd-example-row .row > [class^=col-] {
     border: none !important;
 }
 
@@ -365,7 +375,7 @@ a {
 }
 
 @media screen and (min-width: 768px) {
-/*    body {
+    /*    body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
         padding-left: calc(var(--nav-width) + 2rem);
     }*/
@@ -385,7 +395,7 @@ a {
         width: calc(var(--nav-width) + 156px);
     }
 
-/*    .body-pd {
+    /*    .body-pd {
         padding-left: calc(var(--nav-width) + 188px);
     }*/
 }

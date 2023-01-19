@@ -9,6 +9,12 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorPages();
 
+        // Bundle and minify static file assets:
+        builder.Services.AddWebOptimizer(pipeline =>
+        {
+            pipeline.AddCssBundle("/css/bundle.css", "lib/bootstrap/dist/css/*.min.css", "css/*.css");
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -20,6 +26,9 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseWebOptimizer(); // Bundling and Minification
+
         app.UseStaticFiles();
 
         app.UseRouting();
