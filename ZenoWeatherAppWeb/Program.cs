@@ -12,7 +12,7 @@ public class Program
         // Bundle and minify static file assets:
         builder.Services.AddWebOptimizer(pipeline =>
         {
-            pipeline.AddCssBundle("/css/bundle.css", "lib/bootstrap/dist/css/*.min.css", "css/*.css");
+            pipeline.AddScssBundle("/css/bundle.css", "/lib/weather-icons-master/sass/weather-icons.scss", "/css/*.scss");
         });
 
         var app = builder.Build();
