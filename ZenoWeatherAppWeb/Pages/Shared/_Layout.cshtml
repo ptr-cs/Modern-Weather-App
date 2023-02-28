@@ -63,10 +63,64 @@
 	C24.8,11.14,24.72,11.34,24.72,11.58z" />
         </symbol>
     </svg>
-    <header class="header" id="header">
-        <div class="header_toggle" id="header-toggle"> <svg class="bi pe-none" width="32" height="32" role="img" aria-label="Menu"><use xlink:href="#menu"></use></svg> </div>
-    </header>
-    <div class="l-navbar shadow" id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="margin: 0px 24px 0px 0px">Zeno Weather App</a>
+            <div class="d-flex align-middle" style="margin-right: 8px">
+                <div class="d-flex justify-content-between" style="margin-left: 0px;">
+                    <p style="margin: 0px; line-height: 12px; text-align: left; font-weight: 500; font-size: 11px; min-width: 78px; color: white">
+                        Weather Data<br />Provided by:
+                    </p>
+                </div>
+                <a href="https://www.accuweather.com/" target="_blank" title="Visit https://www.accuweather.com/" role="button" class="list-group-item d-flex " aria-current="true">
+                    <img src="Assets/AccuWeather Light.png" alt="twbs" height="20" class="img-responsive center-block flex-shrink-0" style="margin-top: 4px;">
+                </a>
+            </div>
+            <form class="d-flex" role="search" style="margin-right: 8px">
+                <input class="form-control me-2" type="search" placeholder="Enter a Location ..." aria-label="Search" style="min-width: 128px; max-width: 196px; font-weight: bold; height: 46px;">
+                <button class="btn btn-primary btn-close-white" type="submit">Search</button>
+            </form>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Zeno Weather App</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="mainMenuItems">
+                        <li class="nav-item">
+                            
+                            <a asp-area="" asp-page="/Index" aria-label="Weather" class="nav-link is-active-page" aria-current="page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Weather"><use xlink:href="#weather"></use></svg> Weather</a>
+                        </li>
+                        <li class="nav-item">
+                            
+                            <a asp-area="" asp-page="/Settings" aria-label="Settings" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Settings"><use xlink:href="#cogs"></use></svg> Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            
+                            <a asp-area="" asp-page="/About" aria-label="About" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="About"><use xlink:href="#question"></use></svg> About</a>
+                        </li>
+@*                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+@*    <div class="l-navbar shadow" id="nav-bar">
         <nav class="nav">
             <div>
                 <a href="#" class="nav_logo" id="header-toggle-sidebar"> <svg class="bi pe-none" width="32" height="32" role="img" aria-label="Menu"><use xlink:href="#menu"></use></svg> <div class="nav_logo-name">Menu</div> </a>
@@ -78,7 +132,7 @@
 			</div> 
             <a href="https://github.com/DivideByZeno/Zeno-Weather-App" target="_blank" title="Visit https://github.com/DivideByZeno/Zeno-Weather-App" class="nav_link"> <svg class="bi pe-none" width="26" height="26" role="img" aria-label="GitHub"><use xlink:href="#github"></use></svg> <span class="nav_name">GitHub</span> </a>
         </nav>
-    </div>
+    </div>*@
 
     
 

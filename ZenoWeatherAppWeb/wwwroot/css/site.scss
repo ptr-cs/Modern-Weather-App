@@ -15,11 +15,12 @@ html {
 }
 
 main {
-    height: 100vh;
-    max-height: 100vh;
+/*    height: 100vh;
+    max-height: 100vh;*/
     overflow-x: auto;
     overflow-y: hidden;
 }
+
 
 html,
 body {
@@ -191,10 +192,17 @@ a {
     left: 0;
 }
 
+#mainMenuItems > li > a,
+#mainMenuItems > li > svg {
+    display: inline-block !important;
+}
+
+#mainMenuItems > li > a {
+    padding-left: 0px;
+}
 /*.body-pd {
     padding-left: calc(var(--nav-width) + 1rem);
 }*/
-
 .active {
     background: var(--first-color-light);
 }
@@ -227,7 +235,7 @@ a {
     vertical-align: -webkit-baseline-middle;
 }
 
-.pageParentDiv {
+/*.pageParentDiv {
     margin-left: 48px;
 }
 
@@ -237,7 +245,7 @@ a {
 
 .pageParentDivIndex {
     margin-left: 48px !important;
-}
+}*/
 
 .currentConditionsGridTile {
     min-height: 128px;
