@@ -21,6 +21,9 @@ main {
     overflow-y: hidden;
 }
 
+.cloudySkyGradient {
+    background-image: linear-gradient(45deg, rgba(2,0,36,0) 0%, rgba(0,47,84,.25) 100%);
+}
 
 html,
 body {
@@ -135,6 +138,20 @@ a {
     overflow: hidden;
 }
 
+#body-pd > nav {
+    padding: 0 !important;
+}
+
+#body-pd > nav > div > form {
+    padding: 8px 0px;
+}
+
+@media screen and (max-width: 644px) {
+    #body-pd > nav > div > form {
+        padding-top: 0px;
+    }
+}
+
 .nav_logo,
 .nav_link {
     display: grid;
@@ -188,9 +205,9 @@ a {
     font-size: 1.25rem;
 }
 
-.show {
+/*.show {
     left: 0;
-}
+}*/
 
 #mainMenuItems > li > a,
 #mainMenuItems > li > svg {
@@ -199,6 +216,7 @@ a {
 
 #mainMenuItems > li > a {
     padding-left: 0px;
+    text-align: center;
 }
 /*.body-pd {
     padding-left: calc(var(--nav-width) + 1rem);
@@ -251,6 +269,13 @@ a {
     min-height: 128px;
     min-width: 96px;
 }
+
+/*@media screen and (max-width: 767px) {
+    .currentConditionsGridTile {
+        height: 48px;
+        min-width: 96px;
+    }
+}*/
 
 .forecastGridTile {
     min-height: 158px;
@@ -348,7 +373,7 @@ a {
 
     .pageParentDivIndex {
         margin-left: 0px !important;
-        margin-top: 114px !important;
+/*        margin-top: 0px !important;*/
     }
 
     .centerDiv {
@@ -399,11 +424,19 @@ a {
         padding: 0;
     }
 
-    .show {
-        width: calc(var(--nav-width) + 156px);
-    }
+}
 
-    /*    .body-pd {
-        padding-left: calc(var(--nav-width) + 188px);
-    }*/
+#weatherProvidedBy {
+    margin: 0px;
+    line-height: 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11px;
+    min-width: 78px;
+    color: white;
+}
+
+#navbarBrandText {
+    margin: 0px 12px 0px 0px;
+    font-weight: 500;
 }
