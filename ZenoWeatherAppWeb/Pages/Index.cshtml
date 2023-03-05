@@ -5,17 +5,17 @@
 }
 
 <div class="d-flex">
-    <div class="bd-example-row container-fluid pageParentDivIndex" style="margin-top: 12px; overflow-y: auto;">
-        <div class="container shadow" style="padding-top: 8px;">
+    <div class="bd-example-row container-fluid pageParentDivIndex" id="forecastContainer">
+        <div class="container-lg shadow " style="padding-top: 8px;">
             <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-            <div class="row" style="background: #0078d7">
-                <div class="col-md-4 currentConditionsGridTile shadow" style="background-image: linear-gradient(-90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,.33) 100%);">
+            <div class="row forecastRow">
+                <div class="col-md-4 currentConditionsGridTile shadow">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-night-sleet"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">100%</p>
                                 </div>
@@ -26,13 +26,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.2)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-2">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
-                                <h5 class="card-title weatherTileIcon"><i class="wi wi-wind"></i></h5>
+                            <div class="col-lg-6 col-sm-12 col-6">
+                                <h5 class="card-title weatherTileIcon"><i class="wi wi-windy"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">14.5</p>
                                 </div>
@@ -43,13 +43,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.3)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-3">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-cloudy"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">100%</p>
                                 </div>
@@ -60,13 +60,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.1)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-1">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-horizon-alt"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">8</p>
                                 </div>
@@ -77,13 +77,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.2)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-2">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-barometer"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">30.14</p>
                                 </div>
@@ -96,15 +96,14 @@
                 </div>
             </div>
 
-            <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-            <div class="row" style="background: #0078d7">
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.1)">
+            <div class="row">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-1">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-thermometer"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">90</p>
                                 </div>
@@ -115,13 +114,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.3)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-3">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-humidity"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">14.5</p>
                                 </div>
@@ -132,13 +131,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.2)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-2">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-wind-direction"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">14.5</p>
                                 </div>
@@ -152,10 +151,10 @@
                 <div class="col-md-4 currentConditionsGridTile shadow">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-rain"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">14.5</p>
                                 </div>
@@ -166,13 +165,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 currentConditionsGridTile shadow" style="background: rgba(0,0,0,.1)">
+                <div class="col-md-2 currentConditionsGridTile shadow black-shade-1">
                     <div>
                         <div class="row g-0 weatherRow">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <h5 class="card-title weatherTileIcon"><i class="wi wi-snowflake-cold"></i></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-6">
                                 <div>
                                     <p class="card-text weatherTileReading">14.5</p>
                                 </div>
@@ -188,15 +187,15 @@
 
         <div class="bd-example-row mt-3 mb-3">
             <div class="bd-example">
-                <div class="container">
+                <div class="container-lg">
                     <div class="row forecastRow">
                         <div class="col-md-2 forecastGridTile shadow p-0">
-                            <div class="card-body" style="padding: 0px;">
-                                <h5 class="card-title forecastTileTitle p-2" style="background: rgba(0,0,0,.1)">Forecast</h5>
+                            <div class="card-body">
+                                <h5 class="card-title forecastTileTitle p-2 black-shade-1">Forecast</h5>
                                 <p class="card-text forecastTileText p-2">Rain and thunderstorms this evening through tomorrow morning</p>
                             </div>
                         </div>
-                        <div class="col-md-2 forecastGridTile shadow" style="background-color: rgba(0,0,0,.1)">
+                        <div class="col-md-2 forecastGridTile shadow black-shade-1">
                             <div class="card-body forecastCardBody">
                                 <h5 class="card-title forecastCardTitle"><i class="wi wi-day-sunny"></i></h5>
                                 <div>
@@ -206,7 +205,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 forecastGridTile shadow" style="background-color: rgba(0,0,0,.2)">
+                        <div class="col-md-2 forecastGridTile shadow black-shade-2">
                             <div class="card-body forecastCardBody">
                                 <h5 class="card-title forecastCardTitle"><i class="wi wi-day-rain"></i></h5>
                                 <div>
@@ -216,7 +215,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 forecastGridTile shadow" style="background-color: rgba(0,0,0,.3)">
+                        <div class="col-md-2 forecastGridTile shadow black-shade-3">
                             <div class="card-body forecastCardBody">
                                 <h5 class="card-title forecastCardTitle"><i class="wi wi-day-snow"></i></h5>
                                 <div>
@@ -226,7 +225,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 forecastGridTile shadow" style="background-color: rgba(0,0,0,.4)">
+                        <div class="col-md-2 forecastGridTile shadow black-shade-4">
                             <div class="card-body forecastCardBody">
                                 <h5 class="card-title forecastCardTitle"><i class="wi wi-cloudy-gusts"></i></h5>
                                 <div>
@@ -236,7 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 forecastGridTile shadow" style="background-color: rgba(0,0,0,.5)">
+                        <div class="col-md-2 forecastGridTile shadow black-shade-5">
                             <div class="card-body forecastCardBody">
                                 <h5 class="card-title forecastCardTitle"><i class="wi wi-storm-showers"></i></h5>
                                 <div>
