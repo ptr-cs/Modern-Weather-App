@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="aboutContainer">
+	<div class="container-xxl bd-gutter mt-4 align-middle ">
+		<div class="col-md-8 mx-auto text-center align-middle">
+			<div class="rounded-circle d-block mx-auto mb-3 shadow" style="background: #0078d7; padding: 32px; width: fit-content;">
+				<svg class="bi pe-none" style="color: rgba(255,255,255,.8);" width="96" height="96" role="img" aria-label="Weather"><use xlink:href="#weather"></use></svg>
+			</div>
+			<h1 class="mb-3 fw-semibold">About</h1>
+			<p class="lead mb-4">       Weather app implemented using Windows Presentation Foundation (WPF) and ASP.NET Razor pages. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub.</p>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+		<script type="text/javascript">
+			$(document).ready(function () {
+				getWeatherSearch();
+			});
+		</script>
+}

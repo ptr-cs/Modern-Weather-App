@@ -8,7 +8,10 @@
       "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "jquery@3.6.3", "provider": "jsdelivr", "files": ["LICENSE.txt", "dist/jquery.min.js"], "destination": "wwwroot/lib/jquery"
+      "library": "jquery@3.6.3",
+      "provider": "jsdelivr",
+      "files": [ "LICENSE.txt", "dist/jquery.min.js" ],
+      "destination": "wwwroot/lib/jquery"
     }
   ]
 }

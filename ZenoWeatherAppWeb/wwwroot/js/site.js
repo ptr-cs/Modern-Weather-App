@@ -1,8 +1,49 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function setApiKey(evt) {
+    $.ajax({
+        type: "POST",
+        url: "/Home/SetApiKey",
+        data: { "keyString": $('#exampleInputPassword1').val() }
+    });
+}
 
-// Write your JavaScript code.
-document.addEventListener("DOMContentLoaded", function (event) {
+function getApiKey(evt) {
+    $.ajax({
+        type: "GET",
+        url: "/Home/GetApiKey",
+        success: function (response) {
+            debugger;
+            $('#exampleInputPassword1').val(response);
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+}
 
+function getWeatherSearch() {
+    $.ajax({
+        type: "GET",
+        url: "/Home/GetWeatherSearch",
+        success: function (response) {
+            debugger;
+            $('#weatherSearchInput').val(response);
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+}
 
-});
+function searchWeather(evt) {
+    $.ajax({
+        type: "POST",
+        url: "/Home/SearchWeather",
+        data: { "weatherSearch": $('#weatherSearchInput').val() }
+    });
+}

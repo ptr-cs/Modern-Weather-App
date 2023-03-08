@@ -1,3 +1,6 @@
+using ZenoWeatherApp.Services;
+using ZenoWeatherAppWeb.Services;
+
 namespace ZenoWeatherAppWeb;
 
 public class Program
@@ -13,6 +16,23 @@ public class Program
         builder.Services.AddWebOptimizer(pipeline =>
         {
             pipeline.AddScssBundle("/css/bundle.css", "/lib/weather-icons-master/sass/weather-icons.scss", "/css/*.scss");
+        });
+
+        //builder.Services.Configure<WeatherService>(config =>
+        //{
+
+        //});
+
+        builder.Services.AddScoped<IWeatherService, WeatherService>();
+        builder.Services.AddScoped<IClientService, ClientService>();
+
+        builder.Services.AddDistributedMemoryCache();
+
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromSeconds(1000);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
         });
 
         var app = builder.Build();
@@ -35,7 +55,13 @@ public class Program
 
         app.UseAuthorization();
 
-        app.MapRazorPages();
+        //app.MapRazorPages();
+
+        app.UseSession();
+
+        app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
     }

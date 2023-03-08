@@ -71,7 +71,7 @@
                 </a>
             </div>
             <form class="d-flex" role="search" style="margin-right: 8px" method="post">
-                <input class="form-control me-2" type="search" placeholder="Enter a Location..." aria-label="Search" style="min-width: 128px; max-width: 180px; font-weight: bold; height: 46px;">
+                <input class="form-control me-2" id="weatherSearchInput" type="search" placeholder="Enter a Location..." aria-label="Search" style="min-width: 128px; max-width: 180px; font-weight: bold; height: 46px;" onkeyup="searchWeather(event)">
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
             <button class="navbar-toggler" title="Menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2">
@@ -85,16 +85,16 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="mainMenuItems">
                         <li class="nav-item">
-                            
-                            <a asp-area="" asp-page="/Index" aria-label="Weather" class="nav-link is-active-page" aria-current="page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Weather"><use xlink:href="#weather"></use></svg> Weather</a>
+
+                            <a asp-area="" asp-controller="Home" asp-action="Index" aria-label="Weather" class="nav-link is-active-page" aria-current="page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Weather"><use xlink:href="#weather"></use></svg> Weather</a>
                         </li>
                         <li class="nav-item">
-                            
-                            <a asp-area="" asp-page="/Settings" aria-label="Settings" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Settings"><use xlink:href="#cogs"></use></svg> Settings</a>
+
+                            <a asp-area="" asp-controller="Home" asp-action="Settings" aria-label="Settings" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="Settings"><use xlink:href="#cogs"></use></svg> Settings</a>
                         </li>
                         <li class="nav-item">
-                            
-                            <a asp-area="" asp-page="/About" aria-label="About" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="About"><use xlink:href="#question"></use></svg> About</a>
+
+                            <a asp-area="" asp-controller="Home" asp-action="About" aria-label="About" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="About"><use xlink:href="#question"></use></svg> About</a>
                         </li>
                         <li class="nav-item">
                             <a href="https://github.com/DivideByZeno/Zeno-Weather-App" aria-label="GitHub" class="nav-link is-active-page"><svg class="bi pe-none" width="32" height="32" role="img" aria-label="GitHub"><use xlink:href="#github"></use></svg> GitHub</a>
