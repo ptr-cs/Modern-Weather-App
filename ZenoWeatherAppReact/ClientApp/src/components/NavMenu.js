@@ -28,8 +28,25 @@ export class NavMenu extends Component {
         });
     }
 
-    testFunc() {
-        console.log("test func");
+    testFunc(key, term) {
+        debugger;
+        if (key != "" && term != "") {
+            $.ajax({
+                type: "GET",
+                url: "http://dataservice.accuweather.com/locations/v1/search",
+                data: { apikey: key, q: term },
+                success: function (response) {
+                    debugger;
+                    console.log(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
     }
 
   render() {
@@ -52,7 +69,7 @@ export class NavMenu extends Component {
                             
                         </MContext.Consumer>
                             <MContext.Consumer>
-                            {(context) => (<button className="btn btn-primary" type="button" onClick={() => alert(context.state.apiKey + ' ' + context.state.searchTerm)}>Search</button> ) }
+                            {(context) => (<button className="btn btn-primary" type="button" onClick={() => this.testFunc(context.state.apiKey, context.state.searchTerm)}>Search</button> ) }
                         </MContext.Consumer>
                     </form>
             <ul className="navbar-nav flex-grow">

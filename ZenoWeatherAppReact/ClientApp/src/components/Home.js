@@ -11,12 +11,12 @@ export class Home extends Component {
 
           <div className="d-flex">
 
-              <p>Current api Key is: </p>
-              <div>
-                  <MContext.Consumer>
-                      {(context) => (<p>{context.state.apiKey}</p>)}
-                  </MContext.Consumer>
-              </div>
+              {/*<p>Current api Key is: </p>*/}
+              {/*<div>*/}
+              {/*    <MContext.Consumer>*/}
+              {/*        {(context) => (<p>{context.state.apiKey}</p>)}*/}
+              {/*    </MContext.Consumer>*/}
+              {/*</div>*/}
 
             <div className="bd-example-row container-fluid pageParentDivIndex" id="forecastContainer">
                 <div className="container-lg shadow " style={{paddingTop: 8 + 'px'}}>

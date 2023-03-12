@@ -16,9 +16,9 @@ export class Settings extends Component {
         return (
             <div className="d-block pageParentDiv" id="settingsContainer">
                 <div>
-                    <MContext.Consumer>
-                        {(context) => ( <p>{context.state.apiKey}</p>)}
-                    </MContext.Consumer>
+                    {/*<MContext.Consumer>*/}
+                    {/*    {(context) => ( <p>{context.state.apiKey}</p>)}*/}
+                    {/*</MContext.Consumer>*/}
                 </div>
 
                 <div className="d-inline-block">
