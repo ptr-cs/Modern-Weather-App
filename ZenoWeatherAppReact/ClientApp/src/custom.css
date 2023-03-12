@@ -10173,7 +10173,8 @@ body {
   position: relative;
   font-family: var(--body-font);
   transition: 0.5s;
-  padding-top: 4rem;
+  padding-top: 62px;
+  padding-bottom: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -10181,7 +10182,12 @@ body {
     font-size: 18px;
   }
 }
-main {
+div#root {
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+
+main, body {
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -10322,6 +10328,17 @@ li.nav-item > a.nav-link > span {
   min-height: 158px;
   min-width: 96px;
   display: flex;
+}
+
+footer.footer {
+  padding: 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.card-body {
+  padding: 0;
 }
 
 .forecastTileText, .forecastCardSummary {
