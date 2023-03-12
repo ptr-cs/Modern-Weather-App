@@ -50,7 +50,7 @@ export class Settings extends Component {
                         <Label className="settingsPageLabel">API Key:</Label>
                         <MContext.Consumer>
                             {(context) => (<input type="password" defaultValue={context.state.apiKey} className="form-control" id="exampleInputPassword1"
-                                placeholder="API Key" runat="server" style={{ maxWidth: 320 + 'px' }} onKeyUp={() => context.setApiKey($('#exampleInputPassword1').val())}></input>)}
+                                placeholder="API Key" runat="server" style={{ maxWidth: 400 + 'px' }} onKeyUp={() => context.setApiKey($('#exampleInputPassword1').val())}></input>)}
                         </MContext.Consumer>
                     </FormGroup>
                 </Form>

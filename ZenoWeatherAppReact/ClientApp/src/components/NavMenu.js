@@ -3,7 +3,7 @@ import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Tooltip
 import { Link } from 'react-router-dom';
 import { faHome, faCog, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MContext } from "./MyProvider";
+import { MyProvider, MContext } from "./MyProvider";
 import './NavMenu.css';
 import $ from 'jquery';
 
@@ -15,7 +15,8 @@ export class NavMenu extends Component {
     super(props);
 
       this.toggleNavbar = this.toggleNavbar.bind(this);
-      this.testFunc = this.testFunc.bind(this);
+      this.getConditionsAndForecast = this.getConditionsAndForecast.bind(this);
+      this.handleKeyPress = this.handleKeyPress.bind(this);
 
     this.state = {
         collapsed: true,
@@ -28,24 +29,50 @@ export class NavMenu extends Component {
         });
     }
 
-    testFunc(key, term) {
+    getConditionsAndForecast(key, term) {
         debugger;
+
         if (key != "" && term != "") {
             $.ajax({
                 type: "GET",
                 url: "http://dataservice.accuweather.com/locations/v1/search",
                 data: { apikey: key, q: term },
-                success: function (response) {
+                success: function (locationResponse) {
                     debugger;
-                    console.log(response);
+                    console.log(locationResponse);
+                    $.ajax({
+                        type: "GET",
+                        url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
+                        data: { apikey: key, details:true },
+                        success: function (conditionsResponse) {
+                            debugger;
+                            console.log(conditionsResponse);
+                        },
+                        failure: function (conditionsResponse) {
+                            console.log(conditionsResponse.responseText);
+                        },
+                        error: function (conditionsResponse) {
+                            console.log(conditionsResponse.responseText);
+                        }
+                    });
                 },
-                failure: function (response) {
-                    alert(response.responseText);
+                failure: function (locationResponse) {
+                    console.log(locationResponse.responseText);
                 },
-                error: function (response) {
-                    alert(response.responseText);
+                error: function (locationResponse) {
+                    console.log(locationResponse.responseText);
                 }
             });
+        }
+    }
+
+    handleKeyPress(e, key, term) {
+
+        // debugger;
+        if (e.key == 'Enter') {
+            debugger;
+            this.getConditionsAndForecast(key, term)
+            e.preventDefault();
         }
     }
 
@@ -65,11 +92,13 @@ export class NavMenu extends Component {
                         <MContext.Consumer>
                             {(context) => (<input className="form-control me-2" id="weatherSearchInput"
                                 type="search" placeholder="Enter a Location..." aria-label="Search"
-                                onKeyUp={() => context.setSearchTerm($('#weatherSearchInput').val())}></input>)}
+                                onKeyDown={(e) => this.handleKeyPress(e, context.state.apiKey, context.state.searchTerm)}
+                                onChange={() => context.setSearchTerm($('#weatherSearchInput').val())}></input>)}
                             
                         </MContext.Consumer>
                             <MContext.Consumer>
-                            {(context) => (<button className="btn btn-primary" type="button" onClick={() => this.testFunc(context.state.apiKey, context.state.searchTerm)}>Search</button> ) }
+                            {(context) => (<button className="btn btn-primary" type="button" disabled={(context.state.searchTerm) ? "" : " disabled"}
+                                onClick={() => this.getConditionsAndForecast(context.state.apiKey, context.state.searchTerm)}>Search</button>)}
                         </MContext.Consumer>
                     </form>
             <ul className="navbar-nav flex-grow">
@@ -77,6 +106,7 @@ export class NavMenu extends Component {
                 <NavLink tag={Link} to="/" tooltip="Home"><FontAwesomeIcon size="lg" icon={faHome} /><span className="navLinkText">Home</span></NavLink>
             </NavItem>
                         <UncontrolledTooltip
+                            offset={[0, 20]}
                             placement="bottom"
                             target="HomeNavItem"
                         >Home
@@ -85,6 +115,7 @@ export class NavMenu extends Component {
                             <NavLink tag={Link} to="/settings"><FontAwesomeIcon size="lg" icon={faCog} /><span className="navLinkText">Settings</span></NavLink>
             </NavItem>
                         <UncontrolledTooltip
+                            offset={[0, 20]}
                             placement="bottom"
                             target="SettingsNavItem"
                         >Settings
@@ -92,7 +123,8 @@ export class NavMenu extends Component {
             <NavItem id={'AboutNavItem'} aria-label="About">
                             <NavLink tag={Link} to="/about"><FontAwesomeIcon size="lg" icon={faInfoCircle} /><span className="navLinkText">About</span></NavLink>
             </NavItem>
-            <UncontrolledTooltip
+                        <UncontrolledTooltip
+                            offset={[0, 20]}
                             placement="bottom"
                             target="AboutNavItem"
             >About

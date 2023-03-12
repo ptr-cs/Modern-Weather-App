@@ -1,6 +1,9 @@
 @use "sass:color";
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
 
 $row-color: $primary;
 
@@ -107,7 +110,7 @@ a {
 
 div.tooltip {
     > div.tooltip-inner {
-        background: $primary;
+        background: $dark;
     }
 }
 
@@ -116,7 +119,7 @@ div.tooltip.show {
 }
 
 .bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
-    border-bottom-color: $primary;
+    border-bottom-color: $dark;
 }
 
 li.nav-item > a.nav-link, #HomeNavItem > a, #settingsNavItem > a, #AboutNavItem > a {

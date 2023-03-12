@@ -5,7 +5,9 @@ export class MyProvider extends Component {
     state = {
         message: "",
         apiKey: "",
-        searchTerm: ""
+        searchTerm: "",
+        location: "",
+        currentConditions: ""
     }
     render() {
         return (
@@ -22,6 +24,14 @@ export class MyProvider extends Component {
 
                     setSearchTerm: (value) => this.setState({
                         searchTerm: value
+                    }),
+
+                    setLocation: (value) => this.setState({
+                        location: value
+                    }),
+
+                    setCurrentConditions: (value) => this.setState({
+                        currentConditions: value
                     })
                 }}>
                 {this.props.children}
