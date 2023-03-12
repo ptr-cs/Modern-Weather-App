@@ -7,7 +7,8 @@ export class MyProvider extends Component {
         apiKey: "",
         searchTerm: "",
         location: "",
-        currentConditions: ""
+        currentConditions: "",
+        searchHistory: new Array()
     }
     render() {
         return (
@@ -32,6 +33,10 @@ export class MyProvider extends Component {
 
                     setCurrentConditions: (value) => this.setState({
                         currentConditions: value
+                    }),
+
+                    setSearchHistory: (value) => this.setState({
+                        searchHistory: value
                     })
                 }}>
                 {this.props.children}

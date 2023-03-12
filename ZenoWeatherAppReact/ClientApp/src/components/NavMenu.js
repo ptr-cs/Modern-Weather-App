@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Tooltip, UncontrolledTooltip } from 'reactstrap';
+import React, { Component, useContext } from 'react';
+import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { faHome, faCog, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MyProvider, MContext } from "./MyProvider";
+import { MContext } from "./MyProvider";
 import './NavMenu.css';
 import $ from 'jquery';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
-
 
   constructor (props) {
     super(props);
@@ -17,6 +16,8 @@ export class NavMenu extends Component {
       this.toggleNavbar = this.toggleNavbar.bind(this);
       this.getConditionsAndForecast = this.getConditionsAndForecast.bind(this);
       this.handleKeyPress = this.handleKeyPress.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.addSearchHistory = this.addSearchHistory.bind(this);
 
     this.state = {
         collapsed: true,
@@ -29,32 +30,43 @@ export class NavMenu extends Component {
         });
     }
 
-    getConditionsAndForecast(key, term) {
-        debugger;
+    getConditionsAndForecast(context) {
+        let key = context.state.apiKey;
+        let term = context.state.searchTerm;
 
-        if (key != "" && term != "") {
+        if (key !== "" && term !== "") {
             $.ajax({
                 type: "GET",
                 url: "http://dataservice.accuweather.com/locations/v1/search",
                 data: { apikey: key, q: term },
                 success: function (locationResponse) {
-                    debugger;
+                    //debugger;
                     console.log(locationResponse);
-                    $.ajax({
-                        type: "GET",
-                        url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
-                        data: { apikey: key, details:true },
-                        success: function (conditionsResponse) {
-                            debugger;
-                            console.log(conditionsResponse);
-                        },
-                        failure: function (conditionsResponse) {
-                            console.log(conditionsResponse.responseText);
-                        },
-                        error: function (conditionsResponse) {
-                            console.log(conditionsResponse.responseText);
-                        }
-                    });
+                    if (locationResponse.length > 0) {
+                        context.state.location = JSON.stringify(locationResponse[0]);
+                        debugger;
+                        $.ajax({
+                            type: "GET",
+                            url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
+                            data: { apikey: key, details: true },
+                            success: function (conditionsResponse) {
+                                //debugger;
+                                console.log(conditionsResponse);
+                                if (conditionsResponse.length > 0) {
+                                    context.state.currentConditions = JSON.stringify(conditionsResponse[0]);
+                                    if (context.state.location !== {} && context.state.currentConditions !== {}) {
+                                        debugger;
+                                    }
+                                }
+                            },
+                            failure: function (conditionsResponse) {
+                                console.log(conditionsResponse.responseText);
+                            },
+                            error: function (conditionsResponse) {
+                                console.log(conditionsResponse.responseText);
+                            }
+                        });
+                    }
                 },
                 failure: function (locationResponse) {
                     console.log(locationResponse.responseText);
@@ -63,16 +75,36 @@ export class NavMenu extends Component {
                     console.log(locationResponse.responseText);
                 }
             });
+            console.log(context.state);
         }
     }
 
-    handleKeyPress(e, key, term) {
+    handleSearch(e, context) {
+        //debugger;
+        this.getConditionsAndForecast(context)
+        this.addSearchHistory(context)
+    }
 
-        // debugger;
-        if (e.key == 'Enter') {
-            debugger;
-            this.getConditionsAndForecast(key, term)
+    handleKeyPress(e, context) {
+
+        if (e.key === 'Enter') {
+
+            //debugger;
+            this.handleSearch(e, context);
             e.preventDefault();
+        }
+    }
+
+    addSearchHistory(context) {
+        if (!context.state.searchHistory.includes(context.state.searchTerm)) {
+            if (context.state.searchHistory.length === 5) {
+                context.state.searchHistory.shift();
+                $('#datalistOptions').find('option').eq(0).remove();
+            }
+
+            context.state.searchHistory.push(context.state.searchTerm);
+            var option = $('<option value="' + context.state.searchTerm + '"></option>');
+            $('#datalistOptions').append(option);
         }
     }
 
@@ -90,15 +122,23 @@ export class NavMenu extends Component {
 
                     <form className="d-flex" role="search" method="get">
                         <MContext.Consumer>
-                            {(context) => (<input className="form-control me-2" id="weatherSearchInput"
+                            {(context) => (
+                                <input className="form-control me-2" id="weatherSearchInput" list="datalistOptions"
                                 type="search" placeholder="Enter a Location..." aria-label="Search"
-                                onKeyDown={(e) => this.handleKeyPress(e, context.state.apiKey, context.state.searchTerm)}
-                                onChange={() => context.setSearchTerm($('#weatherSearchInput').val())}></input>)}
-                            
+                                onKeyDown={(e) => this.handleKeyPress(e, context)}
+                                    onChange={() => context.setSearchTerm($('#weatherSearchInput').val())}></input>
+                            )}
                         </MContext.Consumer>
-                            <MContext.Consumer>
+                        <datalist id="datalistOptions">
+                            {/*<option value="San Francisco"></option>*/}
+                            {/*<option value="New York"></option>*/}
+                            {/*<option value="Seattle"></option>*/}
+                            {/*<option value="Los Angeles"></option>*/}
+                            {/*<option value="Chicago"></option>*/}
+                        </datalist>
+                        <MContext.Consumer>
                             {(context) => (<button className="btn btn-primary" type="button" disabled={(context.state.searchTerm) ? "" : " disabled"}
-                                onClick={() => this.getConditionsAndForecast(context.state.apiKey, context.state.searchTerm)}>Search</button>)}
+                                onClick={(e) => this.handleSearch(e, context)}>Search</button>)}
                         </MContext.Consumer>
                     </form>
             <ul className="navbar-nav flex-grow">

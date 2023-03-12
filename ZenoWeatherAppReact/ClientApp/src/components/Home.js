@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useContext } from 'react';
 import { MContext } from "./MyProvider";
 
 export class Home extends Component {
@@ -6,18 +6,28 @@ export class Home extends Component {
 
   render() {
       return (
-
-
+          //<div className="d-flex">
+          //    <MContext.Consumer>
+          //        {(context) => (
+          //            (context.state.apiKey === "")
+          //            ? <p><em>Api Key...</em></p>
+          //                : (context.state.apiKey !== "" && context.state.location === "" && context.state.currentConditions === "") ? <p>Search ...</p> :<p></p>
+          //        )}
+          //    </MContext.Consumer>
+          //    <MContext.Consumer>
+          //        {(context) => (
+          //            (context.state.location !== "" && context.state.currentConditions !== "")
+          //                ? <div>
+          //                    <p><em>Results</em></p>
+          //                    <p><em>{context.state.location}</em></p>
+          //                    <p><em>{context.state.currentConditions}</em></p>
+          //                </div>
+          //                : <p></p>
+          //        )}
+          //    </MContext.Consumer>
+          //</div>
 
           <div className="d-flex">
-
-              {/*<p>Current api Key is: </p>*/}
-              {/*<div>*/}
-              {/*    <MContext.Consumer>*/}
-              {/*        {(context) => (<p>{context.state.apiKey}</p>)}*/}
-              {/*    </MContext.Consumer>*/}
-              {/*</div>*/}
-
             <div className="bd-example-row container-fluid pageParentDivIndex" id="forecastContainer">
                 <div className="container-lg shadow " style={{paddingTop: 8 + 'px'}}>
                     <div className="row forecastRow">

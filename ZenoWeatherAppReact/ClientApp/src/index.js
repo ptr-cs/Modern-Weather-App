@@ -11,33 +11,6 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
-
-
-function getWeatherSearch() {
-    $.ajax({
-        type: "GET",
-        url: "/Home/GetWeatherSearch",
-        success: function (response) {
-            debugger;
-            $('#weatherSearchInput').val(response);
-        },
-        failure: function (response) {
-            alert(response.responseText);
-        },
-        error: function (response) {
-            alert(response.responseText);
-        }
-    });
-}
-
-function searchWeather(evt) {
-    $.ajax({
-        type: "POST",
-        url: "/Home/SearchWeather",
-        data: { "weatherSearch": $('#weatherSearchInput').val() }
-    });
-}
-
 root.render(
   <BrowserRouter basename={baseUrl}>
     <App />
