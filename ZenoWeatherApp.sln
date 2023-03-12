@@ -11,6 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherAppCommon", "Zen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherAppWeb", "ZenoWeatherAppWeb\ZenoWeatherAppWeb.csproj", "{B3BD2B5C-6631-4A04-94FA-DAC64E818DAD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZenoWeatherAppReact", "ZenoWeatherAppReact\ZenoWeatherAppReact.csproj", "{CF3F8C1C-C021-4C89-821F-A6600D2AA0D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Server", "BlazorApp1\Server\BlazorApp1.Server.csproj", "{93B28B96-8D23-427E-8118-F5136B96E114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Client", "BlazorApp1\Client\BlazorApp1.Client.csproj", "{2CBE5330-E1FB-4343-BFBA-9498CD605D27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Shared", "BlazorApp1\Shared\BlazorApp1.Shared.csproj", "{C4E06AE5-5640-4CEE-9BCE-1520B1A89E1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +41,22 @@ Global
 		{B3BD2B5C-6631-4A04-94FA-DAC64E818DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3BD2B5C-6631-4A04-94FA-DAC64E818DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3BD2B5C-6631-4A04-94FA-DAC64E818DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3F8C1C-C021-4C89-821F-A6600D2AA0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3F8C1C-C021-4C89-821F-A6600D2AA0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF3F8C1C-C021-4C89-821F-A6600D2AA0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3F8C1C-C021-4C89-821F-A6600D2AA0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93B28B96-8D23-427E-8118-F5136B96E114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B28B96-8D23-427E-8118-F5136B96E114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B28B96-8D23-427E-8118-F5136B96E114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B28B96-8D23-427E-8118-F5136B96E114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBE5330-E1FB-4343-BFBA-9498CD605D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBE5330-E1FB-4343-BFBA-9498CD605D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBE5330-E1FB-4343-BFBA-9498CD605D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBE5330-E1FB-4343-BFBA-9498CD605D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E06AE5-5640-4CEE-9BCE-1520B1A89E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E06AE5-5640-4CEE-9BCE-1520B1A89E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E06AE5-5640-4CEE-9BCE-1520B1A89E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E06AE5-5640-4CEE-9BCE-1520B1A89E1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

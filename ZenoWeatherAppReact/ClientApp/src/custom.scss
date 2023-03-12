@@ -1,0 +1,358 @@
+@use "sass:color";
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$row-color: $primary;
+
+$shade-color: #000;
+$shade-color-5: color.scale($shade-color, $alpha: -50%);
+$shade-color-4: color.scale($shade-color, $alpha: -60%);
+$shade-color-3: color.scale($shade-color, $alpha: -70%);
+$shade-color-2: color.scale($shade-color, $alpha: -80%);
+$shade-color-1: color.scale($shade-color, $alpha: -90%);
+
+$white-color: #F7F6FB;
+
+
+
+html,
+body {
+    overflow: auto;
+}
+
+html {
+    height: -webkit-fill-available;
+    font-size: 18px;
+}
+
+body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    position: relative;
+    font-family: var(--body-font);
+    transition: .5s;
+    padding-top: 4rem;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+
+main {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.black-shade-1 {
+    background-color: $shade-color-1;
+}
+
+.black-shade-2 {
+    background-color: $shade-color-2;
+}
+
+.black-shade-3 {
+    background-color: $shade-color-3;
+}
+
+.black-shade-4 {
+    background-color: $shade-color-4;
+}
+
+.black-shade-5 {
+    background-color: $shade-color-5;
+}
+
+.cloudySkyGradient {
+    background-image: linear-gradient(45deg, rgba(2,0,36,0) 0%, rgba(0,47,84,.25) 100%);
+}
+
+:root {
+    --header-height: 0;
+    --nav-width: 48px;
+    --first-color: #444444;
+    --first-color-light: #0e6eba;
+    --body-font: 'Nunito', sans-serif;
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+#body-pd > nav {
+    padding: 0 !important;
+}
+
+#body-pd > nav > div > form {
+    padding: 8px 0px;
+}
+
+#root > div > header > nav {
+    border-bottom: 0 !important;
+}
+
+.height-100 {
+    height: 100vh;
+}
+
+div.tooltip {
+    > div.tooltip-inner {
+        background: $primary;
+    }
+}
+
+div.tooltip.show {
+    opacity: 1;
+}
+
+.bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
+    border-bottom-color: $primary;
+}
+
+li.nav-item > a.nav-link, #HomeNavItem > a, #settingsNavItem > a, #AboutNavItem > a {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    line-height: 1rem;
+}
+
+li.nav-item > a.nav-link > span {
+    display: none;
+    margin-left: 8px;
+}
+
+@media (max-width: 575px) {
+
+    ul.navbar-nav {
+        margin-top: 8px;
+    }
+
+    li.nav-item > a.nav-link, #HomeNavItem > a, #settingsNavItem > a, #AboutNavItem > a {
+        text-align: left;
+        padding: 12px 0;
+    }
+
+    li.nav-item > a.nav-link > span {
+        display: inline;
+    }
+
+    div.tooltip {
+        display: none;
+    }
+}
+
+.navbar-toggler {
+    margin: 0px 0px;
+}
+
+#offcanvasNavbar2.show {
+    background: linear-gradient(0deg, #000, #222) !important;
+}
+
+#offcanvasNavbar2 > div.offcanvas-body, #offcanvasNavbar2 > div.offcanvas-header {
+    background: transparent;
+}
+
+#settingsContainer {
+    margin-left: 12px;
+    margin-top: 16px;
+}
+
+#aboutContainer {
+    margin-top: 12px;
+}
+
+#body-pd > nav > div > form > input.form-control,
+#body-pd > nav > div > form > button.btn {
+    font-size: .9rem;
+}
+
+.settingsPageLabel {
+    font-weight: 600;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.currentConditionsGridTile {
+    min-height: 128px;
+    min-width: 96px;
+}
+
+.forecastGridTile {
+    min-height: 158px;
+    min-width: 96px;
+    display: flex;
+}
+
+.forecastTileText, .forecastCardSummary {
+    word-break: break-word;
+}
+
+.forecastTileTitle,
+.forecastTileText,
+.forecastCardTitle,
+.forecastCardSummary,
+.forecastCardTemp,
+.currentConditionsGridTile span,
+.forecastGridTile span,
+.weatherTileIcon,
+.weatherTileReading,
+.weatherTileTitle > p,
+#weatherProvidedBy,
+.navbar-brand {
+    color: $white-color;
+}
+
+.forecastCardSummary {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.forecastTileText {
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+
+.forecastCardBody {
+    padding: 0px;
+    display: inline-grid;
+}
+
+.forecastCardTitle {
+    text-align: right;
+    margin-right: 8px;
+}
+
+.weatherRow > div > h5 > i, .forecastCardTitle {
+    font-size: 2rem;
+}
+
+.currentConditionsGridTile span,
+.forecastGridTile span {
+    margin: 0;
+    align-self: flex-end;
+    font-weight: 500;
+}
+
+#forecastContainer > div.bd-example-row > div > div > div > div.forecastGridTile > div > div > span {
+    font-size: 1.2rem
+}
+
+.centerDiv {
+    position: absolute;
+    left: 60%;
+    top: 40%;
+    margin: -100px 0 0 -150px;
+}
+
+.bd-example-row .row > .col,
+.bd-example-row .row > [class^=col-] {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+.weatherRow {
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.weatherTileIcon {
+    text-align: right;
+    margin-right: 8px;
+}
+
+.weatherTileReading {
+    margin-left: 8px;
+
+    > p {
+        margin-bottom: 0px !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .pageParentDiv {
+        margin-left: 0px;
+    }
+
+    .pageParentDivOffset {
+        margin-left: 48px;
+    }
+
+    .pageParentDivIndex {
+        margin-left: 0px !important;
+    }
+
+    .centerDiv {
+        margin: -100px 0 0 -150px !important;
+    }
+
+    .mobileMenuBackground {
+        display: block;
+    }
+}
+
+.settingsDiv {
+    padding: 8px;
+}
+
+.largeToggleSwitch {
+    float: right !important;
+    margin-left: 12px !important;
+    height: 24px !important;
+    width: 48px !important;
+}
+
+.bd-example-row .row > .col,
+.bd-example-row .row > [class^=col-] {
+    border: none !important;
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        display: flex;
+    }
+}
+
+#weatherProvidedBy {
+    margin: 0px;
+    line-height: 12px;
+    text-align: left;
+    font-weight: 500;
+    min-width: 78px;
+    font-size: 0.6rem;
+}
+
+#navbarBrandText {
+    margin: 0px 12px 0px 0px;
+    font-weight: 500;
+}
+
+#forecastContainer {
+    margin-top: 12px;
+    overflow-y: auto;
+
+    > div.container-lg.shadow > div.row {
+        background: $row-color;
+
+        > div.col-md-4.currentConditionsGridTile.shadow {
+            background-image: linear-gradient(-90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,.33) 100%);
+        }
+    }
+}
+
+.forecastRow {
+    background: $row-color;
+}
+
+#weatherSearchInput {
+    max-width: 200px;
+}
