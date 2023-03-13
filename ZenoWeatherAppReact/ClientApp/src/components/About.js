@@ -11,7 +11,7 @@ export class About extends Component {
 						<div className="rounded-circle d-block mx-auto mb-3 shadow">
 						</div>
 						<h1 className="mb-3 fw-semibold">About</h1>
-						<p className="lead mb-4">       Weather app implemented using Windows Presentation Foundation (WPF) and ASP.NET Razor pages. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub.</p>
+						<p className="lead mb-4">       Multi-platform weather app implemented using Windows Presentation Foundation (WPF) and ASP.NET Razor pages. Data is provided by the AccuWeather API and supports Free-tier access. Source code is available on GitHub.</p>
 					</div>
 				</div>
 			</div>

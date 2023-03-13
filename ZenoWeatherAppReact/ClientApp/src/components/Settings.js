@@ -15,13 +15,13 @@ export class Settings extends Component {
     render() {
         return (
             <div className="d-block pageParentDiv" id="settingsContainer">
-                <div>
-                    <MContext.Consumer>
-                        {(context) => (
-                            <p>Local Name: {context.state.currentConditions}</p>
-                        )}
-                    </MContext.Consumer>
-                </div>
+                {/*<div>*/}
+                {/*    <MContext.Consumer>*/}
+                {/*        {(context) => (*/}
+                {/*            <p>Local Name: {context.state.currentConditions}</p>*/}
+                {/*        )}*/}
+                {/*    </MContext.Consumer>*/}
+                {/*</div>*/}
 
                 <div className="d-inline-block">
                     <div className="form-check form-switch d-inline-block settingsDiv">
