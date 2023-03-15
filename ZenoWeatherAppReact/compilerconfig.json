@@ -2,5 +2,9 @@
   {
     "outputFile": "ClientApp/src/custom.css",
     "inputFile": "ClientApp/src/custom.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/Welcome.css",
+    "inputFile": "ClientApp/src/components/Welcome.scss"
   }
 ]

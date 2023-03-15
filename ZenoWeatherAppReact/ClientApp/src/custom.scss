@@ -36,6 +36,7 @@ body {
     transition: .5s;
     padding-top: 62px;
     padding-bottom: 1.5rem;
+    background: linear-gradient(to bottom left, rgb(236, 233, 230), rgb(255, 255, 255))
 }
 
 @media (min-width: 768px) {
@@ -374,4 +375,8 @@ footer.footer {
 
 #weatherSearchInput {
     max-width: 200px;
+}
+
+#heroImage {
+    filter: drop-shadow(-3px 3px 2px #00000044);
 }

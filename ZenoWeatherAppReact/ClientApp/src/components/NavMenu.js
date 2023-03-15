@@ -31,50 +31,51 @@ export class NavMenu extends Component {
     }
 
     getConditionsAndForecast(context) {
+        var self = this;
         let key = context.state.apiKey;
         let term = context.state.searchTerm;
 
         if (key !== "" && term !== "") {
-            $.ajax({
-                type: "GET",
-                url: "http://dataservice.accuweather.com/locations/v1/search",
-                data: { apikey: key, q: term },
-                success: function (locationResponse) {
-                    //debugger;
-                    console.log(locationResponse);
-                    if (locationResponse.length > 0) {
-                        context.state.location = JSON.stringify(locationResponse[0]);
-                        debugger;
-                        $.ajax({
-                            type: "GET",
-                            url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
-                            data: { apikey: key, details: true },
-                            success: function (conditionsResponse) {
-                                //debugger;
-                                console.log(conditionsResponse);
-                                if (conditionsResponse.length > 0) {
-                                    context.state.currentConditions = JSON.stringify(conditionsResponse[0]);
-                                    if (context.state.location !== {} && context.state.currentConditions !== {}) {
-                                        debugger;
-                                    }
-                                }
-                            },
-                            failure: function (conditionsResponse) {
-                                console.log(conditionsResponse.responseText);
-                            },
-                            error: function (conditionsResponse) {
-                                console.log(conditionsResponse.responseText);
-                            }
-                        });
-                    }
-                },
-                failure: function (locationResponse) {
-                    console.log(locationResponse.responseText);
-                },
-                error: function (locationResponse) {
-                    console.log(locationResponse.responseText);
-                }
-            });
+            //$.ajax({
+            //    type: "GET",
+            //    url: "http://dataservice.accuweather.com/locations/v1/search",
+            //    data: { apikey: key, q: term },
+            //    success: function (locationResponse) {
+            //        //debugger;
+            //        console.log(locationResponse);
+            //        if (locationResponse.length > 0) {
+            //            context.state.location = JSON.stringify(locationResponse[0]);
+            //            //debugger;
+            //            $.ajax({
+            //                type: "GET",
+            //                url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
+            //                data: { apikey: key, details: true },
+            //                success: function (conditionsResponse) {
+            //                    //debugger;
+            //                    console.log(conditionsResponse);
+            //                    if (conditionsResponse.length > 0) {
+            //                        context.state.currentConditions = JSON.stringify(conditionsResponse[0]);
+            //                        if (context.state.location !== {} && context.state.currentConditions !== {}) {
+            //                            //debugger
+            //                        }
+            //                    }
+            //                },
+            //                failure: function (conditionsResponse) {
+            //                    console.log(conditionsResponse.responseText);
+            //                },
+            //                error: function (conditionsResponse) {
+            //                    console.log(conditionsResponse.responseText);
+            //                }
+            //            });
+            //        }
+            //    },
+            //    failure: function (locationResponse) {
+            //        console.log(locationResponse.responseText);
+            //    },
+            //    error: function (locationResponse) {
+            //        console.log(locationResponse.responseText);
+            //    }
+            //});
             console.log(context.state);
         }
     }
@@ -130,11 +131,6 @@ export class NavMenu extends Component {
                             )}
                         </MContext.Consumer>
                         <datalist id="datalistOptions">
-                            {/*<option value="San Francisco"></option>*/}
-                            {/*<option value="New York"></option>*/}
-                            {/*<option value="Seattle"></option>*/}
-                            {/*<option value="Los Angeles"></option>*/}
-                            {/*<option value="Chicago"></option>*/}
                         </datalist>
                         <MContext.Consumer>
                             {(context) => (<button className="btn btn-primary" type="button" disabled={(context.state.searchTerm) ? "" : " disabled"}
@@ -142,31 +138,31 @@ export class NavMenu extends Component {
                         </MContext.Consumer>
                     </form>
             <ul className="navbar-nav flex-grow">
-                        <NavItem id={'HomeNavItem'} aria-label="Home"> 
+            <NavItem id={'HomeNavItem'} aria-label="Home"> 
                 <NavLink tag={Link} to="/" tooltip="Home"><FontAwesomeIcon size="lg" icon={faHome} /><span className="navLinkText">Home</span></NavLink>
             </NavItem>
-                        <UncontrolledTooltip
-                            offset={[0, 20]}
-                            placement="bottom"
-                            target="HomeNavItem"
-                        >Home
-                        </UncontrolledTooltip>
+            <UncontrolledTooltip
+                offset={[0, 20]}
+                placement="bottom"
+                target="HomeNavItem"
+            >Home
+            </UncontrolledTooltip>
             <NavItem id={'SettingsNavItem'} aria-label="Settings">
-                            <NavLink tag={Link} to="/settings"><FontAwesomeIcon size="lg" icon={faCog} /><span className="navLinkText">Settings</span></NavLink>
+                <NavLink tag={Link} to="/settings"><FontAwesomeIcon size="lg" icon={faCog} /><span className="navLinkText">Settings</span></NavLink>
             </NavItem>
-                        <UncontrolledTooltip
-                            offset={[0, 20]}
-                            placement="bottom"
-                            target="SettingsNavItem"
-                        >Settings
-                        </UncontrolledTooltip>
+            <UncontrolledTooltip
+                offset={[0, 20]}
+                placement="bottom"
+                target="SettingsNavItem"
+            >Settings
+            </UncontrolledTooltip>
             <NavItem id={'AboutNavItem'} aria-label="About">
-                            <NavLink tag={Link} to="/about"><FontAwesomeIcon size="lg" icon={faInfoCircle} /><span className="navLinkText">About</span></NavLink>
+                <NavLink tag={Link} to="/about"><FontAwesomeIcon size="lg" icon={faInfoCircle} /><span className="navLinkText">About</span></NavLink>
             </NavItem>
-                        <UncontrolledTooltip
-                            offset={[0, 20]}
-                            placement="bottom"
-                            target="AboutNavItem"
+            <UncontrolledTooltip
+                offset={[0, 20]}
+                placement="bottom"
+                target="AboutNavItem"
             >About
             </UncontrolledTooltip>
               {/*<NavItem>*/}
