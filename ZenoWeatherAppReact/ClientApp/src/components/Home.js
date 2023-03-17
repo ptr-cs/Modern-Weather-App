@@ -1,23 +1,18 @@
-import React, { Component, useContext } from 'react';
+import React, { useState } from 'react';
 import { MContext } from "./MyProvider";
-import { Welcome } from './Welcome';
-import { Weather } from './Weather';
+import Welcome from './Welcome';
+import Weather from './Weather';
 
-export class Home extends Component {
-  static displayName = Home.name;
+export default function Home({searchTerm, apiKey, location, currentConditions }) {
+  var displayName = Home.name;
 
-  render() {
-      return (
-          <div>
-
-              <MContext.Consumer>
-                  {(context) => (
-                      (context.state.searchTerm !== "" && context.state.apiKey !== "")
-                          ? <Weather />
-                          : <Welcome />
-                  )}
-              </MContext.Consumer>
-          </div>
+    return (
+        <div>
+            {
+                (searchTerm !== "" && apiKey !== "")
+                    ? <Weather apiKey={apiKey} searchTerm={searchTerm} />
+                    : <Welcome apiKey={apiKey} searchTerm={searchTerm} location={location} currentConditions={currentConditions} />
+            }
+        </div>
     );
-  }
 }

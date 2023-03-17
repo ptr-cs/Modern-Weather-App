@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
-import { NavMenu } from './NavMenu';
+import React, { useState } from 'react';
+import NavMenu from './NavMenu';
 import { MyProvider } from "./MyProvider";
 
-export class Layout extends Component {
-  static displayName = Layout.name;
+export default function Layout({ routes, apiKey, searchTerm, location, currentConditions, setApiKey, setSearchTerm, searchHistory }) {
+  var displayName = Layout.name;
 
 
-  render() {
     return (
         <div>
             <MyProvider>
-                <NavMenu />
+                <NavMenu apiKey={apiKey}
+                    searchTerm={searchTerm}
+                    location={location}
+                    currentConditions={currentConditions}
+                    setApiKey={setApiKey}
+                    setSearchTerm={setSearchTerm}
+                    searchHistory={searchHistory} />
                 <div className="container-fluid">
-                    {this.props.children}
+                    {routes }
                 </div>
             </MyProvider>
-      </div>
+        </div>
     );
-  }
 }

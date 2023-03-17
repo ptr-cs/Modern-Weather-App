@@ -1,8 +1,8 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
-import { Home } from "./components/Home";
-import { Settings } from "./components/Settings";
-import { About } from "./components/About";
+import Home from "./components/Home";
+import Settings from "./components/Settings";
+import About from "./components/About";
 
 const AppRoutes = [
     {
