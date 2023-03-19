@@ -1,255 +1,105 @@
-﻿import React from 'react';
-import { MContext } from "./MyProvider";
+import React from 'react';
+import CurrentConditions from './weather/CurrentConditions';
+import WindSpeed from './weather/WindSpeed';
+import CloudCover from './weather/CloudCover';
+import Visibility from './weather/Visibility';
+import Pressure from './weather/Pressure';
+import Temperature from './weather/Temperature';
+import RelativeHumidity from './weather/RelativeHumidity';
+import WindDirection from './weather/WindDirection';
+import PastPrecipitation from './weather/PastPrecipitation';
+import WindChill from './weather/WindChill';
+import ForecastDay from './weather/ForecastDay';
+import ForecastSummary from './weather/ForecastSummary';
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Weather() {
-    var displayName = Weather.name;
+export default function Weather({ state }) {
+
+    function getFormattedDateTime(value) {
+        var date = new Date(value).toLocaleString()
+        return date;
+    }
 
     return (
-        <div className="d-flex">
-            <div className="bd-example-row container-fluid pageParentDivIndex" id="forecastContainer">
-                <div className="container-lg shadow " style={{ paddingTop: 8 + 'px' }}>
-                    <div className="row forecastRow">
-                        <div className="col-md-4 currentConditionsGridTile shadow">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-night-sleet"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">100%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Current Conditions</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-2">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-windy"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">14.5</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Wind Speed (mi/h)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-3">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-cloudy"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">100%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Cloud Cover</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-1">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-horizon-alt"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">8</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Visibility (mi)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-2">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-barometer"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">30.14</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Pressure (inHg)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div >
+            {(state.location !== '') ?
+                <div className="bd-example-row container-fluid container-lg bg-primary mt-3 p-1 shadow"> 
+                    <h2 className="fs-4 text-light m-0 p-1" style={{display: 'inline-block'}}>{JSON.parse(state.location)['LocalizedName']}, {JSON.parse(state.location)['AdministrativeArea']['ID']}</h2>
+                    <p className="lh-1 text-secondary-emphasis mb-2 small ms-2 text-light p-1" style={{ display: 'inline-block' }}><FontAwesomeIcon className="me-1" size="x1" icon={faClock} /> {getFormattedDateTime(JSON.parse(state.currentConditions)['LocalObservationDateTime'])}</p>
+                </div>
+                 :  <p></p>
+            } 
 
-                    <div className="row">
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-1">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-thermometer"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">90</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Temp. (F)</p>
-                                </div>
-                            </div>
+            { (state.currentConditions !== '') ?
+                <div className="bd-example-row container-fluid p-0 m-0 pageParentDivIndex" id="forecastContainer" style={{ overflowY: 'hidden' }}>
+                    <div className="container-lg" >
+                        <div className="row forecastRow">
+                            <CurrentConditions
+                                weatherText={JSON.parse(state.currentConditions)['WeatherText']}
+                                weatherIcon={JSON.parse(state.currentConditions)['WeatherIcon']}/>
+
+                            <Temperature temperature={JSON.parse(state.currentConditions)['Temperature']} units={state.unitsSystem} />
+                            <WindSpeed windSpeed={JSON.parse(state.currentConditions)['Wind']['Speed']} units={state.unitsSystem} />
+                            <WindChill windChillTemperature={JSON.parse(state.currentConditions)['WindChillTemperature']} units={state.unitsSystem} />
+                            <WindDirection windDirection={JSON.parse(state.currentConditions)['Wind']['Direction']} />
+
                         </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-3">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-humidity"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">14.5</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Rel. Humidity</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-2">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-wind-direction"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">14.5</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Wind Dir. (ENE)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4 currentConditionsGridTile shadow">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-rain"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">14.5</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Past Precip. Summary (in)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2 currentConditionsGridTile shadow black-shade-1">
-                            <div>
-                                <div className="row g-0 weatherRow">
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <h5 className="card-title weatherTileIcon"><i className="wi wi-snowflake-cold"></i></h5>
-                                    </div>
-                                    <div className="col-lg-6 col-sm-12 col-6">
-                                        <div>
-                                            <p className="card-text weatherTileReading">14.5</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-0 weatherTileTitle">
-                                    <p>Wind Chill (F)</p>
-                                </div>
-                            </div>
+
+                        <div className="row forecastRow shadow">
+                            <CloudCover cloudCover={JSON.parse(state.currentConditions)['CloudCover']} />
+                            <Visibility visibility={JSON.parse(state.currentConditions)['Visibility']} units={state.unitsSystem} />
+                            <Pressure pressure={JSON.parse(state.currentConditions)['Pressure']} units={state.unitsSystem} />
+                            <RelativeHumidity relativeHumidity={JSON.parse(state.currentConditions)['RelativeHumidity']} />
+                            <PastPrecipitation precipitationSummary={JSON.parse(state.currentConditions)['PrecipitationSummary']} units={state.unitsSystem} />
                         </div>
                     </div>
                 </div>
+                : <p></p>
+            }
 
+            { (state.forecast5Day !== '') ? 
                 <div className="bd-example-row mt-3 mb-3">
                     <div className="bd-example">
                         <div className="container-lg">
-                            <div className="row forecastRow">
-                                <div className="col-md-2 forecastGridTile shadow p-0">
-                                    <div className="card-body">
-                                        <h5 className="card-title forecastTileTitle p-2 black-shade-1">Forecast</h5>
-                                        <p className="card-text forecastTileText p-2">Rain and thunderstorms this evening through tomorrow morning</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 forecastGridTile shadow black-shade-1">
-                                    <div className="card-body forecastCardBody">
-                                        <h5 className="card-title forecastCardTitle"><i className="wi wi-day-sunny"></i></h5>
-                                        <div>
-                                            <h6 className="card-subtitle forecastCardSummary">Sunny</h6>
-                                            <p className="card-text forecastCardTemp">40&deg; / 76&deg;</p>
-                                            <span className="card-link">Mon</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 forecastGridTile shadow black-shade-2">
-                                    <div className="card-body forecastCardBody">
-                                        <h5 className="card-title forecastCardTitle"><i className="wi wi-day-rain"></i></h5>
-                                        <div>
-                                            <h6 className="card-subtitle forecastCardSummary">Rainy</h6>
-                                            <p className="card-text forecastCardTemp">36&deg; / 62&deg;</p>
-                                            <span className="card-link">Tue</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 forecastGridTile shadow black-shade-3">
-                                    <div className="card-body forecastCardBody">
-                                        <h5 className="card-title forecastCardTitle"><i className="wi wi-day-snow"></i></h5>
-                                        <div>
-                                            <h6 className="card-subtitle forecastCardSummary">Snow showers</h6>
-                                            <p className="card-text forecastCardTemp">28&deg; / 47&deg;</p>
-                                            <span className="card-link">Wed</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 forecastGridTile shadow black-shade-4">
-                                    <div className="card-body forecastCardBody">
-                                        <h5 className="card-title forecastCardTitle"><i className="wi wi-cloudy-gusts"></i></h5>
-                                        <div>
-                                            <h6 className="card-subtitle forecastCardSummary">Overcast and windy</h6>
-                                            <p className="card-text forecastCardTemp">43&deg; / 57&deg;</p>
-                                            <span className="card-link">Thu</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 forecastGridTile shadow black-shade-5">
-                                    <div className="card-body forecastCardBody">
-                                        <h5 className="card-title forecastCardTitle"><i className="wi wi-storm-showers"></i></h5>
-                                        <div>
-                                            <h6 className="card-subtitle forecastCardSummary">Thunderstorms</h6>
-                                            <p className="card-text forecastCardTemp">61&deg; / 80&deg;</p>
-                                            <span className="card-link">Fri</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="row forecastRow shadow">
+                                <ForecastSummary headlineText={JSON.parse(state.forecast5Day)['Headline']['Text']} />
+                                <ForecastDay
+                                    date={JSON.parse(state.forecast5Day)['DailyForecasts'][0]['Date']}
+                                    temperature={JSON.parse(state.forecast5Day)['DailyForecasts'][0]['Temperature']}
+                                    day={JSON.parse(state.forecast5Day)['DailyForecasts'][0]['Day']}
+                                    units={state.unitsSystem}
+                                    shading="black-shade-2" />
+                                <ForecastDay
+                                    date={JSON.parse(state.forecast5Day)['DailyForecasts'][1]['Date']}
+                                    temperature={JSON.parse(state.forecast5Day)['DailyForecasts'][1]['Temperature']}
+                                    day={JSON.parse(state.forecast5Day)['DailyForecasts'][1]['Day']}
+                                    units={state.unitsSystem}
+                                    shading="black-shade-3" />
+                                <ForecastDay
+                                    date={JSON.parse(state.forecast5Day)['DailyForecasts'][2]['Date']}
+                                    temperature={JSON.parse(state.forecast5Day)['DailyForecasts'][2]['Temperature']}
+                                    day={JSON.parse(state.forecast5Day)['DailyForecasts'][2]['Day']}
+                                    units={state.unitsSystem}
+                                    shading="black-shade-4" />
+                                <ForecastDay
+                                    date={JSON.parse(state.forecast5Day)['DailyForecasts'][3]['Date']}
+                                    temperature={JSON.parse(state.forecast5Day)['DailyForecasts'][3]['Temperature']}
+                                    day={JSON.parse(state.forecast5Day)['DailyForecasts'][3]['Day']}
+                                    units={state.unitsSystem}
+                                    shading="black-shade-5" />
+                                <ForecastDay
+                                    date={JSON.parse(state.forecast5Day)['DailyForecasts'][4]['Date']}
+                                    temperature={JSON.parse(state.forecast5Day)['DailyForecasts'][4]['Temperature']}
+                                    day={JSON.parse(state.forecast5Day)['DailyForecasts'][4]['Day']}
+                                    units={state.unitsSystem}
+                                    shading="black-shade-6" />
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> 
+                : <p></p>
+        }
         </div>
     );
 }

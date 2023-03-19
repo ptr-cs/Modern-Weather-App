@@ -3,15 +3,15 @@ import { MContext } from "./MyProvider";
 import Welcome from './Welcome';
 import Weather from './Weather';
 
-export default function Home({searchTerm, apiKey, location, currentConditions }) {
+export default function Home({ state }) {
   var displayName = Home.name;
 
     return (
         <div>
             {
-                (searchTerm !== "" && apiKey !== "")
-                    ? <Weather apiKey={apiKey} searchTerm={searchTerm} />
-                    : <Welcome apiKey={apiKey} searchTerm={searchTerm} location={location} currentConditions={currentConditions} />
+                (state.searchTerm !== "" && state.apiKey !== "" && state.location !== "" && state.currentConditions !== "")
+                    ? <Weather state={state} />
+                    : <Welcome state={state} />
             }
         </div>
     );

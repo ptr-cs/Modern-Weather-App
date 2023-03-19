@@ -1,23 +1,17 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { MContext } from "./MyProvider";
 import { Link, Navigate } from 'react-router-dom';
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './Welcome.css';
 
-export default function Welcome({ apiKey, location, currentConditions }) {
-    const [toSettings, setToSettings] = React.useState(false);
-
-    if (toSettings === true) {
-        return <Navigate to="/settings" />;
-    }
-
-    console.log(apiKey)
+export default function Welcome({ state }) {
 
     return (
-        <div>
-            {apiKey === '' ? <div className="px-4 my-5 text-center">
-                <img className="d-block mx-auto mb-4" id="heroImage" src="/Assets/3dicons/sun-colors.png" width="256" alt=""></img>
+        <div className="px-4 my-5">
+            <img className="d-block mx-auto mb-4" id="heroImage" src="/Assets/3dicons/sun.png" width="256" alt=""></img>
+            {state.apiKey === '' ? <div className="text-center">
+                
                 <h1 className="display-5 fw-bold">Welcome!</h1>
                 <div className="col-lg-6 mx-auto">
                     <p className="lead mb-4">To get started, enter an AccuWeather API Key on the Settings page and search for a location.</p>
@@ -31,12 +25,11 @@ export default function Welcome({ apiKey, location, currentConditions }) {
             </div> : <p></p>}
 
             {
-                (apiKey !== "" && location === "" && currentConditions === "") ?
-                    <div className="px-4 my-5 text-center">
-                        <img className="d-block mx-auto mb-4" id="heroImage" src="/Assets/3dicons/sun.png" width="256" alt=""></img>
+                (state.apiKey !== "" && state.location === "" && state.currentConditions === "") ?
+                    <div className="text-center">
                         <h1 className="display-5 fw-bold">Ready for weather!</h1>
                         <div className="col-lg-6 mx-auto">
-                            <p className="lead mb-4">Enter a location in the search area to get the current conditions and forecast.</p>
+                            <p className="lead mb-4">Enter a location in the search area to get the weather.</p>
                         </div>
                     </div>
                     : <p></p>

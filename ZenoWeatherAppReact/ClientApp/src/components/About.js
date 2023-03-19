@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 
 export default function About() {
-    var displayName = About.name;
 
     return (
         <div className="px-4 my-5 text-center">

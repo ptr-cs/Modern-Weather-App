@@ -1,0 +1,12 @@
+﻿#settingsContainer {
+    z-index: 1;
+    position: relative
+}
+
+#settingsPageImage {
+    position: absolute;
+    top: 50px;
+    right: -250px;
+    opacity: .5;
+    z-index: 0;
+}

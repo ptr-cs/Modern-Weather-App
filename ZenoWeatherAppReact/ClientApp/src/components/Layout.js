@@ -2,22 +2,16 @@ import React, { useState } from 'react';
 import NavMenu from './NavMenu';
 import { MyProvider } from "./MyProvider";
 
-export default function Layout({ routes, apiKey, searchTerm, location, currentConditions, setApiKey, setSearchTerm, searchHistory }) {
+export default function Layout({ state, routes }) {
   var displayName = Layout.name;
 
 
     return (
         <div>
             <MyProvider>
-                <NavMenu apiKey={apiKey}
-                    searchTerm={searchTerm}
-                    location={location}
-                    currentConditions={currentConditions}
-                    setApiKey={setApiKey}
-                    setSearchTerm={setSearchTerm}
-                    searchHistory={searchHistory} />
+                <NavMenu state={ state } />
                 <div className="container-fluid">
-                    {routes }
+                    { routes }
                 </div>
             </MyProvider>
         </div>
