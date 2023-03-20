@@ -2,7 +2,7 @@
 import WeatherIconMapper from './WeatherIconMapper';
 
 export default function ForecastDay({ date, temperature, day, shading, units }) {
-    var className = 'col-md-2 forecastGridTile shadow ' + shading;
+    var className = 'col-md-2 col-4 forecastGridTile shadow ' + shading;
 
     function dateToWeekDay() {
         var day = new Date(date)
@@ -34,7 +34,7 @@ export default function ForecastDay({ date, temperature, day, shading, units }) 
                 <div>
                     <h6 className="card-subtitle forecastCardSummary">{day['IconPhrase']}</h6>
                     <p className="card-text forecastCardTemp">{getTempForUnits(temperature['Minimum']['Value'], temperature['Minimum']['Unit'])} &deg; / {getTempForUnits(temperature['Maximum']['Value'], temperature['Maximum']['Unit'])}&deg; {getUnits()}</p>
-                    <span className="card-link">{dateToWeekDay()}</span>
+                    <h6 className="card-link">{dateToWeekDay()}</h6>
                 </div>
             </div>
         </div>

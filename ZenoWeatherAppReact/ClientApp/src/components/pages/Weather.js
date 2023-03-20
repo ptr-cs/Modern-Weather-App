@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from 'reactstrap';
 import CurrentConditions from './weather/CurrentConditions';
 import WindSpeed from './weather/WindSpeed';
 import CloudCover from './weather/CloudCover';
@@ -13,8 +14,10 @@ import ForecastDay from './weather/ForecastDay';
 import ForecastSummary from './weather/ForecastSummary';
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import './Weather.css';
 
 export default function Weather({ state }) {
+
 
     function getFormattedDateTime(value) {
         var date = new Date(value).toLocaleString()
@@ -24,17 +27,31 @@ export default function Weather({ state }) {
     return (
         <div >
             {(state.location !== '') ?
-                <div className="bd-example-row container-fluid container-lg bg-primary mt-3 p-1 shadow"> 
-                    <h2 className="fs-4 text-light m-0 p-1" style={{display: 'inline-block'}}>{JSON.parse(state.location)['LocalizedName']}, {JSON.parse(state.location)['AdministrativeArea']['ID']}</h2>
-                    <p className="lh-1 text-secondary-emphasis mb-2 small ms-2 text-light p-1" style={{ display: 'inline-block' }}><FontAwesomeIcon className="me-1" size="x1" icon={faClock} /> {getFormattedDateTime(JSON.parse(state.currentConditions)['LocalObservationDateTime'])}</p>
+                <div id="locationConditionsHeader" className="bd-example-row container-fluid container-lg bg-primary mt-4 p-1 shadow"> 
+                    <h2 className="fs-4 text-light m-0 p-1" style={{ display: 'inline-block' }}>{JSON.parse(state.location)['LocalizedName']}, {JSON.parse(state.location)['AdministrativeArea']['ID']}</h2>
+                    <p className="lh-1 text-secondary-emphasis mb-0 ms-2 text-light p-1" style={{ display: 'inline-block' }}><FontAwesomeIcon className="me-1" size="1x" icon={faClock} /> {getFormattedDateTime(JSON.parse(state.currentConditions)['LocalObservationDateTime'])}</p>
                 </div>
                  :  <p></p>
             } 
 
+            {(state.isLoadingCurrentConditions === true) ? <Spinner className="position-absolute start-50" style={{
+                height: '5rem',
+                width: '5rem'
+            }}>Loading...</Spinner> : <span></span>}
+
+            {(state.isLoadingForecast === true) ? <Spinner className="position-absolute start-50 top-50 mt-5" style={{
+                height: '5rem',
+                width: '5rem'
+            }}>Loading...</Spinner> : <span></span>}
+
             { (state.currentConditions !== '') ?
                 <div className="bd-example-row container-fluid p-0 m-0 pageParentDivIndex" id="forecastContainer" style={{ overflowY: 'hidden' }}>
                     <div className="container-lg" >
+
+                        
+
                         <div className="row forecastRow">
+
                             <CurrentConditions
                                 weatherText={JSON.parse(state.currentConditions)['WeatherText']}
                                 weatherIcon={JSON.parse(state.currentConditions)['WeatherIcon']}/>
@@ -46,6 +63,7 @@ export default function Weather({ state }) {
 
                         </div>
 
+                        
                         <div className="row forecastRow shadow">
                             <CloudCover cloudCover={JSON.parse(state.currentConditions)['CloudCover']} />
                             <Visibility visibility={JSON.parse(state.currentConditions)['Visibility']} units={state.unitsSystem} />

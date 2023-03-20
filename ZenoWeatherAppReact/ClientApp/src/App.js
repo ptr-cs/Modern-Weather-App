@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './components/Home'
-import Settings from './components/Settings'
-import About from './components/About'
+import Home from './components/pages/Home'
+import Settings from './components/pages/Settings'
+import About from './components/pages/About'
 import './lib/weather-icons-master/css/weather-icons.min.css';
 import './lib/weather-icons-master/css/weather-icons-wind.min.css';
 import './custom.css';
+import ErrorGeneric from './components/pages/error/ErrorGeneric';
+import NoLocationResults from './components/pages/error/NoLocationResults';
 
 export default function App() {
     //const [apiKey, setApiKey] = useState('');
@@ -51,6 +53,24 @@ export default function App() {
         })
     };
 
+    const setMenuOpen = (value) => {
+        setState(prevValues => {
+            return { ...prevValues, menuOpen: value }
+        })
+    };
+
+    const setIsLoadingCurrentConditions = (value) => {
+        setState(prevValues => {
+            return { ...prevValues, isLoadingCurrentConditions: value }
+        })
+    };
+
+    const setIsLoadingForecast = (value) => {
+        setState(prevValues => {
+            return { ...prevValues, isLoadingForecast: value }
+        })
+    };
+
     const [state, setState] = useState(
     {
         apiKey: '',
@@ -58,6 +78,9 @@ export default function App() {
         location: '',
         currentConditions: '',
         forecast5Day: '',
+        menuOpen: false,
+        isLoadingCurrentConditions: false,
+        isLoadingForecast: false,
         unitsSystem: 'Imperial',
         searchHistory: [],
         setApiKey: setApiKey,
@@ -65,7 +88,10 @@ export default function App() {
         setLocation: setLocation,
         setCurrentConditions: setCurrentConditions,
         setForecast5Day: setForecast5Day,
-        setUnitsSystem: setUnitsSystem
+        setUnitsSystem: setUnitsSystem,
+        setMenuOpen: setMenuOpen,
+        setIsLoadingCurrentConditions: setIsLoadingCurrentConditions,
+        setIsLoadingForecast: setIsLoadingForecast
         });
 
     return (
@@ -75,6 +101,8 @@ export default function App() {
                     <Route index element={ <Home state={state} /> } />
                     <Route path="settings" element={<Settings state={state} />} />
                     <Route path="about" element={<About />} />
+                    <Route path="error" element={<ErrorGeneric />} />
+                    <Route path="locationnotfound" element={<NoLocationResults />} />
                 </Routes> }>
         </Layout>
     );

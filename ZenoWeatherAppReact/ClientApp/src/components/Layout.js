@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavMenu from './NavMenu';
-import { MyProvider } from "./MyProvider";
+import $ from 'jquery'
 
 export default function Layout({ state, routes }) {
-  var displayName = Layout.name;
-
+    $('#layoutContainer').click(function () {
+        if (state.menuOpen === true)
+            state.setMenuOpen(false);
+    });
 
     return (
         <div>
-            <MyProvider>
-                <NavMenu state={ state } />
-                <div className="container-fluid">
-                    { routes }
-                </div>
-            </MyProvider>
+            <NavMenu state={state} />
+            <div id="layoutContainer" className="container-fluid px-0 px-sm-3">
+                {routes}
+            </div>
         </div>
     );
 }

@@ -7,74 +7,101 @@ import './NavMenu.css';
 import $ from 'jquery';
 
 export default function NavMenu({ state }) {
-    const [collapsed, setCollapsed] = useState(false);
     const currentNavLocation = useLocation();
     const navigate = useNavigate();
-    var displayName = NavMenu.name;
 
 
     function toggleNavbar() {
-        if (collapsed === true) {
-            setCollapsed(false)
+        if (state.menuOpen === false) {
+            state.setMenuOpen(true)
         } else {
-            setCollapsed(true)
+            state.setMenuOpen(false)
         }
-    }
+    } 
 
     function GetConditionsAndForecast() {
+        //
         if (state.apiKey !== '' && state.searchTerm !== '') {
-            if (currentNavLocation.pathname !== '/')
-                navigate("/");
             $.ajax({
                 type: "GET",
                 url: "http://dataservice.accuweather.com/locations/v1/search",
                 data: { apikey: state.apiKey, q: state.searchTerm },
                 success: function (locationResponse) {
-                    console.log(locationResponse);
-                    if (locationResponse.length > 0) {
-                        state.setLocation(JSON.stringify(locationResponse[0]));
-                        $.ajax({
-                            type: "GET",
-                            url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
-                            data: { apikey: state.apiKey, details: true },
-                            success: function (conditionsResponse) {
-                                console.log(conditionsResponse);
-                                if (conditionsResponse.length > 0) {
-                                    state.setCurrentConditions(JSON.stringify(conditionsResponse[0]));
-                                }
-                            },
-                            failure: function (conditionsResponse) {
-                                console.log(conditionsResponse.responseText);
-                            },
-                            error: function (conditionsResponse) {
-                                console.log(conditionsResponse.responseText);
-                            }
-                        });
+                    if (currentNavLocation.pathname !== '/')
+                        navigate("/");
 
-                        $.ajax({
-                            type: "GET",
-                            url: "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + locationResponse[0].Key,
-                            data: { apikey: state.apiKey },
-                            success: function (forecast5DayResponse) {
-                                debugger;
-                                console.log(forecast5DayResponse);
-                                if (forecast5DayResponse !== '') {
-                                    state.setForecast5Day(JSON.stringify(forecast5DayResponse));
+                    console.log(locationResponse);
+
+                    if (locationResponse) {
+                        if (locationResponse.length > 0) {
+                            state.setLocation(JSON.stringify(locationResponse[0]));
+
+                            state.setIsLoadingCurrentConditions(true);
+                            $.ajax({
+                                type: "GET",
+                                url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
+                                data: { apikey: state.apiKey, details: true },
+                                success: function (conditionsResponse) {
+                                    console.log(conditionsResponse);
+                                    if (conditionsResponse.length > 0) {
+                                        state.setCurrentConditions(JSON.stringify(conditionsResponse[0]));
+                                    }
+                                    state.setIsLoadingCurrentConditions(false);
+                                },
+                                failure: function (conditionsResponse) {
+                                    
+                                    state.setIsLoadingCurrentConditions(false);
+                                    navigate("/error");
+                                    console.log(conditionsResponse.responseText);
+                                },
+                                error: function (conditionsResponse) {
+                                    
+                                    state.setIsLoadingCurrentConditions(false);
+                                    navigate("/error");
+                                    console.log(conditionsResponse.responseText);
                                 }
-                            },
-                            failure: function (forecast5DayResponse) {
-                                console.log(forecast5DayResponse.responseText);
-                            },
-                            error: function (forecast5DayResponse) {
-                                console.log(forecast5DayResponse.responseText);
-                            }
-                        });
+                            });
+
+                            state.setIsLoadingForecast(true);
+                            $.ajax({
+                                type: "GET",
+                                url: "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + locationResponse[0].Key,
+                                data: { apikey: state.apiKey },
+                                success: function (forecast5DayResponse) {
+                                    console.log(forecast5DayResponse);
+                                    if (forecast5DayResponse !== '') {
+                                        state.setForecast5Day(JSON.stringify(forecast5DayResponse));
+                                    }
+                                    state.setIsLoadingForecast(false);
+                                },
+                                failure: function (forecast5DayResponse) {
+                                    
+                                    state.setIsLoadingForecast(false);
+                                    navigate("/error");
+                                    console.log(forecast5DayResponse.responseText);
+                                },
+                                error: function (forecast5DayResponse) {
+                                    
+                                    state.setIsLoadingForecast(false);
+                                    navigate("/error");
+                                    console.log(forecast5DayResponse.responseText);
+                                }
+                            });
+                        } else {
+                            navigate("/locationnotfound");
+                        }
+                    } else {
+                        navigate("/locationnotfound");
                     }
                 },
                 failure: function (locationResponse) {
+                    
+                    navigate("/error");
                     console.log(locationResponse.responseText);
                 },
                 error: function (locationResponse) {
+                    
+                    navigate("/error");
                     console.log(locationResponse.responseText);
                 }
             });
@@ -82,8 +109,10 @@ export default function NavMenu({ state }) {
     }
 
     function handleSearch(e) {
-        GetConditionsAndForecast()
-        addSearchHistory()
+        if (state.searchTerm !== '') {
+            GetConditionsAndForecast()
+            addSearchHistory()
+        }
     }
 
     function handleKeyPress(e) {
@@ -109,22 +138,17 @@ export default function NavMenu({ state }) {
     return (
         <header>
             <Navbar className="navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3 fixed-top">
-                <NavbarBrand tag={Link} to="/" style={{ wordBreak: "normal" }}>ZenoWeather</NavbarBrand>
-                <div className="d-flex align-middle">
-
-                </div>
-
+                <NavbarBrand tag={Link} to="/" style={{ wordBreak: "normal" }}><img className="me-2" src="/Assets/3dicons/sun.png" width="24" alt=""></img>ZenoWeather</NavbarBrand>
                 <NavbarToggler className="mr-2" onClick={toggleNavbar} />
-                <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={ collapsed } navbar>
+                <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={ state.menuOpen } navbar>
 
                     <form className="d-flex mt-sm-0 mt-2" role="search" method="get">
                         <input className="form-control me-2" id="weatherSearchInput" list="datalistOptions"
                             type="search" placeholder="Enter a Location..." aria-label="Search"
-                            onKeyDown={(e) => handleKeyPress(e)}
-                            onChange={() => state.setSearchTerm($('#weatherSearchInput').val())}></input>
+                            onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => state.setSearchTerm(e.target.value)}></input>
                         <datalist id="datalistOptions"></datalist>
 
-                        <button className="btn btn-primary" type="button" onClick={(e) => handleSearch(e) }>Search</button>
+                        <button className="btn btn-primary" type="button" onClick={(e) => handleSearch(e)} disabled={ state.searchTerm === ''}>Search</button>
                     </form>
                     <ul className="navbar-nav flex-grow">
                         <NavItem id={'HomeNavItem'} aria-label="Home">

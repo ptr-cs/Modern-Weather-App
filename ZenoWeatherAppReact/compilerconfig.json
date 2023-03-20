@@ -14,5 +14,13 @@
   {
     "outputFile": "ClientApp/src/components/weather/PastPrecipitation.css",
     "inputFile": "ClientApp/src/components/weather/PastPrecipitation.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/Weather.css",
+    "inputFile": "ClientApp/src/components/Weather.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/pages/Weather.css",
+    "inputFile": "ClientApp/src/components/pages/Weather.scss"
   }
 ]
