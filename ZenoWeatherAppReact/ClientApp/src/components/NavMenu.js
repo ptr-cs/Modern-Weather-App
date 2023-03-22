@@ -534,7 +534,7 @@ export default function NavMenu({ state }) {
 
             $.ajax({
                 type: "GET",
-                url: "http://dataservice.accuweather.com/locations/v1/search",
+                url: "https://dataservice.accuweather.com/locations/v1/search",
                 data: { apikey: state.apiKey, q: state.searchTerm },
                 success: function (locationResponse) {
                     if (currentNavLocation.pathname !== '/')
@@ -549,7 +549,7 @@ export default function NavMenu({ state }) {
                             state.setIsLoadingCurrentConditions(true);
                             $.ajax({
                                 type: "GET",
-                                url: "http://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
+                                url: "https://dataservice.accuweather.com/currentconditions/v1/" + locationResponse[0].Key,
                                 data: { apikey: state.apiKey, details: true },
                                 success: function (conditionsResponse) {
                                     console.log(conditionsResponse);
@@ -575,7 +575,7 @@ export default function NavMenu({ state }) {
                             state.setIsLoadingForecast(true);
                             $.ajax({
                                 type: "GET",
-                                url: "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + locationResponse[0].Key,
+                                url: "https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + locationResponse[0].Key,
                                 data: { apikey: state.apiKey },
                                 success: function (forecast5DayResponse) {
                                     console.log(forecast5DayResponse);
