@@ -115,8 +115,14 @@ export default function App() {
         })
     };
 
+    const setIsDemoMode = (value) => {
+        setState(prevValues => {
+            return { ...prevValues, isDemoMode: value }
+        })
+    };
+
     const [state, setState] = useState(
-    {
+        {
         apiKey: '',
         searchTerm: '',
         location: '',
@@ -135,7 +141,9 @@ export default function App() {
         setUnitsSystem: setUnitsSystem,
         setMenuOpen: setMenuOpen,
         setIsLoadingCurrentConditions: setIsLoadingCurrentConditions,
-        setIsLoadingForecast: setIsLoadingForecast
+        setIsLoadingForecast: setIsLoadingForecast,
+        isDemoMode: true,
+        setIsDemoMode: setIsDemoMode
         });
 
     return (

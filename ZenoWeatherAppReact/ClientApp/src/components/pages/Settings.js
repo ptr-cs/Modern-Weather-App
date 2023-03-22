@@ -43,6 +43,20 @@ export default function Settings({ state }) {
         $('#gearDesat').animate({ opacity: 0.0 }, { duration: 350 }, { easing: "easeout" });
     }
 
+    function handleDemoModeToggle(e) {
+        state.setIsDemoMode(e.target.value);
+        console.log(state.isDemoMode);
+        if ($('#DemoModeSwitchCheckChecked').is(':checked')) {
+            state.setIsDemoMode(true);
+        }
+        else {
+            state.setIsDemoMode(false);
+            state.setLocation('');
+            state.setCurrentConditions('');
+            state.setForecast5Day('');
+        }
+    }
+
     return (
         <div>
             <div className="d-block pageParentDiv" id="settingsContainer">
@@ -50,7 +64,7 @@ export default function Settings({ state }) {
                 <div className="d-inline-block">
                     <div className="form-check form-switch d-inline-block settingsDiv">
                         <label className="form-check-label settingsPageLabel" htmlFor="flexSwitchCheckChecked">Demo Mode:</label>
-                        <input className="form-check-input largeToggleSwitch" type="checkbox" role="switch" disabled id="flexSwitchCheckChecked"></input>
+                        <input className="form-check-input largeToggleSwitch" type="checkbox" role="switch" id="DemoModeSwitchCheckChecked" onChange={(e) => handleDemoModeToggle(e)} defaultChecked={(state.isDemoMode === true) ? true : false}></input>
                     </div>
                     <span className="fa-layers fa-fw">
                         <FontAwesomeIcon id="settingsInfoIcon" size="lg" icon={faCircle} style={{ color: 'white'}} />
