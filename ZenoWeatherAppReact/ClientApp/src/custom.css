@@ -11190,7 +11190,8 @@ footer.footer {
   background: #0d6efd;
 }
 
-#forecastContainer > div > div > div.col-md-4.currentConditionsGridTile.shadow {
+#forecastContainer > div > div > div.col-md-4.currentConditionsGridTile.shadow,
+#currentConditionsContainer > div > div > div.col-md-4.col-8.currentConditionsGridTile {
   background-image: linear-gradient(-90deg, rgba(2, 0, 36, 0) 0%, rgba(0, 0, 0, 0.25) 100%);
 }
 
@@ -11204,4 +11205,18 @@ footer.footer {
 
 #heroImage {
   filter: drop-shadow(-3px 3px 2px rgba(0, 0, 0, 0.2666666667));
+}
+
+#locationConditionsHeader {
+  border-radius: 8px 8px 0px 0px;
+}
+
+#forecast5DayContainer {
+  border-radius: 0px 0px 8px 8px;
+}
+#forecast5DayContainer :last-child {
+  border-radius: 0px 0px 0px 8px;
+}
+#forecast5DayContainer > div:last-child {
+  border-radius: 0px 0px 8px 0px;
 }

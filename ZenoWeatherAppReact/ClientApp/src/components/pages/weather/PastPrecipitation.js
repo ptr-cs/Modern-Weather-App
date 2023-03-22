@@ -11,14 +11,17 @@ export default function PastPrecipitation({ precipitationSummary, units }) {
             var vals = [precipitationSummary['PastHour']['Imperial']['Value'], precipitationSummary['Past3Hours']['Imperial']['Value'], precipitationSummary['Past6Hours']['Imperial']['Value'], precipitationSummary['Past9Hours']['Imperial']['Value'], precipitationSummary['Past12Hours']['Imperial']['Value'], precipitationSummary['Past18Hours']['Imperial']['Value']]
             min = Math.min(...vals);
             max = Math.max(...vals);
-            return (value, max, min) => 100 - (((value - min) / (max - min)) * 100);
+            var retVal = 100 - (((value - min) / (max - min)) * 100);
+            // debugger;
+            return retVal;
         } else if (units === 'Metric') {
             var vals = [precipitationSummary['PastHour']['Metric']['Value'], precipitationSummary['Past3Hours']['Metric']['Value'], precipitationSummary['Past6Hours']['Metric']['Value'], precipitationSummary['Past9Hours']['Metric']['Value'], precipitationSummary['Past12Hours']['Metric']['Value'], precipitationSummary['Past18Hours']['Metric']['Value']]
             min = Math.min(...vals);
             max = Math.max(...vals);
-            return (value, max, min) => 100 - (((value - min) / (max - min)) * 100);
+            var retVal = 100 - (((value - min) / (max - min)) * 100);
+            return retVal;
         }
-        return (value, max, min) => 100 - (((value - min) / (max - min)) * 100);
+        return 100 - (((value - min) / (max - min)) * 100);
     }
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Spinner } from 'reactstrap';
 import CurrentConditions from './weather/CurrentConditions';
 import WindSpeed from './weather/WindSpeed';
@@ -15,9 +15,14 @@ import ForecastSummary from './weather/ForecastSummary';
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './Weather.css';
+import $ from 'jquery'
 
 export default function Weather({ state }) {
+    useEffect(() => {
+        // call api or anything
+        console.log("loaded");
 
+    });
 
     function getFormattedDateTime(value) {
         var date = new Date(value).toLocaleString()
@@ -44,26 +49,19 @@ export default function Weather({ state }) {
                 width: '5rem'
             }}>Loading...</Spinner> : <span></span>}
 
-            { (state.currentConditions !== '') ?
-                <div className="bd-example-row container-fluid p-0 m-0 pageParentDivIndex" id="forecastContainer" style={{ overflowY: 'hidden' }}>
-                    <div className="container-lg" >
-
-                        
-
+            {(state.currentConditions !== '' && state.isLoadingCurrentConditions === false) ?
+                <div className="bd-example-row container-fluid p-0 m-0 pageParentDivIndex" id="currentConditionsContainer" style={{ overflowY: 'hidden' }}>
+                    <div className="container-lg">
                         <div className="row forecastRow">
-
-                            <CurrentConditions
+                            <CurrentConditions id="currentConditions"
                                 weatherText={JSON.parse(state.currentConditions)['WeatherText']}
                                 weatherIcon={JSON.parse(state.currentConditions)['WeatherIcon']}/>
-
                             <Temperature temperature={JSON.parse(state.currentConditions)['Temperature']} units={state.unitsSystem} />
                             <WindSpeed windSpeed={JSON.parse(state.currentConditions)['Wind']['Speed']} units={state.unitsSystem} />
                             <WindChill windChillTemperature={JSON.parse(state.currentConditions)['WindChillTemperature']} units={state.unitsSystem} />
                             <WindDirection windDirection={JSON.parse(state.currentConditions)['Wind']['Direction']} />
-
                         </div>
 
-                        
                         <div className="row forecastRow shadow">
                             <CloudCover cloudCover={JSON.parse(state.currentConditions)['CloudCover']} />
                             <Visibility visibility={JSON.parse(state.currentConditions)['Visibility']} units={state.unitsSystem} />
@@ -76,11 +74,11 @@ export default function Weather({ state }) {
                 : <p></p>
             }
 
-            { (state.forecast5Day !== '') ? 
+            {(state.forecast5Day !== '' && state.isLoadingForecast === false) ? 
                 <div className="bd-example-row mt-3 mb-3">
                     <div className="bd-example">
                         <div className="container-lg">
-                            <div className="row forecastRow shadow">
+                            <div className="row forecastRow shadow" id="forecast5DayContainer">
                                 <ForecastSummary headlineText={JSON.parse(state.forecast5Day)['Headline']['Text']} />
                                 <ForecastDay
                                     date={JSON.parse(state.forecast5Day)['DailyForecasts'][0]['Date']}

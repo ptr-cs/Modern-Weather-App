@@ -152,7 +152,7 @@ export default function NavMenu({ state }) {
                     </form>
                     <ul className="navbar-nav flex-grow">
                         <NavItem id={'HomeNavItem'} aria-label="Home">
-                            <NavLink tag={Link} to="/" tooltip="Home"><FontAwesomeIcon size="lg" icon={faHome} /><span className="navLinkText">Home</span></NavLink>
+                            <NavLink tag={Link} to="/" tooltip="Home"><FontAwesomeIcon size="lg" icon={faHome} id="homeLinkIcon"/><span className="navLinkText">Home</span></NavLink>
                         </NavItem>
                         <UncontrolledTooltip
                             offset={[0, 20]}
@@ -161,7 +161,7 @@ export default function NavMenu({ state }) {
                         >Home
                         </UncontrolledTooltip>
                         <NavItem id={'SettingsNavItem'} aria-label="Settings">
-                            <NavLink tag={Link} to="/settings"><FontAwesomeIcon size="lg" icon={faCog} /><span className="navLinkText">Settings</span></NavLink>
+                            <NavLink tag={Link} to="/settings"><FontAwesomeIcon size="lg" icon={faCog} id="settingsLinkIcon" /><span className="navLinkText">Settings</span></NavLink>
                         </NavItem>
                         <UncontrolledTooltip
                             offset={[0, 20]}
@@ -170,7 +170,7 @@ export default function NavMenu({ state }) {
                         >Settings
                         </UncontrolledTooltip>
                         <NavItem id={'AboutNavItem'} aria-label="About">
-                            <NavLink tag={Link} to="/about"><FontAwesomeIcon size="lg" icon={faInfoCircle} /><span className="navLinkText">About</span></NavLink>
+                            <NavLink tag={Link} to="/about"><FontAwesomeIcon size="lg" icon={faInfoCircle} id="aboutLinkIcon" /><span className="navLinkText">About</span></NavLink>
                         </NavItem>
                         <UncontrolledTooltip
                             offset={[0, 20]}
