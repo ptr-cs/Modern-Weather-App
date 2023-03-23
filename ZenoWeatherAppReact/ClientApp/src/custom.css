@@ -10870,6 +10870,13 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+@-ms-viewport {
+  width: device-width;
+}
+.activeNav > path {
+  fill: white;
+}
+
 html,
 body {
   overflow: auto;
@@ -10887,12 +10894,26 @@ body {
   transition: 0.5s;
   padding-top: 49px;
   padding-bottom: 1.5rem;
-  background-image: linear-gradient(-225deg, #FFFEFF 0%, #CaDCFF 48%, #80BBFF 100%);
+  overflow-x: hidden;
+}
+
+#backgroundImgContainer {
+  background-image: linear-gradient(-180deg, #FFFEFF 0%, #CaDCFF 48%, #80BBFF 100%);
+  background-color: #80BBFF;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
 }
 
 div#root {
   overflow-y: auto;
   overscroll-behavior-y: auto;
+  z-index: 1;
 }
 
 main, body {
@@ -10986,6 +11007,10 @@ li.nav-item > a.nav-link, #HomeNavItem > a, #settingsNavItem > a, #AboutNavItem 
 li.nav-item > a.nav-link > span {
   display: none;
   margin-left: 8px;
+}
+
+footer {
+  z-index: 2;
 }
 
 @media (max-width: 575px) {

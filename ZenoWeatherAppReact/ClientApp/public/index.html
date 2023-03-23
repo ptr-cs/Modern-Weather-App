@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no, minimal-ui">
     <meta name="theme-color" content="#000000">
     <base href="%PUBLIC_URL%/" />
     <!--
@@ -21,8 +21,9 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>ZenoWeatherAppReact</title>
-  </head>
+</head>
   <body class="d-flex flex-column h-100">
+      <div id="backgroundImgContainer"></div>
       <noscript>
           You need to enable JavaScript to run this app.
       </noscript>
@@ -38,7 +39,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-      <footer class="footer mt-auto bg-dark py-1">
+      <footer class="footer mt-auto bg-dark py-2 px-3">
       <div class="d-inline-block justify-content-between ps-2">
           <p id="weatherProvidedBy">Weather Data Provided by:</p>
       </div>

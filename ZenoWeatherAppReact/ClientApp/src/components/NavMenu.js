@@ -10,8 +10,13 @@ export default function NavMenu({ state }) {
     const currentNavLocation = useLocation();
     const navigate = useNavigate();
 
+    $('#layoutContainer').click(function (e) {
+        if (state.menuOpen === true)
+            state.setMenuOpen(false);
+        return false;
+    });
 
-    function toggleNavbar() {
+    function toggleNavbar(e) {
         if (state.menuOpen === false) {
             state.setMenuOpen(true)
         } else {
@@ -619,6 +624,7 @@ export default function NavMenu({ state }) {
     }
 
     function handleSearch(e) {
+        e.preventDefault();
         if (state.searchTerm !== '') {
             GetConditionsAndForecast()
             addSearchHistory()
@@ -648,17 +654,17 @@ export default function NavMenu({ state }) {
     return (
         <header>
             <Navbar className="navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3 fixed-top">
-                <NavbarBrand tag={Link} to="/" style={{ wordBreak: "normal" }}><img className="me-2" src="/Assets/3dicons/sun.png" width="24" alt=""></img>ZenoWeather</NavbarBrand>
-                <NavbarToggler className="mr-2" onClick={toggleNavbar} />
+                <NavbarBrand tag={Link} to="/" className="ms-4" style={{ whiteSpace: "noWrap" }}><img className="me-2 float-start" src="/Assets/3dicons/sun.png" width="24" alt=""></img><p className="m-0 me-4">ZenoWeather</p></NavbarBrand>
+                <NavbarToggler className="mr-2" onClick={(e) => toggleNavbar(e)} />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={ state.menuOpen } navbar>
 
-                    <form className="d-flex mt-sm-0 mt-2" role="search" method="get">
+                    <form className="d-flex mt-sm-0 mt-2 me-4" role="search" method="get">
                         <input className="form-control me-2" id="weatherSearchInput" list="datalistOptions"
-                            type="search" placeholder="Enter a Location..." aria-label="Search"
+                            type="search" placeholder="Enter a Location..." aria-label="Search" value={state.searchTerm }
                             onKeyDown={(e) => handleKeyPress(e)} onChange={(e) => state.setSearchTerm(e.target.value)}></input>
                         <datalist id="datalistOptions"></datalist>
 
-                        <button className="btn btn-primary" type="button" onClick={(e) => handleSearch(e)} disabled={ state.searchTerm === ''}>Search</button>
+                        <button className="btn btn-primary" type="button" onClick={(e) => handleSearch(e)} onSubmit={(e) => handleSearch(e) } disabled={ state.searchTerm === ''}>Search</button>
                     </form>
                     <ul className="navbar-nav flex-grow">
                         <NavItem id={'HomeNavItem'} aria-label="Home">

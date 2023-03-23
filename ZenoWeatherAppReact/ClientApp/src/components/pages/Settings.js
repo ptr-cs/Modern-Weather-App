@@ -88,8 +88,8 @@ export default function Settings({ state }) {
                 <Form>
                     <FormGroup className="settingsDiv">
                         <Label className="settingsPageLabel">API Key:</Label>
-                        <input type="password" defaultValue={state.apiKey} className="form-control" id="exampleInputPassword1"
-                            placeholder="API Key" runat="server" style={{ maxWidth: 420 + 'px' }} onKeyUp={() => state.setApiKey($('#exampleInputPassword1').val())}></input>
+                        <input type="password" className="form-control" id="exampleInputPassword1"
+                            placeholder="API Key" runat="server" style={{ maxWidth: 420 + 'px' }} value={state.apiKey} onChange={(e) => { state.setApiKey(e.target.value) }}></input>
                     </FormGroup>
                 </Form>
                 <div className="settingsDiv">
@@ -125,7 +125,7 @@ export default function Settings({ state }) {
                 {/*    </div>*/}
                 {/*</div>*/}
             </div>
-            <div className="mb-4" id="headerImageContainer">
+            <div className="mb-4 z-1" id="headerImageContainer">
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearColor" src="/Assets/3dicons/gear-colors.png" width="256" alt=""></img>
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearRegular" src="/Assets/3dicons/gear.png" width="256" alt=""></img>
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearDesat" src="/Assets/3dicons/gear-desat.png" width="256" alt=""></img>

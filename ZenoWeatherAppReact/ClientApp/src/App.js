@@ -17,21 +17,23 @@ export default function App() {
     React.useEffect(() => {
         $('#layoutContainer').stop(true, true).hide().fadeIn({ duration: 300 }, { easing: 'easein' });
 
-        $('#homeLinkIcon > path').css('fill', '');
-        $('#settingsLinkIcon > path').css('fill', '');
-        $('#aboutLinkIcon > path').css('fill', '');
-
         switch (location['pathname']) {
             case '/':
-                $('#homeLinkIcon > path').css('fill', 'white');
+                $('#homeLinkIcon').addClass('activeNav');
+                $('#settingsLinkIcon').removeClass('activeNav');
+                $('#aboutLinkIcon').removeClass('activeNav');
                 if (state.apiKey !== "" && state.location !== "" && state.currentConditions !== "")
                     animateWeather()
                 break;
             case '/settings':
-                $('#settingsLinkIcon > path').css('fill', 'white');
+                $('#settingsLinkIcon').addClass('activeNav');
+                $('#homeLinkIcon').removeClass('activeNav');
+                $('#aboutLinkIcon').removeClass('activeNav');
                 break;
             case '/about':
-                $('#aboutLinkIcon > path').css('fill', 'white');
+                $('#aboutLinkIcon').addClass('activeNav');
+                $('#settingsLinkIcon').removeClass('activeNav');
+                $('#homeLinkIcon').removeClass('activeNav');
                 break;
             default:
                 break;
