@@ -10,12 +10,6 @@ export default function NavMenu({ state }) {
     const currentNavLocation = useLocation();
     const navigate = useNavigate();
 
-    $('#layoutContainer').click(function (e) {
-        if (state.menuOpen === true)
-            state.setMenuOpen(false);
-        return false;
-    });
-
     function toggleNavbar(e) {
         if (state.menuOpen === false) {
             state.setMenuOpen(true)

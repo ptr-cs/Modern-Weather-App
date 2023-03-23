@@ -125,7 +125,7 @@ export default function Settings({ state }) {
                 {/*    </div>*/}
                 {/*</div>*/}
             </div>
-            <div className="mb-4 z-1" id="headerImageContainer">
+            <div className="mb-4" id="headerImageContainer">
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearColor" src="/Assets/3dicons/gear-colors.png" width="256" alt=""></img>
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearRegular" src="/Assets/3dicons/gear.png" width="256" alt=""></img>
                 <img className="start-0 position-fixed top-25 mt-5 start-100 bottom-0" style={{ marginLeft: -150 + 'px' }} id="gearDesat" src="/Assets/3dicons/gear-desat.png" width="256" alt=""></img>
