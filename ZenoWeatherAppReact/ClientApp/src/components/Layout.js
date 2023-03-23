@@ -16,7 +16,7 @@ export default function Layout({ state, routes }) {
     return (
         <div>
             <NavMenu id="navMenuContainer" state={state} />
-            <div id="layoutContainer" className="container-fluid px-3 px-sm-3 pb-3">
+            <div id="layoutContainer" className="container-fluid px-3 px-md-5 px-lg-3 px-xl-3 px-sm-3 pb-3">
                 {routes}
             </div>
         </div>

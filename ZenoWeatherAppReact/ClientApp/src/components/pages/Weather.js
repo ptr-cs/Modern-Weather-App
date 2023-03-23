@@ -75,7 +75,7 @@ export default function Weather({ state }) {
             }
 
             {(state.forecast5Day !== '' && state.isLoadingForecast === false) ? 
-                <div className="bd-example-row mt-3 mb-3">
+                <div className="bd-example-row mt-3 mb-5">
                     <div className="bd-example">
                         <div className="container-lg">
                             <div className="row forecastRow shadow" id="forecast5DayContainer">
