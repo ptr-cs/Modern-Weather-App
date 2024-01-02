@@ -1,4 +1,4 @@
-# Zeno Weather App
+# Modern Weather App
 
 WPF weather app using MahApps Metro and the Accuweather API. Support for light/dark modes and custom accent colors. Demo mode data is provided via Entity Framework Core from a Sqlite database with randomized results. Testing ongoing with nUnit. Prototyped with Adobe XD.
 
